@@ -220,17 +220,22 @@
   .landing-page .shop-hero-visual {
     position: relative;
     inset: auto;
-    width: calc(100% + 32px);
+    width: 100%;
+    max-width: 100%;
     height: auto;
     aspect-ratio: 16 / 10;
-    margin: 24px -16px -16px;
+    margin: 24px 0 0;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   .landing-page .shop-hero-visual > img {
     width: 100%;
+    max-width: 100%;
     height: 100%;
-    border-radius: 0;
-    object-fit: cover;
+    display: block;
+    border-radius: inherit;
+    object-fit: fill;
     object-position: center;
   }
 
@@ -348,13 +353,20 @@
 
   .landing-page .shop-banner-one {
     width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
     min-height: 310px;
     margin: 34px 12px 4px;
     border-radius: 12px;
+    overflow: hidden;
   }
 
   .landing-page .shop-banner-one > img {
-    object-fit: cover;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill;
+    object-position: center;
   }
 
   .landing-page .shop-banner-one::after {
@@ -408,39 +420,6 @@
     width: 100%;
     margin-top: 36px;
     padding: 86px 16px 18px;
-  }
-
-  .landing-page .shop-newsletter {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    place-items: stretch;
-    text-align: left;
-    gap: 20px;
-  }
-
-  .landing-page .shop-newsletter h2 {
-    font-size: clamp(25px, 8vw, 36px);
-  }
-
-  .landing-page .shop-newsletter form {
-    width: 100%;
-    max-width: none;
-    height: auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .landing-page .shop-newsletter input {
-    width: 100%;
-    min-width: 0;
-    height: 48px;
-  }
-
-  .landing-page .shop-newsletter button {
-    width: auto;
-    min-width: 140px;
-    height: 48px;
   }
 
   .landing-page .shop-footer-columns {
@@ -509,15 +488,4 @@
     grid-column: auto;
   }
 
-  .landing-page .shop-newsletter form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .landing-page .shop-newsletter input,
-  .landing-page .shop-newsletter button {
-    width: 100%;
-    min-height: 46px;
-  }
 }

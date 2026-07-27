@@ -782,18 +782,6 @@ export default function StorefrontClient({
       </section>
       <footer className="shop-footer">
         <div className="shop-footer-wave" />
-        <section className="shop-newsletter">
-          <h2>
-            Subscribe for <span>New Arrivals</span>
-            <br />
-            &amp; Other Fresh Updates.
-          </h2>
-          <form onSubmit={(event) => event.preventDefault()}>
-            <input type="email" required placeholder="Enter Email Address" />
-            <button>Subscribe Now</button>
-          </form>
-        </section>
-        <div className="shop-footer-divider" />
         <section className="shop-footer-columns">
           <div>
             <StoreLogo />
