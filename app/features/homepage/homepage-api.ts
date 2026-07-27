@@ -1,7 +1,8 @@
 import type { ClientFeedback, ClientFeedbackInput, HeroSlide, HeroSlideInput, HomepageBanner, HomepageBannerInput } from "./types";
 import { authHeaders } from "../auth-client";
+import { API_BASE_URL } from "../../services/api-service";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API = API_BASE_URL;
 
 export type StorefrontHomepage = {
   hero_slides: HeroSlide[];

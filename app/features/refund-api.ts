@@ -1,6 +1,7 @@
 import { authHeaders } from "./auth-client";
 import { apiErrorMessage } from "./api-error";
-const API=process.env.NEXT_PUBLIC_API_URL??"http://localhost:8000/api/v1";
+import { API_BASE_URL } from "../services/api-service";
+const API=API_BASE_URL;
 export type RefundConfig={id:string;allowed_days:number;enabled:boolean};
 export type Refund={id:string;user_id:string;order_id:string;order_item_id:string;customer_name:string|null;customer_mobile:string|null;product_name:string;amount:string;payment_method:string;reason:string;status:string;admin_note:string|null;created_at:string};
 async function request<T>(path:string,init?:RequestInit):Promise<T>{const response=await fetch(`${API}${path}`,{...init,headers:{"Content-Type":"application/json",...authHeaders(),...init?.headers}});const body=await response.json().catch(()=>null);if(!response.ok)throw new Error(apiErrorMessage(body,"Refund request failed"));return body as T}

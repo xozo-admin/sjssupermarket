@@ -1,6 +1,7 @@
 import type { CatalogEntity, Product, ProductFacet } from "./types";
 import { authHeaders } from "../auth-client";
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+import { API_BASE_URL } from "../../services/api-service";
+const API = API_BASE_URL;
 
 async function call<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API}${path}`, { ...init, headers: { "Content-Type": "application/json", ...authHeaders(), ...init?.headers } });

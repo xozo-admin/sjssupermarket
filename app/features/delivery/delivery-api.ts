@@ -1,7 +1,8 @@
 import { authHeaders, getAuthSession } from "../auth-client";
 import { apiErrorMessage } from "../api-error";
+import { API_BASE_URL, apiSocketUrl } from "../../services/api-service";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API = API_BASE_URL;
 export type DeliveryMan = {
   id: string;
   name: string;
@@ -104,9 +105,5 @@ export const deliveryApi = {
 export function deliverySocketUrl() {
   const token = getAuthSession()?.access_token;
   if (!token) return null;
-  const socketApi = API.replace(
-    /^http/,
-    API.startsWith("https") ? "wss" : "ws",
-  );
-  return `${socketApi}/ws/delivery?token=${encodeURIComponent(token)}`;
+  return apiSocketUrl(`/ws/delivery?token=${encodeURIComponent(token)}`);
 }

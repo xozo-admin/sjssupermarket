@@ -1,6 +1,8 @@
+import { API_BASE_URL } from "../services/api-service";
+
 export type AuthUser={id:string;name:string;email:string;mobile:string|null;role:string;designation?:string|null;permissions?:string[]};
 export type AuthSession={access_token:string;refresh_token:string;token_type:string;expires_in:number;access_expires_at?:number;user:AuthUser};
-const API=process.env.NEXT_PUBLIC_API_URL??"http://localhost:8000/api/v1";
+const API=API_BASE_URL;
 const KEY="sjs-auth-session";
 
 export function getAuthSession():AuthSession|null{if(typeof window==="undefined")return null;try{const raw=localStorage.getItem(KEY)||sessionStorage.getItem(KEY);if(!raw)return null;const session=JSON.parse(raw) as AuthSession;if(!localStorage.getItem(KEY)){localStorage.setItem(KEY,raw);sessionStorage.removeItem(KEY)}return session}catch{return null}}

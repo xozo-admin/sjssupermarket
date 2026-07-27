@@ -1,6 +1,7 @@
 import { authHeaders, getAuthSession } from "./auth-client";
+import { API_BASE_URL } from "../services/api-service";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API = API_BASE_URL;
 
 export type OrderSummary = { id: string; total: string; status: string; payment_status: string };
 export type OrderItem = { id: string; product_id: string; product_name: string; unit_price: string; quantity: number; line_total: string };

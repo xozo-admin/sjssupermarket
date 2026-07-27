@@ -1,7 +1,8 @@
 import type { Category, CategoryInput, CategoryListResponse } from "./types";
 import { authHeaders } from "../auth-client";
+import { API_BASE_URL } from "../../services/api-service";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API_URL = API_BASE_URL;
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {

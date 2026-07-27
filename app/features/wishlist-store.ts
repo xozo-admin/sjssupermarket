@@ -1,7 +1,8 @@
 import { authHeaders, getAuthSession, requireAuth } from "./auth-client";
 import type { Product } from "./catalog/types";
+import { API_BASE_URL } from "../services/api-service";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API = API_BASE_URL;
 const key = () => `sjs-wishlist-${getAuthSession()?.user.id ?? "guest"}`;
 
 export function readWishlistIds(): Set<string> {

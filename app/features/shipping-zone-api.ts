@@ -1,7 +1,8 @@
 import { authHeaders } from "./auth-client";
 import { apiErrorMessage } from "./api-error";
+import { API_BASE_URL } from "../services/api-service";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const API = API_BASE_URL;
 
 export type ShippingZone = {
   id: string;
