@@ -1,6 +1,7 @@
 import type { ClientFeedback, ClientFeedbackInput, HeroSlide, HeroSlideInput, HomepageBanner, HomepageBannerInput } from "./types";
 import { authHeaders } from "../auth-client";
 import { API_BASE_URL } from "../../services/api-service";
+import type { Product } from "../catalog/types";
 
 const API = API_BASE_URL;
 
@@ -13,6 +14,7 @@ export type StorefrontHomepage = {
   weekly_deal_ids: string[];
   banner_two: HomepageBanner | null;
   client_feedback: ClientFeedback[];
+  products?: Product[];
 };
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {

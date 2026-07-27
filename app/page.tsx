@@ -303,7 +303,7 @@ export default function Home() {
       .catch(() => undefined);
     const homepageRequest = homepageApi
       .storefront()
-      .then(async (config) => {
+      .then((config) => {
         setHeroSlides(config.hero_slides);
         setTopCategoryIds(config.top_category_ids);
         setFreshPickIds(config.fresh_pick_ids);
@@ -312,15 +312,7 @@ export default function Home() {
         setWeeklyDealIds(config.weekly_deal_ids);
         setBannerTwo(config.banner_two);
         setClientFeedback(config.client_feedback);
-        const productIds = [...new Set([
-          ...config.fresh_pick_ids,
-          ...config.trending_product_ids,
-          ...config.weekly_deal_ids,
-        ])];
-        const configuredProducts = await Promise.all(
-          productIds.map((id) => catalogApi.product(id).catch(() => null)),
-        );
-        setProducts(configuredProducts.filter(Boolean) as Product[]);
+        setProducts(config.products ?? []);
       })
       .catch(() => {
         setHeroSlides([]);
