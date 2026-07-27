@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import type { Category } from "../features/categories/types";
 
 const fallbackCategories = [
@@ -16,6 +17,8 @@ const fallbackCategories = [
 ];
 
 export default function CategoryMegaNav({ categories }: { categories: Category[] }) {
+  const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
+  const [overflowOpen, setOverflowOpen] = useState(false);
   const mainCategories = categories.filter((item) => !item.parent_id);
   const visibleCategories = mainCategories.slice(0, 6);
   const overflowCategories = mainCategories.slice(6);
@@ -37,10 +40,17 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
         const children = categories.filter((item) => item.parent_id === parent.id);
 
         return (
-          <div className="category-nav-item" key={parent.id}>
+          <div className={`category-nav-item ${openCategoryId === parent.id ? "open" : ""}`} key={parent.id}>
             <a
               className="category-nav-trigger"
               href={`/products?category=${encodeURIComponent(parent.name)}`}
+              onClick={(event) => {
+                if (children.length > 0 && window.matchMedia("(max-width: 800px)").matches) {
+                  event.preventDefault();
+                  setOpenCategoryId((current) => current === parent.id ? null : parent.id);
+                  setOverflowOpen(false);
+                }
+              }}
             >
               {parent.name}
               {children.length > 0 && <svg className="category-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>}
@@ -63,7 +73,7 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
           </div>
         );
       })}
-      {overflowCategories.length > 0 && <div className="category-overflow">
+      {overflowCategories.length > 0 && <div className={`category-overflow ${overflowOpen ? "open" : ""}`}>
         <button className="category-overflow-trigger" style={{border:0,background:"transparent",color:"#4d5766"}} type="button" aria-label="More categories">»</button>
         <div className="category-overflow-menu">
           {overflowCategories.map((parent) => {

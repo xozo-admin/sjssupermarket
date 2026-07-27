@@ -27,9 +27,14 @@ export default function StorefrontAuthModal({ initialMode = "login", onClose }: 
     setLoading(true);
     setError("");
     try {
-      if (mode === "login") await authApi.login(form.email, form.password);
-      else await authApi.register({ name: form.name, email: form.email, mobile: form.mobile || undefined, password: form.password });
+      const session =
+        mode === "login"
+          ? await authApi.login(form.email, form.password)
+          : await authApi.register({ name: form.name, email: form.email, mobile: form.mobile || undefined, password: form.password });
       onClose();
+      if (session.user.role === "admin") {
+        window.location.href = "/admin/dashboard";
+      }
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Authentication failed");
     } finally {
