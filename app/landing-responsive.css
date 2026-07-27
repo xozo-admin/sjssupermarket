@@ -22,12 +22,20 @@
   .global-storefront-navigation .shop-nav {
     width: 100%;
     min-width: 0;
-    height: 56px;
-    padding: 0 10px;
-    gap: 7px;
+    height: auto;
+    min-height: 104px;
+    padding: 7px 10px 8px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    grid-template-areas:
+      "logo tools"
+      "search search";
+    align-items: center;
+    gap: 7px 8px;
   }
 
   .global-storefront-navigation .shop-logo {
+    grid-area: logo;
     min-width: 44px;
     margin: 0;
     flex: 0 0 44px;
@@ -40,22 +48,40 @@
   }
 
   .global-storefront-navigation .product-search-wrap {
+    position: relative;
+    left: auto;
+    grid-area: search;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    display: block;
+    transform: none;
+  }
+
+  .global-storefront-navigation .product-search-wrap .shop-search {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: 40px;
+    margin: 0;
+    display: flex;
+  }
+
+  .global-storefront-navigation .product-search-wrap .shop-search kbd {
     display: none;
   }
 
   .global-storefront-navigation .shop-tools {
+    grid-area: tools;
     min-width: 0;
     margin-left: auto;
     gap: 2px;
   }
 
-  .global-storefront-navigation .shop-tools > button[aria-label="Notifications"],
-  .global-storefront-navigation .global-orders-link {
-    display: none;
-  }
-
   .global-storefront-navigation .global-cart-link,
+  .global-storefront-navigation .global-orders-link,
   .global-storefront-navigation .shop-tools .global-wishlist-link,
+  .global-storefront-navigation .shop-tools > button[aria-label="Notifications"],
   .global-storefront-navigation .shop-tools .global-login-button,
   .global-storefront-navigation .shop-tools .global-user-button {
     width: 38px;
@@ -65,42 +91,36 @@
   }
 
   .global-storefront-navigation .global-cart-link > span:last-child,
+  .global-storefront-navigation .global-orders-link > span,
   .global-storefront-navigation .global-login-button > span,
   .global-storefront-navigation .global-user-button > span,
   .global-storefront-navigation .nav-chevron {
     display: none;
   }
 
-  .global-storefront-navigation .shop-mobile-menu {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
-    display: grid;
-  }
-
-  .global-storefront-navigation .shop-nav > nav.open {
-    position: absolute;
-    top: 56px;
-    left: 8px;
-    right: 8px;
-    z-index: 120;
-    width: auto;
-    margin: 0;
-    padding: 8px;
-    gap: 3px;
-    border: 1px solid #e3e9e6;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 14px 34px rgba(16, 24, 39, .16);
-  }
-
-  .global-storefront-navigation .shop-nav > nav.open a {
+  .global-storefront-navigation .category-mega-nav {
     width: 100%;
-    min-height: 44px;
+    height: 40px;
     padding: 0 12px;
     display: flex;
-    align-items: center;
-    border-radius: 8px;
+    justify-content: flex-start;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .global-storefront-navigation .category-mega-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .global-storefront-navigation .category-mega-nav > * {
+    flex: 0 0 auto;
+  }
+
+  .global-storefront-navigation .category-mega-menu,
+  .global-storefront-navigation .category-overflow-menu {
+    display: none;
   }
 
   .landing-page .shop-nav {
@@ -261,7 +281,7 @@
   .landing-page .shop-section-head h2,
   .landing-page .shop-client-feedback .shop-section-head h2,
   .landing-page #categories .shop-section-head h2 {
-    font-size: clamp(23px, 7vw, 30px);
+    font-size: 20px;
     line-height: 1.12;
     text-align: left;
   }
@@ -370,10 +390,7 @@
   }
 
   .landing-page .shop-banner-one::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .72) 70%, rgba(255, 255, 255, .18));
+    display: none;
   }
 
   .landing-page .shop-banner-copy {
@@ -446,12 +463,12 @@
 }
 
 @media (max-width: 420px) {
-  .global-storefront-navigation .shop-tools .global-wishlist-link {
-    display: none;
-  }
-
   .global-storefront-navigation .shop-nav {
     padding-inline: 8px;
+  }
+
+  .global-storefront-navigation .global-cart-link {
+    display: none;
   }
 
   .landing-page .shop-logo small {
@@ -464,6 +481,12 @@
 
   .landing-page .shop-hero {
     padding-top: 22px;
+  }
+
+  .landing-page .shop-section-head h2,
+  .landing-page .shop-client-feedback .shop-section-head h2,
+  .landing-page #categories .shop-section-head h2 {
+    font-size: 18px;
   }
 
   .landing-page .shop-promise {

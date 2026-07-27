@@ -20,7 +20,7 @@ import StorefrontAuthModal from "./storefront-auth-modal";
 function Icon({
   name,
 }: {
-  name: "heart" | "bag" | "orders" | "bell" | "user" | "menu";
+  name: "heart" | "bag" | "orders" | "bell" | "user";
 }) {
   const paths = {
     heart: (
@@ -52,7 +52,6 @@ function Icon({
         <path d="M6.8 19a5.5 5.5 0 0 1 10.4 0" />
       </>
     ),
-    menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   };
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -73,7 +72,6 @@ export default function StorefrontNavigation() {
   const pathname = usePathname();
   const [categories, setCategories] = useState<Category[]>([]);
   const [search, setSearch] = useState("");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
@@ -140,11 +138,6 @@ export default function StorefrontNavigation() {
                 <small>SUPER MARKET</small>
               </div>
             </Link>
-            <nav className={mobileOpen ? "open" : ""}>
-              <Link href="/">Home</Link>
-              <Link href="/products?sort=deals">Deals</Link>
-              <Link href="/products?sort=newest">New Arrivals</Link>
-            </nav>
             <ProductSearch value={search} onChange={setSearch} shortcut />
             <div className="shop-tools">
               <Link
@@ -205,13 +198,6 @@ export default function StorefrontNavigation() {
                 </button>
               )}
             </div>
-            <button
-              className="shop-mobile-menu"
-              onClick={() => setMobileOpen((value) => !value)}
-              aria-label="Toggle navigation"
-            >
-              <Icon name="menu" />
-            </button>
           </div>
           <CategoryMegaNav categories={categories} />
         </header>
