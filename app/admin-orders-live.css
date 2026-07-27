@@ -1,0 +1,37 @@
+.admin-live-order-alert {
+  position: fixed;
+  right: 22px;
+  top: 20px;
+  z-index: 120;
+  width: min(430px, calc(100vw - 32px));
+  padding: 14px 14px 14px 16px;
+  border: 1px solid #bfe5ca;
+  border-radius: 11px;
+  background: #f0fff4;
+  box-shadow: 0 16px 40px rgb(15 55 30 / 20%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #173c24;
+}
+.admin-live-order-alert > div { min-width: 0; flex: 1; display: grid; gap: 4px; }
+.admin-live-order-alert span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.admin-live-order-alert button { padding: 7px 10px; border: 0; border-radius: 6px; background: #22a447; color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; }
+.admin-live-order-alert button:last-child { width: 27px; height: 27px; padding: 0; border-radius: 50%; background: transparent; color: #65776b; font-size: 20px; }
+.admin-order-status-select { min-width: 125px; height: 32px; padding: 0 8px; border: 1px solid #d8e2dc; border-radius: 7px; background: #f2faf5; color: #087c45; text-transform: capitalize; font-size: 11px; font-weight: 700; outline: none; cursor: pointer; }
+.order-invoice > footer { gap: 10px; }
+.admin-orders > header > div:last-child { display: flex; align-items: center; gap: 8px; text-align: left; }
+.admin-orders > header > div:last-child strong:nth-of-type(2) { margin-left: 20px; }
+.admin-orders > header { min-height: 58px; padding: 10px 16px; }
+.admin-orders > header > div:first-child span { font-size: 15px; letter-spacing: .05em; }
+.admin-orders-pagination { min-height: 54px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.admin-orders > section > .admin-orders-pagination { border: 0; border-top: 1px solid var(--line); border-radius: 0; position: static; }
+.admin-orders-pagination > span { color: var(--muted); font-size: 12px; }
+.admin-orders-pagination > div { display: flex; gap: 5px; }
+.admin-orders-pagination button { min-width: 33px; height: 33px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--muted); cursor: pointer; font-size: 11px; }
+.admin-orders-pagination button.active { border-color: var(--green); background: var(--green); color: #fff; }
+.admin-orders-pagination button:disabled { opacity: .45; cursor: default; }
+@media(max-width:600px){.admin-orders-pagination{align-items:flex-start;flex-direction:column}.admin-orders-pagination>div{max-width:100%;overflow-x:auto}.admin-orders-pagination button{flex:0 0 auto}}
+.admin-order-actions .whatsapp-action { color: #20a95a; }
+.admin-order-actions .whatsapp-action svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.admin-order-actions .whatsapp-action:disabled { opacity: .35; cursor: not-allowed; }

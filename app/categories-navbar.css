@@ -1,0 +1,26 @@
+.all-categories-page > .shop-header {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  display: block;
+  background: rgba(255,255,255,.97);
+}
+
+.all-categories-page .shop-logo > span svg {
+  width: 21px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+}
+
+.all-categories-page .shop-nav nav a:nth-child(2) {
+  color: var(--shop-dark);
+  font-weight: 700;
+}
+
+.all-categories-page .shop-nav nav a:first-child {
+  color: #4d5768;
+  font-weight: 550;
+}

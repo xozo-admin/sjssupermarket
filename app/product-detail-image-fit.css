@@ -1,0 +1,28 @@
+.product-detail-page .product-main-image {
+  position: relative;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.product-detail-page .product-main-image img {
+  position: absolute;
+  inset: 8px;
+  display: block;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+}
+
+.product-detail-page .product-thumbnails img,
+.product-detail-page .related-product-grid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}

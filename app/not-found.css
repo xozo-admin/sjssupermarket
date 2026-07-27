@@ -1,0 +1,155 @@
+body:has(.sjs-not-found) > .global-storefront-navigation {
+  display: none;
+}
+
+.sjs-not-found {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: linear-gradient(0deg, #202239, #8595ac);
+  font-family: var(--font-inter), Roboto, sans-serif;
+}
+
+.sjs-not-found-card {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  color: #cdd4de;
+  background: #0d0c1e;
+}
+
+.sjs-not-found-backdrop {
+  --not-found-x: 0px;
+  --not-found-y: 0px;
+  position: absolute;
+  inset: -6%;
+  z-index: -2;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  transform: translate(var(--not-found-x), var(--not-found-y)) scale(1.1);
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.sjs-not-found-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgb(13 12 30 / 46%), rgb(13 12 30 / 70%)),
+    radial-gradient(circle at center, transparent 5%, rgb(13 12 30 / 28%) 80%);
+}
+
+.sjs-not-found-card > header {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  padding: 24px 30px;
+}
+
+.sjs-not-found-card > header > svg {
+  width: 19px;
+  height: 19px;
+  color: #cdd4de;
+  opacity: 0.72;
+}
+
+.sjs-not-found-card > header > svg:last-child {
+  justify-self: end;
+}
+
+.sjs-not-found-card > header > a {
+  justify-self: center;
+}
+
+.sjs-not-found-card > header img {
+  display: block;
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 25%));
+}
+
+.sjs-not-found-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 52px 24px 24px;
+  text-align: center;
+}
+
+.sjs-not-found-content h1 {
+  margin: 0 0 -8px;
+  font-size: clamp(104px, 20vw, 165px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  opacity: 0.68;
+}
+
+.sjs-not-found-content h2 {
+  margin: 20px 0 6px;
+  font-size: clamp(27px, 5vw, 34px);
+  font-weight: 750;
+  opacity: 0.95;
+}
+
+.sjs-not-found-content p {
+  margin: 0 0 54px;
+  font-size: 14px;
+  font-weight: 350;
+  opacity: 0.76;
+}
+
+.sjs-not-found-content > a {
+  display: inline-flex;
+  padding: 10px 17px;
+  color: #f4f7fb;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid rgb(205 212 222 / 64%);
+  border-radius: 5px;
+  background: rgb(13 12 30 / 18%);
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.sjs-not-found-content > a:hover {
+  border-color: #fff;
+  background: rgb(255 255 255 / 12%);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .sjs-not-found-card > header {
+    padding: 18px 20px;
+  }
+
+  .sjs-not-found-card > header img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .sjs-not-found-content {
+    padding-top: clamp(45px, 10vh, 90px);
+  }
+
+  .sjs-not-found-content p {
+    margin-bottom: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sjs-not-found-backdrop,
+  .sjs-not-found-content > a {
+    transition: none;
+  }
+}

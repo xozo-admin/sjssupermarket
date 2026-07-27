@@ -1,0 +1,244 @@
+.auth-login-panel {
+  width: min(820px, 100%);
+  min-height: 540px;
+  grid-template-columns: 300px 1fr;
+  position: relative;
+}
+
+.auth-close {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e4e7ec;
+  border-radius: 50%;
+  background: #fff;
+  color: #475467;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.auth-close:hover {
+  border-color: #cfd5dc;
+  background: #f8fafc;
+  color: #101828;
+}
+
+.auth-login-panel > aside {
+  padding: 38px 30px;
+}
+
+.auth-login-panel aside h1 {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.auth-login-panel aside p {
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.auth-login-panel .auth-illustration {
+  left: 42px;
+  right: 25px;
+  bottom: 25px;
+  transform: scale(.82);
+  transform-origin: left bottom;
+}
+
+.auth-login-panel form {
+  padding: 38px 42px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.auth-login-panel form > small {
+  margin-top: 28px;
+  color: #667085;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.auth-login-panel label {
+  color: #344054;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.auth-login-panel input {
+  color: #101828;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.auth-login-panel input::placeholder {
+  color: #98a2b3;
+  font-size: 13.5px;
+  font-weight: 400;
+  opacity: 1;
+}
+
+.auth-login-panel form > button {
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: .01em;
+}
+
+.auth-login-panel form > small a {
+  color: #087cde;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-register-panel {
+  width: min(820px, 100%);
+  min-height: 540px;
+  grid-template-columns: 300px 1fr;
+  position: relative;
+}
+
+.auth-register-panel > aside {
+  padding: 38px 30px;
+}
+
+.auth-register-panel aside h1 {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.auth-register-panel aside p {
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.auth-register-panel .auth-illustration {
+  left: 44px;
+  right: 25px;
+  bottom: 28px;
+  transform: scale(.84);
+  transform-origin: left bottom;
+}
+
+.auth-register-panel form {
+  padding: 28px 42px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.auth-register-panel form h2 {
+  margin-bottom: 12px;
+}
+
+.auth-register-panel label {
+  margin-bottom: 11px;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.auth-register-panel input {
+  height: 43px;
+  color: #101828;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.auth-register-panel input::placeholder {
+  color: #98a2b3;
+  font-size: 13.5px;
+  font-weight: 400;
+  opacity: 1;
+}
+
+.auth-register-panel form > button {
+  height: 48px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: .01em;
+}
+
+.auth-register-panel form > small {
+  margin-top: 22px;
+  color: #667085;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.auth-register-panel form > small a {
+  color: #087cde;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  .auth-login-panel {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-login-panel > aside {
+    min-height: 150px;
+    padding: 24px;
+  }
+
+  .auth-login-panel form {
+    padding: 28px 24px;
+  }
+
+  .auth-register-panel {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-register-panel > aside {
+    min-height: 150px;
+    padding: 24px;
+  }
+
+  .auth-register-panel form {
+    padding: 26px 24px;
+  }
+}
+.auth-modal-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  padding: 20px;
+  background: rgba(15, 23, 42, .58);
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  backdrop-filter: blur(2px);
+}
+
+.auth-modal-backdrop .auth-panel {
+  flex: none;
+}
+
+.auth-modal-backdrop form > small > button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #087cde;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}

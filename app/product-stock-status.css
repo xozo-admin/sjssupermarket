@@ -1,0 +1,71 @@
+.stock-status-pill {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #fff1f1;
+  color: #b42318;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.stock-status-pill.in_stock {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.stock-status-pill.low_stock {
+  background: #fff4d6;
+  color: #92620b;
+}
+
+.product-mrp {
+  color: var(--muted);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.discount-pill {
+  display: inline-flex;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #e7f8ed;
+  color: #168a43;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.product-filter-grid {
+  grid-template-columns: minmax(220px, 1.5fr) repeat(4, minmax(125px, 1fr));
+}
+
+.product-filter-grid input,
+.product-filter-grid select,
+.product-filter-grid button {
+  min-width: 0;
+}
+
+.product-filter-grid button {
+  height: 43px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: #b42318;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .product-filter-grid {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .product-filter-grid {
+    grid-template-columns: 1fr;
+  }
+}

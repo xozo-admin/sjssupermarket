@@ -1,0 +1,329 @@
+/* Visual parity with the supplied legacy checkout; functionality stays in the current component. */
+.commerce-page {
+  background: #f3f4f6;
+}
+
+.checkout-shell {
+  width: min(1180px, calc(100% - 24px));
+  padding: 20px 0 48px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.checkout-shell .back-cart {
+  display: inline-flex;
+  margin: 0 0 12px;
+  color: #0f9d58;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.checkout-shell > h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.checkout-layout {
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.checkout-layout > div {
+  gap: 16px;
+}
+
+.checkout-card,
+.checkout-shell .order-card {
+  padding: 20px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / .1);
+}
+
+.checkout-shell .order-card {
+  position: sticky;
+  top: 112px;
+}
+
+.checkout-card > header,
+.checkout-shell .order-card > header {
+  gap: 12px;
+  margin-bottom: 16px;
+  color: #0f9d58;
+}
+
+.checkout-card > header > b,
+.checkout-shell .order-card > header > b {
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 800;
+  background: #0f9d58;
+}
+
+.checkout-card h2,
+.checkout-shell .order-card h2 {
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.checkout-shell .address-form {
+  gap: 12px;
+}
+
+.checkout-shell .address-form label {
+  gap: 4px;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.checkout-shell .address-form input {
+  height: 40px;
+  padding: 0 12px;
+  border-color: #dadce0;
+  border-radius: 8px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.checkout-shell .address-form input::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.checkout-shell .address-map-trigger {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f9d58;
+}
+
+.checkout-shell .address-form > button {
+  height: 40px;
+  border-radius: 8px;
+  background: #0f9d58;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkout-shell .saved-address-summary {
+  min-height: 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.checkout-shell .saved-address-summary > div {
+  gap: 0;
+}
+
+.checkout-shell .saved-address-summary strong {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 24px;
+}
+
+.checkout-shell .saved-address-summary p {
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.checkout-shell .saved-address-summary small {
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.checkout-shell .saved-address-summary > button {
+  color: #0f9d58;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.checkout-shell .payment-card > label {
+  min-height: 0;
+  margin-top: 8px;
+  padding: 12px;
+  border-color: #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.checkout-shell .payment-card > label.selected {
+  border-color: #0f9d58;
+  background: #f2fff8;
+}
+
+.checkout-shell .payment-card label strong {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.checkout-shell .payment-card label small {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.checkout-shell .payment-card label i {
+  width: 20px;
+  height: 20px;
+  background: #0f9d58;
+}
+
+.checkout-shell .order-products {
+  max-height: 224px;
+  margin-top: 16px;
+  overflow-y: auto;
+  border-color: #eef0f2;
+}
+
+.checkout-shell .order-products article {
+  grid-template-columns: 48px 1fr auto;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.checkout-shell .order-products img {
+  width: 48px;
+  height: 48px;
+}
+
+.checkout-shell .order-products strong,
+.checkout-shell .order-products > article > b {
+  color: #111827;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.checkout-shell .order-products small {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.checkout-shell .order-card dl {
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.checkout-shell .order-card dt,
+.checkout-shell .order-card dd {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.checkout-shell .order-card dt {
+  color: #4b5563;
+  font-weight: 400;
+}
+
+.checkout-shell .order-card dd {
+  color: #111827;
+  font-weight: 600;
+}
+
+.checkout-shell .order-card .price-total {
+  padding-top: 16px;
+  border-color: #eef0f2;
+}
+
+.checkout-shell .order-card .price-total dt,
+.checkout-shell .order-card .price-total dd {
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.checkout-shell .checkout-button {
+  min-height: 44px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background: #0f9d58;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.checkout-shell .order-card > p {
+  margin: 12px 0 0;
+  color: #6b7280;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.address-map-dialog {
+  width: min(672px, 100%);
+  border-radius: 16px;
+}
+
+.address-map-dialog > header {
+  padding: 16px 20px;
+}
+
+.address-map-dialog h2 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.address-map-dialog header p {
+  font-size: 12px;
+}
+
+.address-map-canvas {
+  height: min(55vh, 430px);
+}
+
+.address-map-dialog > footer {
+  padding: 16px;
+}
+
+@media (max-width: 850px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .checkout-shell .order-card { position: static; }
+}
+
+@media (max-width: 520px) {
+  .checkout-shell { width: calc(100% - 24px); padding-top: 16px; }
+  .checkout-shell > h1 { font-size: 24px; }
+  .checkout-card,
+  .checkout-shell .order-card { padding: 16px; }
+  .checkout-card h2,
+  .checkout-shell .order-card h2 { font-size: 18px; }
+  .checkout-shell .address-form input,
+  .checkout-shell .address-form input::placeholder { font-size: 14px; }
+  .checkout-shell .address-form > button,
+  .checkout-shell .checkout-button { font-size: 14px; }
+}
+
+.checkout-shell .back-cart { display: inline-flex; align-items: center; gap: 2px; }
+.checkout-shell .back-cart svg { width: 14px; height: 14px; }
+.checkout-section-icon { width: 20px; height: 20px; flex: 0 0 auto; color: #0f9d58; stroke-width: 2; }
+.address-map-trigger, .selected-map-location { display: inline-flex; align-items: center; gap: 4px; }
+.address-map-trigger svg, .selected-map-location svg { width: 14px; height: 14px; flex: 0 0 auto; }
+.payment-card > label > input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.payment-method-icon { display: grid; width: 20px; height: 20px; flex: 0 0 20px; place-items: center; color: #0f9d58; }
+.payment-method-icon svg { width: 20px; height: 20px; stroke-width: 2; }
+.payment-card label i { display: grid; place-items: center; }
+.payment-card label i svg { width: 12px; height: 12px; stroke-width: 3; }
+.payment-card > label:not(.selected) i { border-color: #d1d5db; background: #fff; }
+.checkout-shell .checkout-button { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.checkout-shell .checkout-button svg { width: 16px; height: 16px; }

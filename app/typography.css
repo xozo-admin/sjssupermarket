@@ -1,0 +1,13 @@
+html,
+body,
+button,
+input,
+select,
+textarea,
+.storefront,
+.admin-shell,
+.sidebar,
+.homepage-admin,
+.all-categories-page {
+  font-family: Inter, -apple-system, Helvetica, Arial, sans-serif;
+}

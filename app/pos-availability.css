@@ -1,0 +1,11 @@
+.pos-product-grid > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+  filter: grayscale(0.35);
+}
+
+.pos-product-grid > button:disabled:hover {
+  border-color: var(--line);
+  box-shadow: none;
+  transform: none;
+}

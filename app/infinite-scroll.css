@@ -1,0 +1,8 @@
+.products-infinite-status {
+  min-height: 54px;
+  margin-top: 14px;
+  display: grid;
+  place-items: center;
+  color: #6f7b75;
+  font-size: 12px;
+}

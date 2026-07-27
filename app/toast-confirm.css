@@ -1,0 +1,69 @@
+.Toastify__toast:has(.toast-confirm) {
+  width: min(390px, calc(100vw - 32px));
+  padding: 18px;
+  background: #fff;
+  color: #172033;
+}
+
+.toast-confirm strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.toast-confirm p {
+  margin: 0;
+  color: #596273;
+  line-height: 1.45;
+}
+
+.toast-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.toast-confirm-actions button {
+  min-width: 78px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 7px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toast-confirm-cancel {
+  background: #eef1f5;
+  color: #344054;
+}
+
+.toast-confirm-accept {
+  background: #dc2626;
+  color: #fff;
+}
+
+.toast-prompt input {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 11px;
+  border: 1px solid #d0d5dd;
+  border-radius: 7px;
+  outline: none;
+}
+
+.toast-prompt input:focus {
+  border-color: #257a42;
+  box-shadow: 0 0 0 3px rgb(37 122 66 / 12%);
+}
+
+.toast-prompt-accept {
+  background: #257a42;
+  color: #fff;
+}
+
+.toast-prompt-accept:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}

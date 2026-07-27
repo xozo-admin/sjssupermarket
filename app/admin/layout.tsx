@@ -1,0 +1,11 @@
+import type { ReactNode } from "react";
+import AdminShell from "../ui/admin-shell";
+
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <AdminShell />
+      <div hidden>{children}</div>
+    </>
+  );
+}

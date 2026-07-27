@@ -1,0 +1,107 @@
+.product-detail-page .product-detail-shell {
+  width: min(1320px, calc(100% - 32px));
+}
+
+.product-detail-page .product-detail-main {
+  min-height: 520px;
+  grid-template-columns: minmax(380px, 43%) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.product-detail-page .product-main-image {
+  min-height: 460px;
+}
+
+.product-detail-page .product-detail-copy {
+  padding: 22px 28px;
+}
+
+.product-detail-page .product-gallery,
+.product-detail-page .product-detail-copy {
+  min-width: 0;
+}
+
+.product-detail-page .product-title-row h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.product-detail-page .product-details-compact {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.product-detail-page .product-details-compact h2,
+.product-detail-page .product-details-compact p,
+.product-detail-page .product-details-compact dl {
+  margin: 0;
+}
+
+.product-detail-page .product-details-compact p {
+  line-height: 1.4;
+}
+
+.product-detail-page .product-details-compact dl {
+  display: grid;
+  gap: 4px;
+}
+
+.product-detail-page .product-details-compact dl > div {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 14px;
+}
+
+.product-detail-page .product-details-compact dt,
+.product-detail-page .product-details-compact dd {
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 850px) {
+  .product-detail-page .product-detail-main {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail-page .product-main-image {
+    min-height: 400px;
+  }
+}
+
+.product-detail-page .product-detail-breadcrumb {
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.product-detail-page .product-detail-breadcrumb b {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+@media (max-width: 520px) {
+  .product-detail-page .product-detail-shell {
+    width: calc(100% - 20px);
+  }
+
+  .product-detail-page .product-main-image {
+    min-height: 330px;
+  }
+
+  .product-detail-page .product-title-row h1 {
+    font-size: 21px;
+  }
+
+  .product-detail-page .product-detail-breadcrumb {
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .product-detail-page .product-detail-breadcrumb b {
+    font-size: 13px;
+  }
+}
