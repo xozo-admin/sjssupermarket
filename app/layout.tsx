@@ -61,6 +61,7 @@ import "./operations.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./toast-confirm.css";
 import "./landing-theme.css";
+import "./landing-responsive.css";
 import ToastProvider from "./components/toast-provider";
 
 const inter = Inter({

@@ -1,0 +1,397 @@
+/* Final mobile overrides for the public landing page. */
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .landing-page {
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  .landing-page .shop-nav {
+    min-width: 0;
+    height: 56px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .landing-page .shop-logo {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .landing-page .shop-logo div {
+    display: grid;
+  }
+
+  .landing-page .shop-logo b {
+    font-size: 16px;
+  }
+
+  .landing-page .shop-tools {
+    flex: 0 0 auto;
+  }
+
+  .landing-page .shop-tools > a[href="/admin/dashboard"] {
+    display: none;
+  }
+
+  .landing-page .shop-mobile-menu {
+    display: grid;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .landing-page .shop-nav nav.open {
+    top: 56px;
+    left: 10px;
+    right: 10px;
+    gap: 4px;
+    padding: 10px;
+  }
+
+  .landing-page .shop-nav nav.open a {
+    min-height: 44px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  .landing-page .shop-search {
+    display: none;
+  }
+
+  .landing-page .shop-hero,
+  .landing-page .shop-hero.shop-hero-loading {
+    min-height: 0;
+    padding: 28px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .landing-page .shop-hero-copy {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  .landing-page .shop-eyebrow {
+    max-width: 100%;
+    padding: 7px 12px;
+    overflow: hidden;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .landing-page .shop-hero h1 {
+    margin: 18px 0 12px;
+    font-size: clamp(32px, 10vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+  .landing-page .shop-hero h1 br {
+    display: none;
+  }
+
+  .landing-page .shop-hero-copy > p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .landing-page .shop-hero-actions {
+    width: 100%;
+    margin-top: 20px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .landing-page .shop-hero-actions > a,
+  .landing-page .shop-hero-actions > span {
+    width: 100%;
+    min-height: 48px;
+    height: auto;
+    padding: 10px 16px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .landing-page .shop-hero-visual {
+    position: relative;
+    inset: auto;
+    width: calc(100% + 32px);
+    height: auto;
+    aspect-ratio: 16 / 10;
+    margin: 24px -16px -16px;
+  }
+
+  .landing-page .shop-hero-visual > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .landing-page .shop-section,
+  .landing-page .shop-products {
+    width: 100%;
+    padding: 34px 12px 0;
+  }
+
+  .landing-page .shop-section-head {
+    min-height: 38px;
+    margin-bottom: 16px;
+    padding-right: 76px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .landing-page .shop-section-head > div:first-child {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .landing-page .shop-section-head h2,
+  .landing-page .shop-client-feedback .shop-section-head h2,
+  .landing-page #categories .shop-section-head h2 {
+    font-size: clamp(23px, 7vw, 30px);
+    line-height: 1.12;
+    text-align: left;
+  }
+
+  .landing-page .shop-section-head .section-show-all,
+  .landing-page .shop-client-feedback .shop-feedback-arrows {
+    right: 0;
+  }
+
+  .landing-page .section-show-all {
+    min-height: 38px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .landing-page #categories .shop-category-grid {
+    margin-inline: -12px;
+    padding: 0 12px 8px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(112px, 34vw);
+    grid-template-columns: none;
+    gap: 10px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: none;
+  }
+
+  .landing-page #categories .shop-category-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .landing-page #categories .shop-category-card {
+    width: 100%;
+    height: auto;
+    min-height: 150px;
+    scroll-snap-align: start;
+  }
+
+  .landing-page .products-market-grid {
+    width: 100%;
+    padding: 8px 0 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 10px;
+  }
+
+  .landing-page .products-market-grid article {
+    min-width: 0;
+    padding: 7px 7px 10px;
+  }
+
+  .landing-page .market-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .landing-page .products-market-grid article > h2 {
+    height: 36px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .landing-page .market-product-meta,
+  .landing-page .market-rating small,
+  .landing-page .market-price del {
+    font-size: 10px;
+  }
+
+  .landing-page .market-price {
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+
+  .landing-page .market-price strong {
+    font-size: 14px;
+  }
+
+  .landing-page .products-market-grid .market-cart {
+    width: 100%;
+    min-height: 40px;
+    margin-top: 6px;
+    background: #f0faf5;
+  }
+
+  .landing-page .shop-banner-one {
+    width: calc(100% - 24px);
+    min-height: 310px;
+    margin: 34px 12px 4px;
+    border-radius: 12px;
+  }
+
+  .landing-page .shop-banner-one > img {
+    object-fit: cover;
+  }
+
+  .landing-page .shop-banner-one::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .72) 70%, rgba(255, 255, 255, .18));
+  }
+
+  .landing-page .shop-banner-copy {
+    position: relative;
+    z-index: 2;
+    width: 88%;
+    min-height: 310px;
+    padding: 24px 18px;
+  }
+
+  .landing-page .shop-banner-copy h2 {
+    font-size: clamp(25px, 8vw, 34px);
+  }
+
+  .landing-page .shop-client-feedback {
+    width: calc(100% - 24px);
+    margin: 34px 12px 4px;
+  }
+
+  .landing-page .shop-feedback-slider > article {
+    min-height: 0;
+    padding: 20px 16px;
+  }
+
+  .landing-page .shop-feedback-slider article > p {
+    min-height: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .landing-page .shop-promise {
+    width: calc(100% - 24px);
+    margin: 38px 12px 0;
+    padding: 8px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .landing-page .shop-promise > article {
+    min-width: 0;
+    padding: 14px 10px;
+  }
+
+  .landing-page .shop-footer {
+    width: 100%;
+    margin-top: 36px;
+    padding-inline: 16px;
+  }
+
+  .landing-page .shop-newsletter {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .landing-page .shop-newsletter h2 {
+    font-size: clamp(25px, 8vw, 36px);
+  }
+
+  .landing-page .shop-newsletter form {
+    width: 100%;
+    max-width: none;
+  }
+
+  .landing-page .shop-footer-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 18px;
+  }
+
+  .landing-page .shop-footer-columns > div:first-child,
+  .landing-page .shop-footer-columns > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .landing-page .shop-footer-bottom {
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .landing-page .shop-logo small {
+    display: none;
+  }
+
+  .landing-page .shop-tools > a[href="/wishlist"] {
+    display: none;
+  }
+
+  .landing-page .shop-hero {
+    padding-top: 22px;
+  }
+
+  .landing-page .shop-promise {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-page .shop-promise > article {
+    border-bottom: 1px solid #dce9e2;
+  }
+
+  .landing-page .shop-promise > article:last-child {
+    border-bottom: 0;
+  }
+
+  .landing-page .shop-footer-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-page .shop-footer-columns > div:first-child,
+  .landing-page .shop-footer-columns > div:last-child {
+    grid-column: auto;
+  }
+
+  .landing-page .shop-newsletter form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .landing-page .shop-newsletter input,
+  .landing-page .shop-newsletter button {
+    width: 100%;
+    min-height: 46px;
+  }
+}
