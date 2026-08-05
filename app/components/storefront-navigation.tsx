@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { categoryApi } from "../features/categories/category-api";
 import type { Category } from "../features/categories/types";
 import {
@@ -78,6 +78,19 @@ export default function StorefrontNavigation() {
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const isAdmin = pathname.startsWith("/admin");
+  const closeTimer = useRef<NodeJS.Timeout | null>(null);
+  const openProfile = () => {
+  if (closeTimer.current) {
+    clearTimeout(closeTimer.current);
+  }
+  setProfileOpen(true);
+};
+
+const closeProfile = () => {
+  closeTimer.current = setTimeout(() => {
+    setProfileOpen(false);
+  }, 250); // adjust 200–300 ms as desired
+};
 
   useEffect(() => {
     if (!isAdmin)
@@ -153,6 +166,7 @@ export default function StorefrontNavigation() {
                   )}
                 </span>
               </Link>
+
               <Link
                 className="global-cart-link"
                 href="/cart"
@@ -160,10 +174,13 @@ export default function StorefrontNavigation() {
               >
                 <span className="cart-icon-wrap">
                   <Icon name="bag" />
-                  {cartCount > 0 && <b>{cartCount > 99 ? "99+" : cartCount}</b>}
+                  {cartCount > 0 && (
+                    <b>{cartCount > 99 ? "99+" : cartCount}</b>
+                  )}
                 </span>
                 <span>Cart</span>
               </Link>
+
               <Link
                 className="global-orders-link"
                 href="/orders"
@@ -172,20 +189,79 @@ export default function StorefrontNavigation() {
                 <Icon name="orders" />
                 <span>Orders</span>
               </Link>
+
               <button aria-label="Notifications">
                 <Icon name="bell" />
               </button>
+
               {user ? (
-                <button
-                  className="global-user-button"
-                  onClick={() => setProfileOpen((open) => !open)}
-                  aria-expanded={profileOpen}
-                  aria-haspopup="menu"
+                <div
+                  className="profile-menu"
+                  onMouseEnter={openProfile}
+                  onMouseLeave={closeProfile}
                 >
-                  <Icon name="user" />
-                  <span>{user.name}</span>
-                  <ChevronDown />
-                </button>
+                  <button
+                    className="global-user-button"
+                    aria-expanded={profileOpen}
+                    aria-haspopup="menu"
+                  >
+                    <Icon name="user" />
+                    <span>{user.name}</span>
+                    <ChevronDown />
+                  </button>
+
+                  {profileOpen && (
+                    <section className="global-profile-card" role="menu">
+                      <header>
+                        <span>{user.name.slice(0, 1).toUpperCase()}</span>
+                        <div>
+                          <strong>{user.name}</strong>
+                          <small>{user.email}</small>
+                        </div>
+                      </header>
+
+                      <dl>
+                        <div>
+                          <dt>Role</dt>
+                          <dd>{user.role}</dd>
+                        </div>
+
+                        {user.mobile && (
+                          <div>
+                            <dt>Mobile</dt>
+                            <dd>{user.mobile}</dd>
+                          </div>
+                        )}
+
+                        {user.designation && (
+                          <div>
+                            <dt>Designation</dt>
+                            <dd>{user.designation}</dd>
+                          </div>
+                        )}
+                      </dl>
+
+                      {user.role === "admin" && (
+                        <Link
+                          href="/admin/dashboard"
+                          onClick={() => setProfileOpen(false)}
+                        >
+                          Open admin dashboard
+                        </Link>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          logout();
+                          setProfileOpen(false);
+                          window.location.href = "/";
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </section>
+                  )}
+                </div>
               ) : (
                 <button
                   className="global-login-button"
@@ -196,42 +272,17 @@ export default function StorefrontNavigation() {
                   <ChevronDown />
                 </button>
               )}
-              {user && profileOpen && (
-                <section className="global-profile-card" role="menu">
-                  <header>
-                    <span>{user.name.slice(0, 1).toUpperCase()}</span>
-                    <div>
-                      <strong>{user.name}</strong>
-                      <small>{user.email}</small>
-                    </div>
-                  </header>
-                  <dl>
-                    <div><dt>Role</dt><dd>{user.role}</dd></div>
-                    {user.mobile && <div><dt>Mobile</dt><dd>{user.mobile}</dd></div>}
-                    {user.designation && <div><dt>Designation</dt><dd>{user.designation}</dd></div>}
-                  </dl>
-                  {user.role === "admin" && (
-                    <Link href="/admin/dashboard" onClick={() => setProfileOpen(false)}>
-                      Open admin dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => {
-                      logout();
-                      setProfileOpen(false);
-                      window.location.href = "/";
-                    }}
-                  >
-                    Logout
-                  </button>
-                </section>
-              )}
-            </div>
-          </div>
+            </div> {/* shop-tools */}
+
+          </div> {/* shop-nav */}
+
           <CategoryMegaNav categories={categories} />
         </header>
       </div>
-      {authOpen && <StorefrontAuthModal onClose={() => setAuthOpen(false)} />}
+
+      {authOpen && (
+        <StorefrontAuthModal onClose={() => setAuthOpen(false)} />
+      )}
     </>
   );
 }

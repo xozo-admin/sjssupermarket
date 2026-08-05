@@ -2,8 +2,8 @@
 
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { categoryApi } from "./features/categories/category-api";
 import type { Category } from "./features/categories/types";
 import { catalogApi } from "./features/catalog/catalog-api";
@@ -38,7 +38,7 @@ function Icon({
   name,
 }: {
   name:
-    "search" | "heart" | "bag" | "bell" | "user" | "clock" | "arrow" | "menu";
+  "search" | "heart" | "bag" | "bell" | "user" | "clock" | "arrow" | "menu";
 }) {
   const paths = {
     search: (
@@ -97,7 +97,7 @@ function StoreLogo() {
   return (
     <Link className="shop-logo" href="/">
       <span>
-        <img src="/app_logo.jpeg" alt="SJS Super Market" />
+        <img src="/app_.jpeg" alt="SJS Super Market" />
       </span>
       <div>
         <b>SJS</b>
@@ -230,7 +230,9 @@ function ProductCard({
         </button>
       </div>
       <small className="market-sponsored">Sponsored</small>
-      <h2>{product.name}</h2>
+      <h2 className="market-product-name">
+        {product.name}
+      </h2>
       <div className="market-product-meta">
         <span>{product.brand || "Generic"}</span>
         <i>·</i>
@@ -288,6 +290,8 @@ export default function StorefrontClient({
     initialHomepage?.hero_slides ?? [],
   );
   const [heroIndex, setHeroIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   const [heroReady, setHeroReady] = useState(Boolean(initialHomepage));
   const [topCategoryIds, setTopCategoryIds] = useState<string[]>(
     initialHomepage?.top_category_ids ?? [],
@@ -311,6 +315,7 @@ export default function StorefrontClient({
     initialHomepage?.client_feedback ?? [],
   );
   const [feedbackIndex, setFeedbackIndex] = useState(0);
+  const [showMore, setShowMore] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navSearch, setNavSearch] = useState("");
   const [cartProductIds, setCartProductIds] = useState<Set<string>>(new Set());
@@ -389,6 +394,10 @@ export default function StorefrontClient({
     return () => window.clearInterval(timer);
   }, [clientFeedback.length]);
 
+  useEffect(() => {
+    setShowMore(false);
+  }, [feedbackIndex]);
+
   const mainCategories = useMemo(
     () => categories.filter((item) => !item.parent_id),
     [categories],
@@ -430,6 +439,36 @@ export default function StorefrontClient({
   const hero = heroSlides.length
     ? heroSlides[heroIndex % heroSlides.length]
     : undefined;
+
+  const nextHero = () => {
+    setHeroIndex((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevHero = () => {
+    setHeroIndex(
+      (prev) => (prev - 1 + heroSlides.length) % heroSlides.length
+    );
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+
+    if (distance > 60) {
+      nextHero();
+    }
+
+    if (distance < -60) {
+      prevHero();
+    }
+  };
 
   return (
     <main className="storefront landing-page">
@@ -474,22 +513,42 @@ export default function StorefrontClient({
           aria-label="Loading hero"
         />
       ) : hero ? (
-        <section className="shop-hero" id="home">
+        <section
+          className="shop-hero"
+          id="home"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+
+          <button
+            className="hero-arrow hero-arrow-left"
+            onClick={prevHero}
+            aria-label="Previous Banner"
+          >
+            <ChevronLeft size={26} />
+          </button>
+
           <div className="shop-hero-copy">
             {hero.subtitle && (
               <div className="shop-eyebrow">
                 ★ <span>{hero.subtitle}</span>
               </div>
             )}
+
             {hero.title && <h1>{hero.title}</h1>}
+
             {hero.description && <p>{hero.description}</p>}
+
             {(hero.button_text || hero.delivery_text) && (
               <div className="shop-hero-actions">
                 {hero.button_text && (
                   <a href={hero.button_url || "#products"}>
-                    {hero.button_text} <Icon name="arrow" />
+                    {hero.button_text}
+                    <Icon name="arrow" />
                   </a>
                 )}
+
                 {hero.delivery_text && (
                   <span>
                     <Icon name="clock" />
@@ -499,6 +558,7 @@ export default function StorefrontClient({
               </div>
             )}
           </div>
+
           <div className="shop-hero-visual">
             {hero.image_url && (
               <img
@@ -508,6 +568,15 @@ export default function StorefrontClient({
               />
             )}
           </div>
+
+          <button
+            className="hero-arrow hero-arrow-right"
+            onClick={nextHero}
+            aria-label="Next Banner"
+          >
+            <ChevronRight size={26} />
+          </button>
+
         </section>
       ) : null}
 
@@ -597,18 +666,18 @@ export default function StorefrontClient({
               bannerOne.title ||
               bannerOne.description ||
               bannerOne.button_text) && (
-              <div className="shop-banner-copy">
-                {bannerOne.eyebrow && <small>{bannerOne.eyebrow}</small>}
-                {bannerOne.title && <h2>{bannerOne.title}</h2>}
-                {bannerOne.description && <p>{bannerOne.description}</p>}
-                {bannerOne.button_text && (
-                  <a href={bannerOne.button_url || "#products"}>
-                    {bannerOne.button_text}
-                    <Icon name="arrow" />
-                  </a>
-                )}
-              </div>
-            )}
+                <div className="shop-banner-copy">
+                  {bannerOne.eyebrow && <small>{bannerOne.eyebrow}</small>}
+                  {bannerOne.title && <h2>{bannerOne.title}</h2>}
+                  {bannerOne.description && <p>{bannerOne.description}</p>}
+                  {bannerOne.button_text && (
+                    <a href={bannerOne.button_url || "#products"}>
+                      {bannerOne.button_text}
+                      <Icon name="arrow" />
+                    </a>
+                  )}
+                </div>
+              )}
           </section>
         )}
 
@@ -652,18 +721,18 @@ export default function StorefrontClient({
               bannerTwo.title ||
               bannerTwo.description ||
               bannerTwo.button_text) && (
-              <div className="shop-banner-copy">
-                {bannerTwo.eyebrow && <small>{bannerTwo.eyebrow}</small>}
-                {bannerTwo.title && <h2>{bannerTwo.title}</h2>}
-                {bannerTwo.description && <p>{bannerTwo.description}</p>}
-                {bannerTwo.button_text && (
-                  <a href={bannerTwo.button_url || "#products"}>
-                    {bannerTwo.button_text}
-                    <Icon name="arrow" />
-                  </a>
-                )}
-              </div>
-            )}
+                <div className="shop-banner-copy">
+                  {bannerTwo.eyebrow && <small>{bannerTwo.eyebrow}</small>}
+                  {bannerTwo.title && <h2>{bannerTwo.title}</h2>}
+                  {bannerTwo.description && <p>{bannerTwo.description}</p>}
+                  {bannerTwo.button_text && (
+                    <a href={bannerTwo.button_url || "#products"}>
+                      {bannerTwo.button_text}
+                      <Icon name="arrow" />
+                    </a>
+                  )}
+                </div>
+              )}
           </section>
         )}
 
@@ -706,7 +775,26 @@ export default function StorefrontClient({
                 {"★".repeat(currentFeedback.rating)}
                 {"☆".repeat(5 - currentFeedback.rating)}
               </div>
-              <p>“{currentFeedback.feedback}”</p>
+              <p>
+                {currentFeedback.feedback.length > 180 ? (
+                  <>
+                    “
+                    {showMore
+                      ? currentFeedback.feedback
+                      : `${currentFeedback.feedback.slice(0, 180)}...`}
+                    ”
+
+                    <button
+                      className="review-read-more"
+                      onClick={() => setShowMore(!showMore)}
+                    >
+                      {showMore ? "Read Less" : "Read More"}
+                    </button>
+                  </>
+                ) : (
+                  <>“{currentFeedback.feedback}”</>
+                )}
+              </p>
               <footer>
                 {currentFeedback.avatar_url ? (
                   <img

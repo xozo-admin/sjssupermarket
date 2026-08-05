@@ -1,1 +1,140 @@
-.product-search-wrap{min-width:270px;max-width:590px;flex:1;margin-left:auto;position:relative}.product-search-wrap .shop-search{width:100%;max-width:none;margin:0}.product-search-suggestions{position:absolute;z-index:90;top:calc(100% + 7px);left:0;right:0;padding:6px;border:1px solid #e0e8e4;border-radius:10px;background:#fff;box-shadow:0 16px 38px rgba(17,35,25,.15);overflow:hidden}.product-search-suggestions>button:not(.product-search-all){width:100%;min-height:55px;padding:6px 8px;border:0;border-radius:7px;background:#fff;display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:9px;text-align:left;cursor:pointer}.product-search-suggestions>button:hover,.product-search-suggestions>button.active{background:#eff9f4}.product-search-suggestions img,.product-search-suggestions button>span{width:42px;height:42px;border-radius:6px;background:#f2f7f4;object-fit:contain;display:grid;place-items:center;color:#079653;font-weight:700}.product-search-suggestions button>div{min-width:0;display:grid;gap:3px}.product-search-suggestions strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#202c25;font-size:11.5px}.product-search-suggestions small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#748079;font-size:9.5px}.product-search-suggestions button>b{color:#079653;font-size:10px}.product-search-all{width:100%;height:34px;margin-top:4px;border:0;border-top:1px solid #edf1ef;background:#fff;color:#078a4e;font-size:10px;font-weight:650;cursor:pointer}.product-search-none{padding:22px;text-align:center;color:#7c8781;font-size:10.5px}@media(max-width:800px){.product-search-wrap{min-width:0;margin-left:auto}.product-search-suggestions{position:fixed;top:58px;left:12px;right:12px}}@media(max-width:520px){.product-search-wrap{display:none}}
+.product-search-wrap {
+    min-width: 270px;
+    max-width: 590px;
+    flex: 1;
+    margin-left: auto;
+    position: relative;
+}
+
+.product-search-wrap .shop-search {
+    width: 100%;
+    max-width: 430px;
+    margin: 0
+}
+
+.product-search-suggestions {
+    position: absolute;
+    z-index: 80;
+    top: calc(100% + 7px);
+    left: 0;
+    right: 0;
+    padding: 6px;
+    border: 1px solid #e0e8e4;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 16px 38px rgba(17, 35, 25, .15);
+    max-height: 380px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+.product-search-suggestions>button:not(.product-search-all) {
+    width: 100%;
+    min-height: 55px;
+    padding: 6px 8px;
+    border: 0;
+    border-radius: 7px;
+    background: #fff;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+    cursor: pointer
+}
+
+.product-search-suggestions>button:hover,
+.product-search-suggestions>button.active {
+    background: #eff9f4
+}
+
+.product-search-suggestions img,
+.product-search-suggestions button>span {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: #f2f7f4;
+    object-fit: contain;
+    display: grid;
+    place-items: center;
+    color: #079653;
+    font-weight: 700
+}
+
+.product-search-suggestions button>div {
+    min-width: 0;
+    display: grid;
+    gap: 3px
+}
+
+.product-search-suggestions strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #202c25;
+    font-size: 11.5px
+}
+
+.product-search-suggestions small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #748079;
+    font-size: 9.5px
+}
+
+.product-search-suggestions button>b {
+    color: #079653;
+    font-size: 10px
+}
+
+.product-search-suggestions::-webkit-scrollbar {
+    width: 0;
+}
+
+.product-search-all {
+    width: 100%;
+    height: 34px;
+    margin-top: 4px;
+    border: 0;
+    border-top: 1px solid #edf1ef;
+    background: #fff;
+    color: #078a4e;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer
+}
+
+.product-search-none {
+    padding: 22px;
+    text-align: center;
+    color: #7c8781;
+    font-size: 10.5px
+}
+
+@media(max-width:800px) {
+    .product-search-wrap {
+        min-width: 0;
+        margin-left: auto
+    }
+
+   .product-search-suggestions {
+        position: fixed;
+        top: 72px;
+        left: 12px;
+        right: 12px;
+
+        max-height: 55vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        border-radius: 14px;
+    }
+}
+
+@media(max-width:520px) {
+    .product-search-wrap {
+        display: none
+    }
+}

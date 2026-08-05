@@ -17,6 +17,7 @@ const initial: ShippingZoneInput = {
 
 export default function ShippingZoneManager() {
   const [form, setForm] = useState(initial);
+  const [originalForm, setOriginalForm] = useState(initial);
   const [mapOpen, setMapOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -24,7 +25,10 @@ export default function ShippingZoneManager() {
 
   useEffect(() => {
     void shippingZoneApi.get()
-      .then((zone) => setForm(zone))
+      .then((zone) => {
+        setForm(zone);
+        setOriginalForm(zone);
+      })
       .catch((error: Error) => setMessage(error.message))
       .finally(() => setLoading(false));
   }, []);
@@ -47,6 +51,7 @@ export default function ShippingZoneManager() {
     try {
       const saved = await shippingZoneApi.save(form);
       setForm(saved);
+      setOriginalForm(saved);
       setMessage("Shipping zone saved successfully.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not save shipping zone.");
@@ -55,11 +60,20 @@ export default function ShippingZoneManager() {
     }
   };
 
+  const hasChanges =
+  form.store_name !== originalForm.store_name ||
+  form.store_address !== originalForm.store_address ||
+  form.latitude !== originalForm.latitude ||
+  form.longitude !== originalForm.longitude ||
+  form.radius_km !== originalForm.radius_km ||
+  form.delivery_fee !== originalForm.delivery_fee ||
+  form.enabled !== originalForm.enabled;
+
   return (
     <div className="shipping-zone-admin">
       <header>
         <div><p>Admin panel</p><h1>Shipping Zones</h1><span>Set the supermarket location and delivery coverage range.</span></div>
-        <button disabled={loading || saving} onClick={() => void save()}><Save />{saving ? "Saving..." : "Save settings"}</button>
+        <button disabled={loading || saving || !hasChanges} onClick={() => void save()}><Save />{saving ? "Saving..." : "Save settings"}</button>
       </header>
 
       <div className="shipping-zone-layout">

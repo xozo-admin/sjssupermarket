@@ -53,6 +53,7 @@ export default function PosManager() {
   const searchRef = useRef<HTMLInputElement>(null);
   const customerRef = useRef<HTMLInputElement>(null);
   const discountRef = useRef<HTMLInputElement>(null);
+  const selectedItemRef = useRef<HTMLDivElement | null>(null);
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState<PosProduct[]>([]);
   const [cart, setCart] = useState<CartLine[]>([]);
@@ -107,19 +108,29 @@ export default function PosManager() {
   }, [loadProducts, query]);
 
   const addProduct = useCallback((product: PosProduct) => {
-    if (!product.is_active || product.stock_status !== "in_stock" || product.inventory_qty < 1) {
+    if (
+      !product.is_active ||
+      product.stock_status !== "in_stock" ||
+      product.inventory_qty < 1
+    ) {
       notify.warning(`${product.name} is currently unavailable`);
       return;
     }
     setCart((current) => {
-      const existing = current.find((line) => line.product.id === product.id);
+      const existing = current.find(
+        (line) => line.product.id === product.id
+      );
       if (existing) {
         if (existing.quantity >= product.inventory_qty) {
-          notify.warning(`Only ${product.inventory_qty} ${product.unit} available`);
+          notify.warning(
+            `Only ${product.inventory_qty} ${product.unit} available`
+          );
           return current;
         }
         return current.map((line) =>
-          line.product.id === product.id ? { ...line, quantity: line.quantity + 1 } : line,
+          line.product.id === product.id
+            ? { ...line, quantity: line.quantity + 1 }
+            : line
         );
       }
       return [...current, { product, quantity: 1 }];
@@ -130,17 +141,21 @@ export default function PosManager() {
   }, []);
 
   const quantity = (id: string, change: number) => {
+    setSelectedId(id);
     setCart((current) =>
       current
         .map((line) =>
           line.product.id === id
             ? {
-                ...line,
-                quantity: Math.min(line.product.inventory_qty, Math.max(0, line.quantity + change)),
-              }
-            : line,
+              ...line,
+              quantity: Math.min(
+                line.product.inventory_qty,
+                Math.max(0, line.quantity + change)
+              ),
+            }
+            : line
         )
-        .filter((line) => line.quantity > 0),
+        .filter((line) => line.quantity > 0)
     );
   };
 
@@ -194,7 +209,7 @@ export default function PosManager() {
     } catch (reason) {
       notify.error(reason, "Could not hold bill");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart, customerName, customerMobile, discountType, discountValue, notes]);
 
   const openHolds = useCallback(async () => {
@@ -299,6 +314,15 @@ export default function PosManager() {
     else notify.info("Select a matching product");
   };
 
+ useEffect(() => {
+    if (selectedItemRef.current) {
+        selectedItemRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }
+}, [selectedId]);
+
   return (
     <div className="pos-page" ref={pageRef}>
       <header className="pos-topbar">
@@ -310,7 +334,7 @@ export default function PosManager() {
 
       <section className="pos-workspace">
         <div className="pos-products-panel">
-          <label className="pos-search"><Barcode /><input ref={searchRef} autoFocus value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => void scan(event)} placeholder="Scan barcode or search product..."/><kbd>F2</kbd></label>
+          <label className="pos-search"><Barcode /><input ref={searchRef} autoFocus value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => void scan(event)} placeholder="Scan barcode or search product..." /><kbd>F2</kbd></label>
           <div className="pos-result-header"><span>{loading ? "Searching..." : `${products.length} products`}</span><small>Press Enter to add exact barcode</small></div>
           <div className="pos-product-grid">
             {products.map((product) => (
@@ -327,26 +351,67 @@ export default function PosManager() {
         <aside className="pos-cart-panel">
           <header><div><ShoppingCart /><b>Current bill</b><span>{itemCount} items</span></div><button disabled={!cart.length} onClick={resetBill}><Trash2 />Clear</button></header>
           <div className="pos-customer">
-            <label><UserRound /><input ref={customerRef} value={customerName} onChange={(event) => setCustomerName(event.target.value)} placeholder="Customer name (optional)"/><kbd>F4</kbd></label>
-            <input value={customerMobile} onChange={(event) => setCustomerMobile(event.target.value.replace(/[^\d+]/g, ""))} placeholder="Mobile number"/>
+            <label><UserRound /><input ref={customerRef} value={customerName} onChange={(event) => setCustomerName(event.target.value)} placeholder="Customer name (optional)" /><kbd>F4</kbd></label>
+            <input value={customerMobile} onChange={(event) => setCustomerMobile(event.target.value.replace(/[^\d+]/g, ""))} placeholder="Mobile number" />
           </div>
           <div className="pos-cart-lines">
             {cart.map((line, index) => (
-              <article key={line.product.id} className={selectedId === line.product.id ? "selected" : ""} onClick={() => setSelectedId(line.product.id)}>
-                <span>{index + 1}</span><div><b>{line.product.name}</b><small>{currency(line.product.selling_price)} / {line.product.unit}</small></div>
-                <div className="pos-qty"><button onClick={() => quantity(line.product.id, -1)}><Minus /></button><strong>{line.quantity}</strong><button onClick={() => quantity(line.product.id, 1)}><Plus /></button></div>
+              <article
+                key={line.product.id}
+                ref={selectedId === line.product.id ? selectedItemRef : null}
+                className={selectedId === line.product.id ? "selected" : ""}
+                onClick={() => setSelectedId(line.product.id)}
+              >
+                <span>{index + 1}</span>
+
+                <div>
+                  <b>{line.product.name}</b>
+                  <small>
+                    {currency(line.product.selling_price)} / {line.product.unit}
+                  </small>
+                </div>
+
+                <div className="pos-qty">
+                  <button onClick={() => quantity(line.product.id, -1)}>
+                    <Minus />
+                  </button>
+
+                  <strong>{line.quantity}</strong>
+
+                  <button onClick={() => quantity(line.product.id, 1)}>
+                    <Plus />
+                  </button>
+                </div>
+
                 <b>{currency(Number(line.product.selling_price) * line.quantity)}</b>
-                <button className="pos-remove" onClick={() => setCart((current) => current.filter((item) => item.product.id !== line.product.id))}><X /></button>
+
+                <button
+                  className="pos-remove"
+                  onClick={() =>
+                    setCart((current) =>
+                      current.filter((item) => item.product.id !== line.product.id)
+                    )
+                  }
+                >
+                  <X />
+                </button>
               </article>
             ))}
-            {!cart.length && <div className="pos-empty-cart"><ShoppingCart /><h3>Your bill is empty</h3><p>Scan a barcode or select products to begin billing.</p></div>}
+
+            {!cart.length && (
+              <div className="pos-empty-cart">
+                <ShoppingCart />
+                <h3>Your bill is empty</h3>
+                <p>Scan a barcode or select products to begin billing.</p>
+              </div>
+            )}
           </div>
           <div className="pos-discount-row">
             <select value={discountType} onChange={(event) => setDiscountType(event.target.value as "fixed" | "percent")}><option value="fixed">Discount ₹</option><option value="percent">Discount %</option></select>
-            <input ref={discountRef} type="number" min="0" max={discountType === "percent" ? 100 : subtotal} value={discountValue || ""} onChange={(event) => setDiscountValue(Math.max(0, Number(event.target.value)))} placeholder="0"/><kbd>F6</kbd>
+            <input ref={discountRef} type="number" min="0" max={discountType === "percent" ? 100 : subtotal} value={discountValue || ""} onChange={(event) => setDiscountValue(Math.max(0, Number(event.target.value)))} placeholder="0" /><kbd>F6</kbd>
           </div>
           <div className="pos-totals"><div><span>Subtotal</span><b>{currency(subtotal)}</b></div><div><span>Discount</span><b className="discount">− {currency(discount)}</b></div><div><span>Tax included</span><b>{currency(tax)}</b></div><div className="grand"><span>Total payable</span><b>{currency(total)}</b></div></div>
-          <textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Bill note (optional)" rows={2}/>
+          <textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Bill note (optional)" rows={2} />
           {resumedHoldId && <div className="pos-resumed"><Clock3 />Resumed held bill</div>}
           <footer className="pos-actions">
             <button disabled={!cart.length} onClick={() => void holdBill()}><Pause />Hold <kbd>F8</kbd></button>
@@ -385,8 +450,8 @@ export default function PosManager() {
           if (resumedHoldId) await posApi.deleteHold(resumedHoldId).catch(() => undefined);
           setLastSale(sale); setModal(null); resetBill(); notify.success(`${sale.invoice_number} completed`); printReceipt(sale);
         } catch (reason) { notify.error(reason, "Could not complete the sale"); }
-      }}/>}
-      {(modal === "holds" || modal === "sales") && <SaleDrawer title={modal === "holds" ? "Held bills" : "Recent sales"} sales={modal === "holds" ? heldBills : recentSales} onClose={() => setModal(null)} onResume={modal === "holds" ? resume : undefined} onPrint={printReceipt}/>}
+      }} />}
+      {(modal === "holds" || modal === "sales") && <SaleDrawer title={modal === "holds" ? "Held bills" : "Recent sales"} sales={modal === "holds" ? heldBills : recentSales} onClose={() => setModal(null)} onResume={modal === "holds" ? resume : undefined} onPrint={printReceipt} />}
     </div>
   );
 }
@@ -397,9 +462,9 @@ function PaymentModal({ total, onClose, onComplete }: { total: number; onClose: 
   const [busy, setBusy] = useState(false);
   const methods = [{ id: "cash", label: "Cash", icon: Banknote }, { id: "razorpay", label: "Razorpay", icon: CreditCard }] as const;
   const submit = async () => { setBusy(true); try { await onComplete(method, method === "cash" ? tendered : total); } finally { setBusy(false); } };
-  return <div className="pos-modal-backdrop"><section className="pos-payment-modal"><header><div><small>AMOUNT DUE</small><h2>{currency(total)}</h2></div><button onClick={onClose}><X /></button></header><div className="pos-payment-methods" style={{gridTemplateColumns:"repeat(2, minmax(0, 1fr))"}}>{methods.map(({id,label,icon:Icon})=><button key={id} className={method===id?"active":""} onClick={()=>{setMethod(id);setTendered(total)}}><Icon/><b>{label}</b></button>)}</div>{method==="cash"&&<div className="pos-cash"><label>Cash received<input autoFocus type="number" min={total} value={tendered} onChange={event=>setTendered(Number(event.target.value))}/></label><div>{[total,Math.ceil(total/50)*50,Math.ceil(total/100)*100,500,1000].filter((value,index,array)=>value>=total&&array.indexOf(value)===index).map(value=><button key={value} onClick={()=>setTendered(value)}>{currency(value)}</button>)}</div><p>Change due <strong>{currency(Math.max(0,tendered-total))}</strong></p></div>}<footer><button onClick={onClose}>Cancel</button><button className="complete" disabled={busy||(method==="cash"&&tendered<total)} onClick={()=>void submit()}>{busy?"Processing...":`Complete ${method.toUpperCase()} payment`}</button></footer></section></div>;
+  return <div className="pos-modal-backdrop"><section className="pos-payment-modal"><header><div><small>AMOUNT DUE</small><h2>{currency(total)}</h2></div><button onClick={onClose}><X /></button></header><div className="pos-payment-methods" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>{methods.map(({ id, label, icon: Icon }) => <button key={id} className={method === id ? "active" : ""} onClick={() => { setMethod(id); setTendered(total) }}><Icon /><b>{label}</b></button>)}</div>{method === "cash" && <div className="pos-cash"><label>Cash received<input autoFocus type="number" min={total} value={tendered} onChange={event => setTendered(Number(event.target.value))} /></label><div>{[total, Math.ceil(total / 50) * 50, Math.ceil(total / 100) * 100, 500, 1000].filter((value, index, array) => value >= total && array.indexOf(value) === index).map(value => <button key={value} onClick={() => setTendered(value)}>{currency(value)}</button>)}</div><p>Change due <strong>{currency(Math.max(0, tendered - total))}</strong></p></div>}<footer><button onClick={onClose}>Cancel</button><button className="complete" disabled={busy || (method === "cash" && tendered < total)} onClick={() => void submit()}>{busy ? "Processing..." : `Complete ${method.toUpperCase()} payment`}</button></footer></section></div>;
 }
 
 function SaleDrawer({ title, sales, onClose, onResume, onPrint }: { title: string; sales: PosSale[]; onClose: () => void; onResume?: (sale: PosSale) => void; onPrint: (sale: PosSale) => void }) {
-  return <div className="pos-modal-backdrop drawer-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)onClose()}}><aside className="pos-sale-drawer"><header><div><small>POS BILLING</small><h2>{title}</h2></div><button onClick={onClose}><X/></button></header><div>{sales.map(sale=><article key={sale.id}><div><b>{sale.invoice_number}</b><small>{new Date(sale.created_at).toLocaleString("en-IN")} · {sale.item_count} items</small><span>{sale.customer_name||"Walk-in customer"} {sale.customer_mobile||""}</span></div><strong>{currency(sale.total)}</strong><footer>{onResume&&<button onClick={()=>onResume(sale)}>Resume</button>}<button onClick={()=>onPrint(sale)}><Printer/>Print</button></footer></article>)}{!sales.length&&<div className="pos-drawer-empty"><ReceiptText/><b>No bills found</b></div>}</div></aside></div>;
+  return <div className="pos-modal-backdrop drawer-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}><aside className="pos-sale-drawer"><header><div><small>POS BILLING</small><h2>{title}</h2></div><button onClick={onClose}><X /></button></header><div>{sales.map(sale => <article key={sale.id}><div><b>{sale.invoice_number}</b><small>{new Date(sale.created_at).toLocaleString("en-IN")} · {sale.item_count} items</small><span>{sale.customer_name || "Walk-in customer"} {sale.customer_mobile || ""}</span></div><strong>{currency(sale.total)}</strong><footer>{onResume && <button onClick={() => onResume(sale)}>Resume</button>}<button onClick={() => onPrint(sale)}><Printer />Print</button></footer></article>)}{!sales.length && <div className="pos-drawer-empty"><ReceiptText /><b>No bills found</b></div>}</div></aside></div>;
 }

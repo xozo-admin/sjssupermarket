@@ -151,8 +151,8 @@ export default function ProductsPage() {
         if (selectedCategory?.parent_id) {
           selectedSub = selectedCategory.name;
           selectedMain = categoryResult.items.find(
-              (item) => item.id === selectedCategory.parent_id,
-            )?.name || "";
+            (item) => item.id === selectedCategory.parent_id,
+          )?.name || "";
         } else if (selectedCategory) selectedMain = selectedCategory.name;
         setMainCategory(selectedMain);
         setSubCategory(selectedSub);
@@ -287,11 +287,11 @@ export default function ProductsPage() {
               ? Number(b.selling_price) - Number(a.selling_price)
               : sort === "newest"
                 ? new Date(b.created_at).getTime() -
-                  new Date(a.created_at).getTime()
+                new Date(a.created_at).getTime()
                 : sort === "deals"
                   ? (Number(b.mrp) - Number(b.selling_price)) / Math.max(Number(b.mrp), 1) -
-                    (Number(a.mrp) - Number(a.selling_price)) / Math.max(Number(a.mrp), 1)
-                : Number(b.featured_score) - Number(a.featured_score),
+                  (Number(a.mrp) - Number(a.selling_price)) / Math.max(Number(a.mrp), 1)
+                  : Number(b.featured_score) - Number(a.featured_score),
         ),
     [
       products,
@@ -320,6 +320,14 @@ export default function ProductsPage() {
     setPage(1);
   };
 
+  const hasActiveFilters =
+    !!mainCategory ||
+    !!subCategory ||
+    brands.length > 0 ||
+    minimumRating > 0 ||
+    !!minimumPrice ||
+    !!maximumPrice;
+
   if (loading) return <StorefrontLoader />;
 
   return (
@@ -346,9 +354,14 @@ export default function ProductsPage() {
             <h2>Filters</h2>
             <button onClick={() => setMobileFilters(false)}>×</button>
           </header>
-          <button className="clear-filters" onClick={resetFilters}>
-            Clear all
-          </button>
+          {hasActiveFilters && (
+            <button
+              className="clear-filters"
+              onClick={resetFilters}
+            >
+              Clear all
+            </button>
+          )}
           <section>
             <h3>Main Category</h3>
             <select
@@ -583,7 +596,27 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div className="products-list-empty">
-              No products match these filters.
+              <h2>No products match these filters.</h2>
+
+              <p>
+                Try changing your filters or search keywords to find more products.
+              </p>
+
+              <div className="products-empty-actions">
+                <button
+                  className="clear-filters-btn"
+                  onClick={resetFilters}
+                >
+                  Clear Filters
+                </button>
+
+                <Link
+                  href="/"
+                  className="browse-products-btn"
+                >
+                  Continue Shopping
+                </Link>
+              </div>
             </div>
           )}
           {categoryMode && <div ref={loadMoreRef} className="products-infinite-status">{loadingMore ? "Loading more products..." : products.length < catalogTotal ? "Scroll for more products" : `All ${catalogTotal} products loaded`}</div>}
