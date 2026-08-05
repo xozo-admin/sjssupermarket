@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import type { Category } from "../features/categories/types";
 
 const fallbackCategories = [
@@ -19,9 +20,8 @@ const fallbackCategories = [
 export default function CategoryMegaNav({ categories }: { categories: Category[] }) {
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
   const [overflowOpen, setOverflowOpen] = useState(false);
+  const pathname = usePathname();
   const mainCategories = categories.filter((item) => !item.parent_id);
-  // const visibleCategories = mainCategories.slice(0, 6);
-  // const overflowCategories = mainCategories.slice(6);
 
   const isTablet =
     typeof window !== "undefined" && window.innerWidth <= 1024;
@@ -46,6 +46,14 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
 
   return (
     <div className="shop-category-strip category-mega-nav">
+      <div className="category-nav-item">
+        <Link
+          href="/"
+          className={`category-nav-trigger ${pathname === "/" ? "active" : ""}`}
+        >
+          Home
+        </Link>
+      </div>
       {visibleCategories.map((parent) => {
         const children = categories.filter((item) => item.parent_id === parent.id);
 

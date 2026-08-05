@@ -203,6 +203,11 @@
     white-space: nowrap
 }
 
+.category-nav-trigger.active {
+    color: #16a34a;
+    font-weight: 600;
+}
+
 .shop-hero {
     min-height: 515px;
     background: linear-gradient(112deg, #f2ffe0 0, #fff 25%, #fff 71%, #eefcf5 100%);
