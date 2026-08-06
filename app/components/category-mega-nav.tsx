@@ -46,14 +46,14 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
 
   return (
     <div className="shop-category-strip category-mega-nav">
-      <div className="category-nav-item">
+      {/* <div className="category-nav-item">
         <Link
           href="/"
           className={`category-nav-trigger ${pathname === "/" ? "active" : ""}`}
         >
           Home
         </Link>
-      </div>
+      </div> */}
       {visibleCategories.map((parent) => {
         const children = categories.filter((item) => item.parent_id === parent.id);
 

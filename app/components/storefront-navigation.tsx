@@ -20,9 +20,28 @@ import StorefrontAuthModal from "./storefront-auth-modal";
 function Icon({
   name,
 }: {
-  name: "heart" | "bag" | "orders" | "bell" | "user";
+  name: "home" | "heart" | "bag" | "orders" | "bell" | "user";
 }) {
   const paths = {
+    home: (
+     <>
+    <path
+      d="M4 10L12 4L20 10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 10V20H18V10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M10 20V14H14V20"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </>
+    ),
     heart: (
       <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z" />
     ),
@@ -80,17 +99,17 @@ export default function StorefrontNavigation() {
   const isAdmin = pathname.startsWith("/admin");
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
   const openProfile = () => {
-  if (closeTimer.current) {
-    clearTimeout(closeTimer.current);
-  }
-  setProfileOpen(true);
-};
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+    setProfileOpen(true);
+  };
 
-const closeProfile = () => {
-  closeTimer.current = setTimeout(() => {
-    setProfileOpen(false);
-  }, 250); // adjust 200–300 ms as desired
-};
+  const closeProfile = () => {
+    closeTimer.current = setTimeout(() => {
+      setProfileOpen(false);
+    }, 250); // adjust 200–300 ms as desired
+  };
 
   useEffect(() => {
     if (!isAdmin)
@@ -153,7 +172,15 @@ const closeProfile = () => {
               </div>
             </Link>
             <ProductSearch value={search} onChange={setSearch} shortcut />
+
             <div className="shop-tools">
+              <Link
+                href="/"
+                className={`global-home-link ${pathname === "/" ? "active" : ""}`}
+              >
+                <Icon name="home" />
+                <span>Home</span>
+              </Link>
               <Link
                 className="global-wishlist-link"
                 href="/wishlist"

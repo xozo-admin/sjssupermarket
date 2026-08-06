@@ -1,12 +1,10 @@
-.product-search-wrap {
-    min-width: 270px;
-    max-width: 590px;
-    flex: 1;
-    margin-left: auto;
-    position: relative;
+.product-search-wrap{
+    flex:1 1 auto;
+    min-width:0;
+    margin:0 20px;
 }
 
-.product-search-wrap .shop-search {
+.shop-search {
     width: 100%;
     max-width: 430px;
     margin: 0

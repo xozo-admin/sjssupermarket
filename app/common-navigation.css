@@ -364,30 +364,6 @@ body:has(.global-storefront-navigation) main.storefront > .shop-header {
   transform: translateY(1px);
 }
 
-@media (min-width: 1151px) {
-  .global-storefront-navigation .shop-nav {
-    position: relative;
-  }
-
-  .storefront .product-search-wrap {
-    position: absolute;
-    left: 50%;
-    width: min(600px, 40vw);
-    max-width: 600px;
-    margin-left: 0;
-    transform: translateX(-50%);
-  }
-
-  .global-storefront-navigation .product-search-wrap .shop-search {
-    width: 100%;
-    max-width: none;
-  }
-
-  .global-storefront-navigation .shop-tools {
-    margin-left: auto;
-  }
-}
-
 .storefront .shop-logo > span {
   width: 42px;
   height: 42px;
