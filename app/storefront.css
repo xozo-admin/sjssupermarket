@@ -71,11 +71,12 @@
     color: var(--shop-green);
 }
 
-.global-home-link.active  {
+.global-home-link.active {
     color: var(--shop-green);
     border-bottom: 2px solid var(--shop-green);
     background: transparent;
 }
+
 
 .shop-logo {
     display: flex;
@@ -1318,9 +1319,9 @@
         flex: 0 0 auto;
     }
 
-     .global-home-link {
-    display: none !important;
-  }
+    .global-home-link {
+        display: none !important;
+    }
 
 }
 
