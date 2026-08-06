@@ -97,7 +97,7 @@ function StoreLogo() {
   return (
     <Link className="shop-logo" href="/">
       <span>
-        <img src="/app_.jpeg" alt="SJS Super Market" />
+        <img src="/app_logo.jpeg" alt="SJS Super Market" />
       </span>
       <div>
         <b>SJS</b>
