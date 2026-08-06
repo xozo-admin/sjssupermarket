@@ -46,37 +46,6 @@
     padding: 0 21px;
 }
 
-.global-home-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #222;
-    text-decoration: none;
-    background: transparent;
-    border-radius: 0;
-    padding: 8px 0;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.global-home-link svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--shop-green) !important;
-    fill: none !important;
-    stroke-width: 2px !important;
-}
-
-.global-home-link:hover {
-    color: var(--shop-green);
-}
-
-.global-home-link.active {
-    color: var(--shop-green);
-    border-bottom: 2px solid var(--shop-green);
-    background: transparent;
-}
-
 
 .shop-logo {
     display: flex;
@@ -236,6 +205,37 @@
     fill: none;
     stroke: #fff;
     stroke-width: 1.8
+}
+
+.global-home-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #222;
+    text-decoration: none;
+    background: transparent;
+    border-radius: 0;
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.global-home-link svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor !important;
+    fill: none !important;
+    stroke-width: 2px !important;
+}
+
+.global-home-link:hover {
+    color: #276221
+}
+
+.global-home-link.active {
+    color: var(--shop-green);
+    border-bottom: 2px solid var(--shop-green);
+    background: transparent;
 }
 
 .shop-mobile-menu {
@@ -1318,10 +1318,10 @@
     .category-nav-item {
         flex: 0 0 auto;
     }
-
+/* 
     .global-home-link {
         display: none !important;
-    }
+    } */
 
 }
 
@@ -1958,7 +1958,7 @@
     .product-search-wrap {
         flex: 1 1 auto;
         min-width: 260px;
-        max-width: 450px;
+        max-width: 500px;
         margin: 0;
     }
 
@@ -1983,4 +1983,49 @@
     .global-user-button {
         flex: 0 0 auto;
     }
+}
+
+@media (max-width:1024px) {
+
+  .global-home-link{
+    padding:8px 10px;
+    gap:5px;
+    font-size:14px;
+  }
+
+  .global-home-link svg{
+    width:20px;
+    height:20px;
+  }
+
+  .global-home-link.active{
+    border-bottom:2px solid var(--shop-green);
+  }
+
+}
+
+@media (max-width:768px){
+
+  .global-home-link{
+    padding: 4px;
+    gap:0;
+    justify-content:center;
+    border-bottom:none;
+  }
+
+  .global-home-link span{
+    display:none;     
+  }
+
+  .global-home-link svg{
+    width:22px;
+    height:22px;
+  }
+
+  .global-home-link.active{
+    color:var(--shop-green);
+    background:rgba(39,98,33,.08);
+    border-radius:50%;
+  }
+
 }

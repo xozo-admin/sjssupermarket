@@ -299,9 +299,9 @@ export default function StorefrontNavigation() {
                   <ChevronDown />
                 </button>
               )}
-            </div> {/* shop-tools */}
+            </div>
 
-          </div> {/* shop-nav */}
+          </div> 
 
           <CategoryMegaNav categories={categories} />
         </header>

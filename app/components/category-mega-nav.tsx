@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import type { Category } from "../features/categories/types";
 
@@ -23,8 +23,19 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
   const pathname = usePathname();
   const mainCategories = categories.filter((item) => !item.parent_id);
 
-  const isTablet =
-    typeof window !== "undefined" && window.innerWidth <= 1024;
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setIsTablet(window.innerWidth <= 1024);
+    };
+
+    update();
+
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
+  }, []);
   const visibleCategories = isTablet
     ? mainCategories.slice(0, 4)
     : mainCategories.slice(0, 6);
