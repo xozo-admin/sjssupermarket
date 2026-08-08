@@ -413,7 +413,8 @@
 }
 
 .shop-feedback-slider>article {
-  width: 100%;
+  width: min(1100px, 100%);
+  margin: 0 auto;
   min-height: 190px;
   padding: 26px 30px;
   border: 1px solid #e8eeeb;

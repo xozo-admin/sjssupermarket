@@ -20,27 +20,27 @@ import StorefrontAuthModal from "./storefront-auth-modal";
 function Icon({
   name,
 }: {
-  name: "home" | "heart" | "bag" | "orders" | "bell" | "user";
+  name: "home" | "heart" | "bag" | "orders" | "bell" | "user" | "dashboard";
 }) {
   const paths = {
     home: (
-     <>
-    <path
-      d="M4 10L12 4L20 10"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M6 10V20H18V10"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M10 20V14H14V20"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </>
+      <>
+        <path
+          d="M4 10L12 4L20 10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6 10V20H18V10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 20V14H14V20"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
     ),
     heart: (
       <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z" />
@@ -69,6 +69,14 @@ function Icon({
         <circle cx="12" cy="12" r="10" />
         <circle cx="12" cy="9" r="3" />
         <path d="M6.8 19a5.5 5.5 0 0 1 10.4 0" />
+      </>
+    ),
+    dashboard: (
+      <>
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="5" rx="1" />
+        <rect x="14" y="10" width="7" height="11" rx="1" />
+        <rect x="3" y="12" width="7" height="9" rx="1" />
       </>
     ),
   };
@@ -171,16 +179,18 @@ export default function StorefrontNavigation() {
                 <small>SUPER MARKET</small>
               </div>
             </Link>
+
+            <Link
+              href="/"
+              className={`global-home-link ${pathname === "/" ? "active" : ""}`}
+            >
+              <Icon name="home" />
+              <span>Home</span>
+            </Link>
             <ProductSearch value={search} onChange={setSearch} shortcut />
 
             <div className="shop-tools">
-              <Link
-                href="/"
-                className={`global-home-link ${pathname === "/" ? "active" : ""}`}
-              >
-                <Icon name="home" />
-                <span>Home</span>
-              </Link>
+
               <Link
                 className="global-wishlist-link"
                 href="/wishlist"
@@ -238,46 +248,86 @@ export default function StorefrontNavigation() {
                   </button>
 
                   {profileOpen && (
+                    // <section className="global-profile-card" role="menu">
+                    //   <header>
+                    //     <span>{user.name.slice(0, 1).toUpperCase()}</span>
+                    //     <div>
+                    //       <strong>{user.name}</strong>
+                    //       <small>{user.email}</small>
+                    //     </div>
+                    //   </header>
+
+                    //   <dl>
+                    //     <div>
+                    //       <dt>Role</dt>
+                    //       <dd>{user.role}</dd>
+                    //     </div>
+
+                    //     {user.mobile && (
+                    //       <div>
+                    //         <dt>Mobile</dt>
+                    //         <dd>{user.mobile}</dd>
+                    //       </div>
+                    //     )}
+
+                    //     {user.designation && (
+                    //       <div>
+                    //         <dt>Designation</dt>
+                    //         <dd>{user.designation}</dd>
+                    //       </div>
+                    //     )}
+                    //   </dl>
+
+                    // {user.role === "admin" && (
+                    //   <Link
+                    //     href="/admin/dashboard"
+                    //     onClick={() => setProfileOpen(false)}
+                    //   >
+                    //     Open admin dashboard
+                    //   </Link>
+                    //   )}
+
+                    //   <button
+                    //     onClick={() => {
+                    //       logout();
+                    //       setProfileOpen(false);
+                    //       window.location.href = "/";
+                    //     }}
+                    //   >
+                    //     Logout
+                    //   </button>
+                    // </section>
+
                     <section className="global-profile-card" role="menu">
-                      <header>
-                        <span>{user.name.slice(0, 1).toUpperCase()}</span>
-                        <div>
-                          <strong>{user.name}</strong>
-                          <small>{user.email}</small>
-                        </div>
-                      </header>
+                      <div className="profile-top">
+                        <h3>Hello {user.name}</h3>
+                        <p>{user.mobile || user.email}</p>
+                      </div>
 
-                      <dl>
-                        <div>
-                          <dt>Role</dt>
-                          <dd>{user.role}</dd>
-                        </div>
-
-                        {user.mobile && (
-                          <div>
-                            <dt>Mobile</dt>
-                            <dd>{user.mobile}</dd>
-                          </div>
-                        )}
-
-                        {user.designation && (
-                          <div>
-                            <dt>Designation</dt>
-                            <dd>{user.designation}</dd>
-                          </div>
-                        )}
-                      </dl>
-
-                      {user.role === "admin" && (
-                        <Link
-                          href="/admin/dashboard"
-                          onClick={() => setProfileOpen(false)}
-                        >
-                          Open admin dashboard
+                      <div className="profile-menu-items">
+                        <Link href="/orders">
+                          <Icon name="orders" />
+                          <span>Orders</span>
                         </Link>
-                      )}
+
+                        <Link href="/wishlist">
+                          <Icon name="heart" />
+                          <span>Wishlist</span>
+                        </Link>
+
+                        {user.role === "admin" && (
+                          <Link
+                            href="/admin/dashboard"
+                            onClick={() => setProfileOpen(false)}
+                          >
+                            <Icon name="dashboard" />
+                            <span>Admin Dashboard</span>
+                          </Link>
+                        )}
+                      </div>
 
                       <button
+                        className="logout-btn"
                         onClick={() => {
                           logout();
                           setProfileOpen(false);
@@ -301,7 +351,7 @@ export default function StorefrontNavigation() {
               )}
             </div>
 
-          </div> 
+          </div>
 
           <CategoryMegaNav categories={categories} />
         </header>
