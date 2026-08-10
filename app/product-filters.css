@@ -70,7 +70,7 @@
 }
 
 .filter-options-scroll {
-    max-height: 166px;
+    max-height: 240px;
     padding-right: 3px;
     display: grid;
     gap: 9px;

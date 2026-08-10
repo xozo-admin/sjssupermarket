@@ -1,6 +1,6 @@
 .products-results,
 .products-breadcrumb,
-.products-results > header {
+.products-results>header {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -20,7 +20,7 @@
   flex: 0 0 auto;
 }
 
-.products-top-row > header {
+.products-top-row>header {
   min-height: 0;
   padding: 0;
   border: 0;
@@ -28,7 +28,7 @@
   align-items: stretch;
 }
 
-.products-top-row > header nav {
+.products-top-row>header nav {
   margin: 0;
   align-self: stretch;
   display: flex;
@@ -37,8 +37,8 @@
   overflow-x: auto;
 }
 
-.products-top-row > header nav b,
-.products-top-row > header nav button {
+.products-top-row>header nav b,
+.products-top-row>header nav button {
   flex: 0 0 auto;
   padding: 0 0 10px;
   border: 0;
@@ -49,8 +49,16 @@
   cursor: pointer;
 }
 
-.products-top-row > header nav b { color: #252a28; font-weight: 600; }
-.products-top-row > header nav button.active { border-bottom: 2px solid #0aa35b; color: #0aa35b; font-weight: 600; }
+.products-top-row>header nav b {
+  color: #252a28;
+  font-weight: 600;
+}
+
+.products-top-row>header nav button.active {
+  border-bottom: 2px solid #0aa35b;
+  color: #0aa35b;
+  font-weight: 600;
+}
 
 .products-breadcrumb {
   gap: 8px;
@@ -65,14 +73,14 @@
   font-weight: 600;
 }
 
-.products-results > header h1 {
+.products-results>header h1 {
   color: #202523;
   font-size: 20px;
   font-weight: 600;
   line-height: 1.3;
 }
 
-.products-results > header {
+.products-results>header {
   min-height: 58px;
   padding: 7px 18px 0;
   display: flex;
@@ -81,7 +89,7 @@
   gap: 24px;
 }
 
-.products-results > header > div {
+.products-results>header>div {
   min-width: 0;
   padding-bottom: 10px;
   display: flex;
@@ -89,7 +97,7 @@
   gap: 10px;
 }
 
-.products-results > header nav {
+.products-results>header nav {
   margin-top: 0;
   align-self: stretch;
   display: flex;
@@ -97,24 +105,24 @@
   gap: 20px;
 }
 
-.products-results > header span {
+.products-results>header span {
   color: #777;
   font-size: 12px;
   font-weight: 400;
 }
 
-.products-results > header nav b,
-.products-results > header nav button {
+.products-results>header nav b,
+.products-results>header nav button {
   font-size: 12px;
   font-weight: 500;
 }
 
-.products-results > header nav b {
+.products-results>header nav b {
   color: #252a28;
   font-weight: 600;
 }
 
-.products-results > header nav button.active {
+.products-results>header nav button.active {
   font-weight: 600;
 }
 
@@ -129,13 +137,13 @@
     min-height: 24px;
   }
 
-  .products-results > header {
+  .products-results>header {
     align-items: flex-start;
     flex-direction: column;
     gap: 0;
   }
 
-  .products-results > header nav {
+  .products-results>header nav {
     width: 100%;
     min-height: 34px;
   }
@@ -164,7 +172,9 @@
   box-shadow: 0 10px 20px -10px rgb(24 50 40 / 35%);
 }
 
-.products-market-grid article:hover h2 { color: #1558d6; }
+.products-market-grid article:hover h2 {
+  color: #1558d6;
+}
 
 .market-image {
   height: 275px;
@@ -174,7 +184,7 @@
   background: #fff;
 }
 
-.market-image > img,
+.market-image>img,
 .market-image .product-no-image {
   width: 100%;
   height: 100%;
@@ -191,7 +201,11 @@
   color: #c4c7c6;
 }
 
-.market-heart svg { width: 19px; height: 19px; fill: currentColor; }
+.market-heart svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
 
 .market-sponsored {
   display: block;
@@ -200,7 +214,7 @@
   font-size: 11px;
 }
 
-.products-market-grid article > h2 {
+.products-market-grid article>h2 {
   margin: 0 0 8px;
   color: #171717;
   font-size: 13px;
@@ -243,7 +257,10 @@
   text-overflow: ellipsis;
 }
 
-.market-product-meta i { color: #bbb; font-style: normal; }
+.market-product-meta i {
+  color: #bbb;
+  font-style: normal;
+}
 
 .market-rating {
   min-height: 20px;
@@ -268,7 +285,10 @@
   stroke: #fff;
 }
 
-.market-rating small { color: #858585; font-size: 11px; }
+.market-rating small {
+  color: #858585;
+  font-size: 11px;
+}
 
 .market-rating b {
   gap: 3px;
@@ -290,12 +310,37 @@
   gap: 8px;
 }
 
-.market-price strong { color: #171717; font-size: 16px; font-weight: 700; }
-.market-price del { color: #999; font-size: 11px; }
-.market-price span { color: #178d36; font-size: 11px; font-weight: 700; }
-.market-price > b { margin-left: auto; font-size: 10px; font-weight: 600; white-space: nowrap; }
-.market-price .in-stock { color: #178d36; }
-.market-price .out-of-stock { color: #d33b4d; }
+.market-price strong {
+  color: #171717;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.market-price del {
+  color: #999;
+  font-size: 11px;
+}
+
+.market-price span {
+  color: #178d36;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.market-price>b {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.market-price .in-stock {
+  color: #178d36;
+}
+
+.market-price .out-of-stock {
+  color: #d33b4d;
+}
 
 .market-deal {
   width: max-content;
@@ -319,10 +364,22 @@
   gap: 8px;
 }
 
-.market-card-footer > b { font-size: 10px; font-weight: 600; }
-.market-card-footer .in-stock { color: #178d36; }
-.market-card-footer .out-of-stock { color: #d33b4d; }
-.market-card-footer .market-deal { margin-top: 0; }
+.market-card-footer>b {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.market-card-footer .in-stock {
+  color: #178d36;
+}
+
+.market-card-footer .out-of-stock {
+  color: #d33b4d;
+}
+
+.market-card-footer .market-deal {
+  margin-top: 0;
+}
 
 .products-market-grid .market-cart {
   height: 38px;
@@ -342,11 +399,32 @@
   transition: background .18s ease, color .18s ease;
 }
 
-.products-market-grid .market-cart:hover { background: #168352; color: #fff; }
-.products-market-grid .market-cart.in-cart { background: #168352; color: #fff; }
-.products-market-grid .market-cart.in-cart:hover { background: #106f43; }
-.products-market-grid .market-cart:disabled { border-color: #ecefed; background: transparent; color: #a5aca8; cursor: not-allowed; }
-.products-market-grid .market-cart svg { width: 15px; height: 15px; stroke-width: 2; }
+.products-market-grid .market-cart:hover {
+  background: #168352;
+  color: #fff;
+}
+
+.products-market-grid .market-cart.in-cart {
+  background: #168352;
+  color: #fff;
+}
+
+.products-market-grid .market-cart.in-cart:hover {
+  background: #106f43;
+}
+
+.products-market-grid .market-cart:disabled {
+  border-color: #ecefed;
+  background: transparent;
+  color: #a5aca8;
+  cursor: not-allowed;
+}
+
+.products-market-grid .market-cart svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2;
+}
 
 .products-list-layout {
   gap: 20px;
@@ -363,19 +441,19 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.products-filters > header {
+.products-filters>header {
   height: 52px;
   padding: 0 16px;
   border-bottom: 1px solid #ecefed;
 }
 
-.products-filters > header h2 {
+.products-filters>header h2 {
   color: #202523;
   font-size: 18px;
   font-weight: 600;
 }
 
-.products-filters > .clear-filters {
+.products-filters>.clear-filters {
   margin: 10px 16px 0;
   color: #168352;
   font-size: 13px;
@@ -388,7 +466,9 @@
   gap: 9px;
 }
 
-.products-filters section:last-child { border-bottom: 0; }
+.products-filters section:last-child {
+  border-bottom: 0;
+}
 
 .products-filters h3 {
   margin: 0 0 2px;
@@ -439,7 +519,9 @@
   height: 15px;
 }
 
-.rating-filter { gap: 7px; }
+.rating-filter {
+  gap: 7px;
+}
 
 .products-filters .rating-filter button {
   height: 32px;
@@ -461,11 +543,26 @@
   border-radius: 5px;
 }
 
-@media (max-width: 1250px) { .market-image { height: 235px; } }
+@media (max-width: 1250px) {
+  .market-image {
+    height: 235px;
+  }
+}
+
 @media (max-width: 600px) {
-  .products-market-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 12px; padding-inline: 12px; }
-  .market-image { height: 180px; }
-  .products-market-grid article > h2 { font-size: 12px; }
+  .products-market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 12px;
+    padding-inline: 12px;
+  }
+
+  .market-image {
+    height: 180px;
+  }
+
+  .products-market-grid article>h2 {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 800px) {
@@ -473,5 +570,44 @@
     position: fixed;
     top: 0;
     border-radius: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .products-market-grid article > h2,
+  .products-market-grid article > h2.market-product-name {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 34px;
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  .market-product-meta {
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+  }
+
+  .market-product-meta span {
+    line-height: 1.3;
+  }
+
+  .market-rating {
+    margin-top: 2px !important;
+  }
+
+  .market-price {
+    margin-top: 5px !important;
+  }
+
+  .market-card-footer {
+    margin-top: 7px !important;
+  }
+
+  .products-market-grid .market-cart {
+    margin-top: 7px !important;
   }
 }

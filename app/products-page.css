@@ -1,20 +1,29 @@
 .products-list-page {
-  background: #f8faf9
+  background: #f8faf9;
+  width: 100%;
+  overflow: visible !important
 }
 
 .products-list-layout {
   max-width: 1530px;
-  margin: auto;
+  margin: 0 auto;
   padding: 20px;
   display: grid;
   grid-template-columns: 245px minmax(0, 1fr);
-  gap: 18px
+  gap: 18px;
+  align-items: start;
 }
 
 .products-filters {
   border: 1px solid #e2e8e5;
   background: #fff;
-  align-self: start
+  position: sticky;
+  top: 90px;
+  align-self: start;
+  height: fit-content;
+  max-height: none;
+  overflow-y: visible;
+  z-index: 20
 }
 
 .products-filters>h2 {
@@ -68,7 +77,8 @@
 .products-results {
   min-width: 0;
   background: #fff;
-  border: 1px solid #e4eae7
+  border: 1px solid #e4eae7;
+  overflow: visible !important
 }
 
 .products-breadcrumb {
@@ -245,54 +255,54 @@
   color: #fff
 }
 
-.products-list-empty{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    min-height:420px;
+.products-list-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 420px;
 }
 
-.products-list-empty h2{
-    margin-bottom:10px;
-    font-size:28px;
-    font-weight:700;
+.products-list-empty h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.products-list-empty p{
-    color:#666;
-    margin-bottom:24px;
+.products-list-empty p {
+  color: #666;
+  margin-bottom: 24px;
 }
 
-.products-empty-actions{
-    display:flex;
-    gap:14px;
+.products-empty-actions {
+  display: flex;
+  gap: 14px;
 }
 
-.clear-filters-btn{
-    background:#16a34a;
-    color:#fff;
-    border:none;
-    padding:12px 22px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
+.clear-filters-btn {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.browse-products-btn{
-    background:#fff;
-    color:#16a34a;
-    border:1px solid #16a34a;
-    padding:12px 22px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:600;
+.browse-products-btn {
+  background: #fff;
+  color: #16a34a;
+  border: 1px solid #16a34a;
+  padding: 12px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.browse-products-btn:hover{
-    background:#16a34a;
-    color:#fff;
+.browse-products-btn:hover {
+  background: #16a34a;
+  color: #fff;
 }
 
 .products-pagination {
