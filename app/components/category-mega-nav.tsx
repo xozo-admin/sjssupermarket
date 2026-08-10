@@ -57,14 +57,6 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
 
   return (
     <div className="shop-category-strip category-mega-nav">
-      {/* <div className="category-nav-item">
-        <Link
-          href="/"
-          className={`category-nav-trigger ${pathname === "/" ? "active" : ""}`}
-        >
-          Home
-        </Link>
-      </div> */}
       {visibleCategories.map((parent) => {
         const children = categories.filter((item) => item.parent_id === parent.id);
 
@@ -74,7 +66,7 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
               className="category-nav-trigger"
               href={`/products?category=${encodeURIComponent(parent.name)}`}
               onClick={(event) => {
-                if (children.length > 0 && window.matchMedia("(max-width: 800px)").matches) {
+                if (children.length > 0 && window.matchMedia("(max-width: 1024px)").matches) {
                   event.preventDefault();
                   setOpenCategoryId((current) => current === parent.id ? null : parent.id);
                   setOverflowOpen(false);
@@ -102,6 +94,7 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
           </div>
         );
       })}
+      
       {overflowCategories.length > 0 && <div className={`category-overflow ${overflowOpen ? "open" : ""}`}>
         <button className="category-overflow-trigger" style={{ border: 0, background: "transparent", color: "#4d5766" }} type="button" aria-label="More categories">»</button>
         <div className="category-overflow-menu">
