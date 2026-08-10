@@ -206,34 +206,29 @@
   font-size: 13px;
   font-weight: 500;
   line-height: 1.5;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   height: auto;
 }
 
 .market-product-name {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   color: #171717;
   font-size: 13px;
   font-weight: 500;
   line-height: 1.5;
-
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-
   overflow: hidden;
   text-overflow: ellipsis;
-
-  min-height: 39px;
-  max-height: 39px;
+  min-height: 0;
+  max-height: none;
 }
 
 .market-product-meta {
-  margin: -3px 0 6px;
+  margin: 0 0 6px;
   display: flex;
   align-items: center;
   gap: 6px;

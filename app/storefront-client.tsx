@@ -210,12 +210,36 @@ function ProductCard({
           window.location.href = `/products/${product.id}`;
       }}
     >
+      {/* <div className="market-image">
+        {image ? (
+          <img src={image} alt={product.name} />
+        ) : (
+          <div className="product-no-image">No image</div>
+        )}
+        <button
+          className={`market-heart ${wishlisted ? "active" : ""}`}
+          aria-label={`Wishlist ${product.name}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            void toggleWishlist(product.id, `/products/${product.id}`).then(
+              (active) => onWishlist(product.id, active),
+            );
+          }}
+        >
+          <Heart />
+        </button>
+      </div> */}
       <div className="market-image">
         {image ? (
           <img src={image} alt={product.name} />
         ) : (
           <div className="product-no-image">No image</div>
         )}
+
+        {discount >= 20 && (
+          <em className="market-deal">Hot Deal</em>
+        )}
+
         <button
           className={`market-heart ${wishlisted ? "active" : ""}`}
           aria-label={`Wishlist ${product.name}`}
@@ -255,7 +279,7 @@ function ProductCard({
           {inStock ? `${product.inventory_qty} in stock` : "Out of stock"}
         </b>
       </div>
-      {discount >= 20 && <em className="market-deal">Hot Deal</em>}
+      {/* {discount >= 20 && <em className="market-deal">Hot Deal</em>} */}
       <button
         className={`market-cart ${inCart ? "in-cart" : ""}`}
         disabled={!inStock && !inCart}
