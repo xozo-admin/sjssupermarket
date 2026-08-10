@@ -60,13 +60,20 @@
 .admin-shell .product-admin-page .product-table td:nth-child(3) {
   width: 150px;
   max-width: 150px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .admin-shell .product-admin-page .product-table td:nth-child(3) strong,
 .admin-shell .product-admin-page .product-table td:nth-child(3) small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .admin-shell .product-admin-page .product-row-actions {
