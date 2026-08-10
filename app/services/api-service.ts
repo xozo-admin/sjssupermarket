@@ -10,9 +10,6 @@ export function apiUrl(path: string): string {
 }
 
 export function apiSocketUrl(path: string): string {
-  const base = API_BASE_URL.replace(
-    /^http/,
-    API_BASE_URL.startsWith("https") ? "wss" : "ws",
-  );
+  const base = API_BASE_URL.replace(/^https:/, "wss:").replace(/^http:/, "ws:");
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
