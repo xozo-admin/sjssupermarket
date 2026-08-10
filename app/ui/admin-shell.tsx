@@ -1,24 +1,41 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ComponentType } from "react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import CategoryManager from "../features/categories/category-manager";
-import HeroManager from "../features/homepage/hero-manager";
-import EntityManager from "../features/catalog/entity-manager";
-import ProductManager from "../features/catalog/product-manager";
-import AddProductPage from "../features/catalog/add-product-page";
-import ProductImportWidget from "../features/catalog/product-import-widget";
 import { getAuthSession } from "../features/auth-client";
-import OrderManager from "../features/orders/order-manager";
-import RefundManager from "../features/refunds/refund-manager";
-import CustomerManager from "../features/customers/customer-manager";
-import DeliveryManager from "../features/delivery/delivery-manager";
-import ReportManager from "../features/reports/report-manager";
-import PosManager from "../features/pos/pos-manager";
-import StaffManager from "../features/staff-manager";
-import SupplierManager from "../features/supplier-manager";
-import ShippingZoneManager from "../features/shipping/shipping-zone-manager";
-import DashboardManager from "../features/dashboard/dashboard-manager";
+
+const AdminPageLoader = () => (
+  <div className="admin-page-loader" role="status" aria-live="polite">
+    <span />
+    <span />
+    <span />
+    <p>Loading page...</p>
+  </div>
+);
+
+const dynamicAdminPage = <Props extends object>(
+  loader: () => Promise<{ default: ComponentType<Props> }>,
+) =>
+  dynamic(loader, { loading: AdminPageLoader });
+
+const DashboardManager = dynamicAdminPage(() => import("../features/dashboard/dashboard-manager"));
+const CategoryManager = dynamicAdminPage(() => import("../features/categories/category-manager"));
+const HeroManager = dynamicAdminPage(() => import("../features/homepage/hero-manager"));
+const EntityManager = dynamicAdminPage(() => import("../features/catalog/entity-manager"));
+const ProductManager = dynamicAdminPage(() => import("../features/catalog/product-manager"));
+const AddProductPage = dynamicAdminPage(() => import("../features/catalog/add-product-page"));
+const ProductImportWidget = dynamicAdminPage(() => import("../features/catalog/product-import-widget"));
+const OrderManager = dynamicAdminPage(() => import("../features/orders/order-manager"));
+const RefundManager = dynamicAdminPage(() => import("../features/refunds/refund-manager"));
+const CustomerManager = dynamicAdminPage(() => import("../features/customers/customer-manager"));
+const DeliveryManager = dynamicAdminPage(() => import("../features/delivery/delivery-manager"));
+const ReportManager = dynamicAdminPage(() => import("../features/reports/report-manager"));
+const PosManager = dynamicAdminPage(() => import("../features/pos/pos-manager"));
+const StaffManager = dynamicAdminPage(() => import("../features/staff-manager"));
+const SupplierManager = dynamicAdminPage(() => import("../features/supplier-manager"));
+const ShippingZoneManager = dynamicAdminPage(() => import("../features/shipping/shipping-zone-manager"));
 
 type IconName =
   | "dashboard"
