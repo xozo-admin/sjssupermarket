@@ -43,6 +43,52 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.admin-shell .product-admin-page .product-table {
+  min-width: 940px;
+}
+
+.admin-shell .product-admin-page .product-table th,
+.admin-shell .product-admin-page .product-table td {
+  padding: 9px 7px;
+  font-size: 11px;
+}
+
+.admin-shell .product-admin-page .product-table th {
+  font-size: 9px;
+}
+
+.admin-shell .product-admin-page .product-table td:nth-child(3) {
+  width: 150px;
+  max-width: 150px;
+}
+
+.admin-shell .product-admin-page .product-table td:nth-child(3) strong,
+.admin-shell .product-admin-page .product-table td:nth-child(3) small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-shell .product-admin-page .product-row-actions {
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.admin-shell .product-admin-page .product-row-actions .row-action {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.admin-shell .product-admin-page .product-row-actions svg,
+.admin-shell .mobile-product-actions svg {
+  width: 15px;
+  height: 15px;
+}
+
 @media (max-width: 1100px) {
   .admin-shell .content {
     padding: 22px 20px;
@@ -373,7 +419,16 @@
 
   .admin-shell .mobile-product-actions {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 38px);
+    justify-content: start;
+  }
+
+  .admin-shell .mobile-product-actions button {
+    width: 38px;
+    min-width: 38px;
+    padding: 0;
+    display: grid;
+    place-items: center;
   }
 
   .admin-shell .ops-modal > footer {

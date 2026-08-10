@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import * as XLSX from "xlsx";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import { catalogApi } from "./catalog-api";
 import { productImageUrl, type CatalogEntity, type Product, type ProductFacet } from "./types";
 import { confirmToast } from "../notifications";
@@ -188,22 +189,26 @@ export default function ProductManager() {
 
                             <div className="mobile-product-actions">
 
-                                <button onClick={() => setViewing(product)}>
-                                    View
+                                <button aria-label={`View ${product.name}`} title="View" onClick={() => setViewing(product)}>
+                                    <Eye aria-hidden="true" />
                                 </button>
 
                                 <button
+                                    aria-label={`Edit ${product.name}`}
+                                    title="Edit"
                                     onClick={() =>
                                         router.push(`/admin/products/${product.id}/edit`)
                                     }
                                 >
-                                    Edit
+                                    <Pencil aria-hidden="true" />
                                 </button>
 
                                 <button
+                                    aria-label={`Delete ${product.name}`}
+                                    title="Delete"
                                     onClick={() => void remove(product)}
                                 >
-                                    Delete
+                                    <Trash2 aria-hidden="true" />
                                 </button>
 
                             </div>
@@ -218,6 +223,6 @@ export default function ProductManager() {
     </div>;
 }
 
-function ProductRow({ product, serial, onView, onEdit, onDelete }: { product: Product; serial: number; onView: (product: Product) => void; onEdit: () => void; onDelete: () => void }) { const mrp = Number(product.mrp), sellingPrice = Number(product.selling_price), discount = mrp > 0 ? Math.max(0, Math.round((mrp - sellingPrice) / mrp * 100)) : 0; return <tr><td>{serial}</td><td><ProductThumbnail product={product} /></td><td><strong>{product.name}</strong><small>{product.platform_product_id}</small></td><td>{product.category_l1}{product.category_l2 ? ` / ${product.category_l2}` : ""}</td><td>{product.brand ?? "N/A"}</td><td className="product-mrp">{product.currency} {mrp.toFixed(2)}</td><td className="price">{product.currency} {sellingPrice.toFixed(2)}</td><td><span className="discount-pill">{discount}% off</span></td><td>{product.inventory_qty} {product.unit}</td><td><span className={`stock-status-pill ${product.stock_status}`}>{product.stock_status.replaceAll("_", " ")}</span></td><td><span className={`status-pill ${product.is_active ? "published" : ""}`}>{product.is_active ? "Active" : "Inactive"}</span></td><td>{product.rating}</td><td><div className="product-row-actions"><button className="row-action view" onClick={() => onView(product)}>View</button><button className="row-action edit" onClick={onEdit}>Edit</button><button className="row-action delete" onClick={onDelete}>Delete</button></div></td></tr> }
+function ProductRow({ product, serial, onView, onEdit, onDelete }: { product: Product; serial: number; onView: (product: Product) => void; onEdit: () => void; onDelete: () => void }) { const mrp = Number(product.mrp), sellingPrice = Number(product.selling_price), discount = mrp > 0 ? Math.max(0, Math.round((mrp - sellingPrice) / mrp * 100)) : 0; return <tr><td>{serial}</td><td><ProductThumbnail product={product} /></td><td><strong>{product.name}</strong><small>{product.platform_product_id}</small></td><td>{product.category_l1}{product.category_l2 ? ` / ${product.category_l2}` : ""}</td><td>{product.brand ?? "N/A"}</td><td className="product-mrp">{product.currency} {mrp.toFixed(2)}</td><td className="price">{product.currency} {sellingPrice.toFixed(2)}</td><td><span className="discount-pill">{discount}% off</span></td><td>{product.inventory_qty} {product.unit}</td><td><span className={`stock-status-pill ${product.stock_status}`}>{product.stock_status.replaceAll("_", " ")}</span></td><td><span className={`status-pill ${product.is_active ? "published" : ""}`}>{product.is_active ? "Active" : "Inactive"}</span></td><td>{product.rating}</td><td><div className="product-row-actions"><button className="row-action view" aria-label={`View ${product.name}`} title="View" onClick={() => onView(product)}><Eye aria-hidden="true" /></button><button className="row-action edit" aria-label={`Edit ${product.name}`} title="Edit" onClick={onEdit}><Pencil aria-hidden="true" /></button><button className="row-action delete" aria-label={`Delete ${product.name}`} title="Delete" onClick={onDelete}><Trash2 aria-hidden="true" /></button></div></td></tr> }
 function ProductThumbnail({ product }: { product: Product }) { const source = productImageUrl(product, "s"); return <div className="product-table-image">{source ? <img src={source} alt={product.name} loading="lazy" onError={event => event.currentTarget.parentElement?.classList.add("image-error")} /> : <span>{product.name[0]?.toUpperCase()}</span>}</div> }
 function ProductView({ product, onClose, onEdit }: { product: Product; onClose: () => void; onEdit: () => void }) { const [current, setCurrent] = useState(product), [uploading, setUploading] = useState(false), [uploadError, setUploadError] = useState(""); const image = productImageUrl(current, "m"); const upload = async (file: File) => { setUploading(true); setUploadError(""); try { const updated = await catalogApi.uploadProductImage(product.id, file); setCurrent(updated) } catch (error) { setUploadError(error instanceof Error ? error.message : "Upload failed") } finally { setUploading(false) } }; return <div className="variant-modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}><section className="variant-modal product-view-modal"><header><h2>Product Details</h2><button onClick={onClose}>×</button></header><div className="product-view-body">{image && <img src={`${image}?preview=${current.updated_at}`} alt={current.name} />}<label className="product-image-upload"><input type="file" accept="image/webp,image/jpeg,image/png" disabled={uploading} onChange={event => { const file = event.target.files?.[0]; if (file) void upload(file) }} /><span>{uploading ? "Uploading..." : current.image_url ? "Replace Image" : "Upload Image"}</span><small>WEBP, JPG or PNG · maximum 8 MB</small></label>{uploadError && <p className="form-error">{uploadError}</p>}<div className="product-view-title"><h3>{current.name}</h3><span>{current.platform_product_id}</span></div><dl><div><dt>Category</dt><dd>{current.category_l1}{current.category_l2 ? ` / ${current.category_l2}` : ""}</dd></div><div><dt>Brand</dt><dd>{current.brand || "N/A"}</dd></div><div><dt>Price</dt><dd>{current.currency} {current.selling_price}</dd></div><div><dt>Inventory</dt><dd>{current.inventory_qty} {current.unit}</dd></div><div><dt>Stock</dt><dd>{current.stock_status.replaceAll("_", " ")}</dd></div><div><dt>Status</dt><dd>{current.is_active ? "Active" : "Inactive"}</dd></div></dl></div><footer><button className="variant-cancel-button" onClick={onClose}>Close</button><button className="variant-save-button" onClick={onEdit}>Edit Product</button></footer></section></div> }
