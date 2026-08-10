@@ -29,7 +29,8 @@ export async function updateOrderStatus(orderId: string, status: string) {
 export function orderSocketUrl() {
   const accessToken = getAuthSession()?.access_token;
   if (!accessToken) return null;
-  return `${API.replace(/^http/, API.startsWith("https") ? "wss" : "ws")}/ws/delivery?token=${encodeURIComponent(accessToken)}`;
+  const socketBase = API.replace(/^https:/, "wss:").replace(/^http:/, "ws:");
+  return `${socketBase}/ws/delivery?token=${encodeURIComponent(accessToken)}`;
 }
 
 export async function placeOrder(input: { address_id: string; payment_method: string; items: { product_id: string; quantity: number }[] }) {
