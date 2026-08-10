@@ -118,7 +118,7 @@ export default function ProductManager() {
     };
 
     const pageNumbers = Array.from({ length: Math.min(5, pages) }, (_, index) => Math.max(1, Math.min(page - 2, pages - 4)) + index), first = total ? (size === 0 ? 1 : (page - 1) * size + 1) : 0, last = size === 0 ? total : Math.min(page * size, total);
-    return <div className="catalog-admin-page">
+    return <div className="catalog-admin-page product-admin-page">
         {error && <div className="api-notice">{error}</div>}
         <section className="catalog-heading"><h1>Products</h1><div className="product-actions"><span className="product-total-count">{loading ? "Loading..." : `${total} ${total === 1 ? "Product" : "Products"}`}</span><div className="export-dropdown" ref={exportRef}>
             <button

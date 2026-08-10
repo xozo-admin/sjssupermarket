@@ -474,7 +474,10 @@ export default function AdminShell() {
     currentUser?.permissions?.includes(permission);
 
   useEffect(() => {
-    setExpanded(routeParent ? { [routeParent]: true } : {});
+    Promise.resolve().then(() => {
+      setExpanded(routeParent ? { [routeParent]: true } : {});
+      setSidebarOpen(false);
+    });
   }, [pathname, routeParent]);
 
   useEffect(() => {
@@ -497,7 +500,7 @@ export default function AdminShell() {
         : permissionRoutes.find(([path]) => pathname.startsWith(path))?.[1];
 
     if (!required || can(required)) {
-      setAccessDenied(false);
+      Promise.resolve().then(() => setAccessDenied(false));
       return;
     }
 
@@ -506,7 +509,7 @@ export default function AdminShell() {
       router.replace(fallback);
       return;
     }
-    setAccessDenied(true);
+    Promise.resolve().then(() => setAccessDenied(true));
   }, [pathname, currentUser?.role, router]);
 
   useEffect(() => {

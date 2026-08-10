@@ -1,0 +1,397 @@
+/* Final responsive guardrails for every admin module. Desktop rules live with
+   each feature; this layer prevents shared shell and content overflow. */
+.admin-shell,
+.admin-shell .main-area,
+.admin-shell .content,
+.admin-shell .content > * {
+  min-width: 0;
+}
+
+.admin-shell img,
+.admin-shell svg,
+.admin-shell canvas {
+  max-width: 100%;
+}
+
+.admin-shell input,
+.admin-shell select,
+.admin-shell textarea {
+  max-width: 100%;
+}
+
+.admin-shell table {
+  max-width: 100%;
+}
+
+/* /admin/products containment */
+.admin-shell .catalog-admin-page,
+.admin-shell .catalog-list-card,
+.admin-shell .category-table-scroll,
+.admin-shell .product-filter-grid {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.admin-shell .catalog-list-card {
+  overflow: hidden;
+}
+
+.admin-shell .category-table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1100px) {
+  .admin-shell .content {
+    padding: 22px 20px;
+  }
+
+  .admin-shell .dashboard-main-grid,
+  .admin-shell .delivery-detail-grid,
+  .admin-shell .delivery-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-shell {
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  .admin-shell .admin-mobile-menu {
+    top: 10px;
+    left: 10px;
+  }
+
+  .admin-shell .content {
+    width: 100%;
+    padding: 66px 18px 24px;
+  }
+
+  .admin-shell .sidebar {
+    width: min(300px, 88vw) !important;
+    box-shadow: 12px 0 32px rgb(15 23 42 / 22%);
+  }
+
+  .admin-shell .sidebar.mobile-open {
+    visibility: visible;
+  }
+
+  .admin-shell .sidebar-scrim {
+    backdrop-filter: blur(2px);
+  }
+
+  .admin-shell :is(
+    .page-heading,
+    .analytics-dashboard > header,
+    .admin-orders > header,
+    .customer-admin > header,
+    .delivery-admin > header,
+    .shipping-zone-admin > header,
+    .ops-heading,
+    .homepage-admin > header,
+    .catalog-heading,
+    .entity-heading
+  ) {
+    flex-wrap: wrap;
+  }
+
+  .admin-shell :is(
+    .admin-orders-scroll,
+    .customer-table-scroll,
+    .report-table-scroll,
+    .refund-table,
+    .ops-table-card,
+    .delivery-table-wrap,
+    .catalog-table-wrap,
+    .entity-table-wrap
+  ) {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-shell :is(
+    .admin-orders-scroll,
+    .customer-table-scroll,
+    .report-table-scroll,
+    .refund-table,
+    .ops-table-card,
+    .delivery-table-wrap,
+    .catalog-table-wrap,
+    .entity-table-wrap
+  ) table {
+    width: max-content;
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-shell .content {
+    padding: 64px 12px 20px;
+  }
+
+  .admin-shell :is(
+    .page-heading,
+    .analytics-dashboard > header,
+    .admin-orders > header,
+    .customer-admin > header,
+    .delivery-admin > header,
+    .shipping-zone-admin > header,
+    .ops-heading,
+    .reports-module > header,
+    .refund-admin > header
+  ) {
+    min-height: 0;
+    padding: 16px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-shell :is(
+    .page-heading h1,
+    .analytics-dashboard h1,
+    .shipping-zone-admin h1,
+    .ops-heading h1
+  ) {
+    font-size: clamp(20px, 7vw, 25px);
+    overflow-wrap: anywhere;
+  }
+
+  .admin-shell :is(
+    .heading-actions,
+    .ops-heading > div:last-child,
+    .report-export
+  ) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-shell :is(
+    .heading-actions,
+    .ops-heading > div:last-child,
+    .report-export
+  ) button {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .admin-shell :is(
+    .customer-admin > form,
+    .delivery-filters,
+    .reports-module form,
+    .po-product-picker
+  ) {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .reports-module form {
+    display: grid;
+  }
+
+  .admin-shell .reports-module form > :is(label, select, button, .report-date) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-shell :is(
+    .dashboard-kpis,
+    .dashboard-lists,
+    .dashboard-operations,
+    .delivery-stats,
+    .customer-detail-stats
+  ) {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .dashboard-lists > article:first-child {
+    grid-column: auto;
+  }
+
+  .admin-shell :is(
+    .ops-modal-backdrop,
+    .customer-detail-backdrop,
+    .address-map-backdrop
+  ) {
+    padding: 8px;
+    align-items: end;
+  }
+
+  .admin-shell :is(.ops-modal, .customer-detail-backdrop > article, .address-map-dialog) {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    border-radius: 14px 14px 8px 8px;
+  }
+
+  .admin-shell .ops-form-grid,
+  .admin-shell .permission-grid,
+  .admin-shell .shipping-zone-layout,
+  .admin-shell .shipping-coordinates {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .customer-detail-backdrop section p {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* ProductManager supplies dedicated mobile cards, so the wide desktop table
+     must not participate in mobile layout. */
+  .admin-shell .product-admin-page .category-table-scroll {
+    display: none;
+  }
+
+  .admin-shell .product-admin-page .mobile-product-list {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .admin-shell .mobile-product-card {
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .admin-shell .mobile-product-card .product-table-image {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 72px;
+  }
+
+  .admin-shell .mobile-product-info {
+    min-width: 0;
+  }
+
+  .admin-shell .mobile-product-info h3,
+  .admin-shell .mobile-product-info p {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-shell .product-pagination {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+  }
+
+  .admin-shell .product-pagination .pagination-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-shell .product-pagination .pagination-buttons button {
+    width: auto;
+    min-width: 30px;
+    padding-inline: 4px;
+  }
+
+  .admin-shell .product-pagination .page-size {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-shell .content {
+    padding-inline: 9px;
+  }
+
+  .admin-shell .sidebar {
+    width: min(286px, 92vw) !important;
+  }
+
+  .admin-shell :is(
+    .page-heading,
+    .welcome-card,
+    .dashboard-card,
+    .admin-orders > header,
+    .customer-admin > header,
+    .reports-module > header,
+    .shipping-zone-layout > section,
+    .reference-card
+  ) {
+    border-radius: 9px;
+  }
+
+  .admin-shell .heading-actions,
+  .admin-shell .ops-heading > div:last-child {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .bar-chart {
+    min-width: 0;
+    gap: 4px;
+    padding-inline: 8px;
+  }
+
+  .admin-shell .bar-chart small {
+    font-size: 7px;
+  }
+
+  .admin-shell .catalog-heading {
+    padding: 13px;
+  }
+
+  .admin-shell .product-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .admin-shell .product-actions > *,
+  .admin-shell .product-actions button,
+  .admin-shell .product-actions .import-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-shell .mobile-product-card {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .admin-shell .mobile-product-card .product-table-image {
+    width: 58px;
+    height: 58px;
+  }
+
+  .admin-shell .mobile-product-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .ops-modal > footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+  }
+
+  .admin-shell .ops-modal > footer button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell .sidebar,
+  .admin-shell .main-area,
+  .admin-shell .collapse-button {
+    transition: none;
+  }
+}
