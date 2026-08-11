@@ -126,66 +126,93 @@ export default function StorefrontNavigation() {
         .then((result) => setCategories(result.items))
         .catch(() => setCategories([]));
   }, [isAdmin]);
+
   useEffect(() => {
     const sync = () => setUser(getAuthSession()?.user ?? null);
     sync();
     window.addEventListener("sjs-auth-updated", sync);
     return () => window.removeEventListener("sjs-auth-updated", sync);
   }, []);
+
   useEffect(() => startAuthRefresh(), []);
+
   useEffect(() => {
     const open = () => setAuthOpen(true);
     window.addEventListener("sjs-auth-required", open);
     return () => window.removeEventListener("sjs-auth-required", open);
   }, []);
-  // useEffect(() => {
-  //   const sync = () =>
-  //     setCartCount(
-  //       readCart().reduce((total, item) => total + item.quantity, 0),
-  //     );
-  //   sync();
-  //   window.addEventListener("sjs-cart-updated", sync);
-  //   window.addEventListener("storage", sync);
-  //   return () => {
-  //     window.removeEventListener("sjs-cart-updated", sync);
-  //     window.removeEventListener("storage", sync);
-  //   };
-  // }, []);
 
   useEffect(() => {
-  const sync = () =>
-    setCartCount(
-      readCart().reduce(
-        (total, item) => total + item.quantity,
-        0,
-      ),
-    );
+    const sync = () =>
+      setCartCount(
+        readCart().reduce(
+          (total, item) => total + item.quantity,
+          0,
+        ),
+      );
 
-  sync();
-
-  window.addEventListener("sjs-cart-updated", sync);
-  window.addEventListener("sjs-auth-updated", sync);
-  window.addEventListener("storage", sync);
-
-  return () => {
-    window.removeEventListener("sjs-cart-updated", sync);
-    window.removeEventListener("sjs-auth-updated", sync);
-    window.removeEventListener("storage", sync);
-  };
-}, []);
-  useEffect(() => {
-    const sync = () => setWishlistCount(readWishlistIds().size);
-    const hydrate = () => void loadWishlist().then(sync).catch(sync);
     sync();
-    hydrate();
-    window.addEventListener("sjs-wishlist-updated", sync);
-    window.addEventListener("sjs-auth-updated", hydrate);
+
+    window.addEventListener("sjs-cart-updated", sync);
+    window.addEventListener("sjs-auth-updated", sync);
+    window.addEventListener("storage", sync);
+
     return () => {
-      window.removeEventListener("sjs-wishlist-updated", sync);
-      window.removeEventListener("sjs-auth-updated", hydrate);
+      window.removeEventListener("sjs-cart-updated", sync);
+      window.removeEventListener("sjs-auth-updated", sync);
+      window.removeEventListener("storage", sync);
     };
   }, []);
 
+  // useEffect(() => {
+  //   const sync = () => setWishlistCount(readWishlistIds().size);
+  //   const hydrate = () => void loadWishlist().then(sync).catch(sync);
+  //   sync();
+  //   hydrate();
+  //   window.addEventListener("sjs-wishlist-updated", sync);
+  //   window.addEventListener("sjs-auth-updated", hydrate);
+  //   return () => {
+  //     window.removeEventListener("sjs-wishlist-updated", sync);
+  //     window.removeEventListener("sjs-auth-updated", hydrate);
+  //   };
+  // }, []);
+  useEffect(() => {
+    const syncWishlist = () => {
+      // If logged out, the header must show no wishlist count
+      if (!getAuthSession()) {
+        setWishlistCount(0);
+        return;
+      }
+
+      setWishlistCount(readWishlistIds().size);
+    };
+
+    const hydrateWishlist = async () => {
+      // If logged out, don't load the previous user's wishlist
+      if (!getAuthSession()) {
+        setWishlistCount(0);
+        return;
+      }
+
+      try {
+        await loadWishlist();
+      } finally {
+        syncWishlist();
+      }
+    };
+
+    syncWishlist();
+    void hydrateWishlist();
+
+    window.addEventListener("sjs-wishlist-updated", syncWishlist);
+    window.addEventListener("sjs-auth-updated", hydrateWishlist);
+
+    return () => {
+      window.removeEventListener("sjs-wishlist-updated", syncWishlist);
+      window.removeEventListener("sjs-auth-updated", hydrateWishlist);
+    };
+  }, []);
+  
   if (isAdmin) return null;
   return (
     <>
