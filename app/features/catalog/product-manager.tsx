@@ -15,7 +15,7 @@ export default function ProductManager() {
     const [products, setProducts] = useState<Product[]>([]), [brands, setBrands] = useState<CatalogEntity[]>([]), [categories, setCategories] = useState<ProductFacet[]>([]), [viewing, setViewing] = useState<Product | null>(null);
     const [search, setSearch] = useState(""), [brand, setBrand] = useState(""), [active, setActive] = useState(""), [category, setCategory] = useState(""), [stock, setStock] = useState(""), [imageStatus, setImageStatus] = useState(""), [minPrice, setMinPrice] = useState(""), [maxPrice, setMaxPrice] = useState(""), [rating, setRating] = useState(""), [sort, setSort] = useState("popular");
     const [page, setPage] = useState(1), [size, setSize] = useState(20), [pages, setPages] = useState(1), [total, setTotal] = useState(0), [loading, setLoading] = useState(true), [error, setError] = useState("");
-    const [exportOpen, setExportOpen] = useState(false);
+    const [exportOpen, setExportOpen] = useState(false), [exporting, setExporting] = useState(false);
     const exportRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         function handleClick(event: MouseEvent) {
@@ -37,21 +37,26 @@ export default function ProductManager() {
     const filter = (setter: (value: string) => void, value: string) => { setter(value); setPage(1) };
     const clearFilters = () => { setSearch(""); setBrand(""); setActive(""); setCategory(""); setStock(""); setImageStatus(""); setMinPrice(""); setMaxPrice(""); setRating(""); setSort("popular"); setPage(1) };
     const remove = async (product: Product) => { if (await confirmToast(`Delete ${product.name}?`)) { await catalogApi.deleteProduct(product.id); await load() } };
-    const headers = ["platform_product_id", "canonical_slug", "name", "short_description", "description_long", "category_l1", "category_l2", "brand", "currency", "tax_percent", "selling_price", "mrp", "rating", "inventory_qty", "stock_status", "is_active", "unit", "unit_value", "barcode", "featured_score", "color_hex", "supplier_user_id", "image_url"];
-    const exportCsv = () => { const rows = [headers, ...products.map(product => headers.map(header => String(product[header as keyof Product] ?? "")))]; const blob = new Blob([rows.map(row => row.map(value => `"${value.replaceAll('"', '""')}"`).join(",")).join("\n")], { type: "text/csv" }); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(blob); anchor.download = "platform-products.csv"; anchor.click(); URL.revokeObjectURL(anchor.href) };
-    const exportExcel = () => {
-        const rows = products.map((product) => ({
-            ID: product.platform_product_id,
-            Name: product.name,
-            Category: product.category_l1,
-            Subcategory: product.category_l2,
-            Brand: product.brand,
-            MRP: product.mrp,
-            SellingPrice: product.selling_price,
-            Rating: product.rating,
-            Stock: product.inventory_qty,
-            Status: product.stock_status,
-        }));
+    const headers: (keyof Product)[] = ["id", "platform_product_id", "canonical_slug", "name", "short_description", "description_long", "category_l1", "category_l2", "brand", "currency", "tax_percent", "selling_price", "mrp", "rating", "inventory_qty", "stock_status", "is_active", "unit", "unit_value", "barcode", "featured_score", "color_hex", "supplier_user_id", "image_url", "created_at", "updated_at"];
+    const loadExportProducts = () => catalogApi.products(search, brand, active, 1, 0, category, "", { minimumRating: rating ? Number(rating) : undefined, minimumPrice: minPrice, maximumPrice: maxPrice, sort, stockStatus: stock, hasImage: imageStatus }).then(result => result.items);
+    const runExport = async (format: "excel" | "csv" | "pdf") => {
+        setExporting(true);
+        setError("");
+        try {
+            const allProducts = await loadExportProducts();
+            if (format === "excel") exportExcel(allProducts);
+            else if (format === "csv") exportCsv(allProducts);
+            else exportPdf(allProducts);
+            setExportOpen(false);
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Could not export products");
+        } finally {
+            setExporting(false);
+        }
+    };
+    const exportCsv = (allProducts: Product[]) => { const rows = [headers, ...allProducts.map(product => headers.map(header => String(product[header] ?? "")))]; const blob = new Blob(["\uFEFF" + rows.map(row => row.map(value => `"${value.replaceAll('"', '""')}"`).join(",")).join("\n")], { type: "text/csv;charset=utf-8" }); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(blob); anchor.download = "platform-products.csv"; anchor.click(); URL.revokeObjectURL(anchor.href) };
+    const exportExcel = (allProducts: Product[]) => {
+        const rows = allProducts.map((product) => Object.fromEntries(headers.map(header => [header, product[header] ?? ""])));
 
         const worksheet = XLSX.utils.json_to_sheet(rows);
 
@@ -68,8 +73,8 @@ export default function ProductManager() {
             "platform-products.xlsx"
         );
     };
-    const exportPdf = () => {
-        const doc = new jsPDF();
+    const exportPdf = (allProducts: Product[]) => {
+        const doc = new jsPDF({ orientation: "landscape", format: "a3" });
 
         doc.setFontSize(18);
         doc.text("SJS Super Market - Product Report", 14, 20);
@@ -77,31 +82,13 @@ export default function ProductManager() {
         autoTable(doc, {
             startY: 30,
 
-            head: [[
-                "S/L",
-                "Product",
-                "Brand",
-                "Category",
-                "MRP",
-                "Selling",
-                "Stock",
-                "Status"
-            ]],
+            head: [["s_l", ...headers]],
 
-            body: products.map((product, index) => [
-                index + 1,
-                product.name,
-                product.brand || "-",
-                product.category_l1,
-                `${product.currency} ${product.mrp}`,
-                `${product.currency} ${product.selling_price}`,
-                product.inventory_qty,
-                product.stock_status,
-            ]),
+            body: allProducts.map((product, index) => [index + 1, ...headers.map(header => String(product[header] ?? ""))]),
 
             styles: {
-                fontSize: 9,
-                cellPadding: 3,
+                fontSize: 4,
+                cellPadding: 1,
             },
 
             headStyles: {
@@ -124,6 +111,7 @@ export default function ProductManager() {
         <section className="catalog-heading"><h1>Products</h1><div className="product-actions"><span className="product-total-count">{loading ? "Loading..." : `${total} ${total === 1 ? "Product" : "Products"}`}</span><div className="export-dropdown" ref={exportRef}>
             <button
                 className="danger-button"
+                disabled={exporting}
                 onClick={() => setExportOpen(!exportOpen)}
             >
                 ↓ Export
@@ -132,30 +120,15 @@ export default function ProductManager() {
             {exportOpen && (
                 <div className="export-menu">
 
-                    <button
-                        onClick={() => {
-                            exportExcel();
-                            setExportOpen(false);
-                        }}
-                    >
+                    <button disabled={exporting} onClick={() => void runExport("excel")}>
                         📊 Excel (.xlsx)
                     </button>
 
-                    <button
-                        onClick={() => {
-                            exportCsv();
-                            setExportOpen(false);
-                        }}
-                    >
+                    <button disabled={exporting} onClick={() => void runExport("csv")}>
                         📄 CSV (.csv)
                     </button>
 
-                    <button
-                        onClick={() => {
-                            exportPdf();
-                            setExportOpen(false);
-                        }}
-                    >
+                    <button disabled={exporting} onClick={() => void runExport("pdf")}>
                         📑 PDF (.pdf)
                     </button>
 
