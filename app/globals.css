@@ -2373,3 +2373,37 @@ button {
 .product-form-layout .product-section:nth-of-type(3) .image-drop small {
   display: none
 }
+
+.admin-logout-button {
+  width: calc(100% - 24px);
+  margin: 16px 12px 24px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #fff1f1;
+  color: #dc2626;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.admin-logout-button:hover {
+  background: #fee2e2;
+}
+
+.admin-logout-button .menu-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.admin-logout-button .menu-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { ComponentType } from "react";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { getAuthSession } from "../features/auth-client";
+import { getAuthSession, logout } from "../features/auth-client";
 
 const AdminPageLoader = () => (
   <div className="admin-page-loader" role="status" aria-live="polite">
@@ -559,7 +559,7 @@ export default function AdminShell() {
   const adminHome =
     currentUser?.role === "staff"
       ? permissionHomes.find(([permission]) => can(permission))?.[1] ??
-        "/admin/dashboard"
+      "/admin/dashboard"
       : "/admin/dashboard";
 
   if (!accessChecked)
@@ -691,6 +691,20 @@ export default function AdminShell() {
             </div>
           ))}
         </nav>
+
+        <button
+          type="button"
+          className="admin-logout-button"
+          onClick={() => {
+            logout();
+            window.location.href = "/";
+          }}
+        >
+          <span className="menu-icon">
+            <MenuIcon name="login" />
+          </span>
+          <span className="menu-label">Logout</span>
+        </button>
       </aside>
 
       <button
