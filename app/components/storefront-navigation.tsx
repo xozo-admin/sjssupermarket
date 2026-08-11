@@ -138,19 +138,41 @@ export default function StorefrontNavigation() {
     window.addEventListener("sjs-auth-required", open);
     return () => window.removeEventListener("sjs-auth-required", open);
   }, []);
+  // useEffect(() => {
+  //   const sync = () =>
+  //     setCartCount(
+  //       readCart().reduce((total, item) => total + item.quantity, 0),
+  //     );
+  //   sync();
+  //   window.addEventListener("sjs-cart-updated", sync);
+  //   window.addEventListener("storage", sync);
+  //   return () => {
+  //     window.removeEventListener("sjs-cart-updated", sync);
+  //     window.removeEventListener("storage", sync);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const sync = () =>
-      setCartCount(
-        readCart().reduce((total, item) => total + item.quantity, 0),
-      );
-    sync();
-    window.addEventListener("sjs-cart-updated", sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener("sjs-cart-updated", sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, []);
+  const sync = () =>
+    setCartCount(
+      readCart().reduce(
+        (total, item) => total + item.quantity,
+        0,
+      ),
+    );
+
+  sync();
+
+  window.addEventListener("sjs-cart-updated", sync);
+  window.addEventListener("sjs-auth-updated", sync);
+  window.addEventListener("storage", sync);
+
+  return () => {
+    window.removeEventListener("sjs-cart-updated", sync);
+    window.removeEventListener("sjs-auth-updated", sync);
+    window.removeEventListener("storage", sync);
+  };
+}, []);
   useEffect(() => {
     const sync = () => setWishlistCount(readWishlistIds().size);
     const hydrate = () => void loadWishlist().then(sync).catch(sync);
