@@ -164,36 +164,21 @@ export default function StorefrontNavigation() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const sync = () => setWishlistCount(readWishlistIds().size);
-  //   const hydrate = () => void loadWishlist().then(sync).catch(sync);
-  //   sync();
-  //   hydrate();
-  //   window.addEventListener("sjs-wishlist-updated", sync);
-  //   window.addEventListener("sjs-auth-updated", hydrate);
-  //   return () => {
-  //     window.removeEventListener("sjs-wishlist-updated", sync);
-  //     window.removeEventListener("sjs-auth-updated", hydrate);
-  //   };
-  // }, []);
+
   useEffect(() => {
     const syncWishlist = () => {
-      // If logged out, the header must show no wishlist count
       if (!getAuthSession()) {
         setWishlistCount(0);
         return;
       }
-
       setWishlistCount(readWishlistIds().size);
     };
 
     const hydrateWishlist = async () => {
-      // If logged out, don't load the previous user's wishlist
       if (!getAuthSession()) {
         setWishlistCount(0);
         return;
       }
-
       try {
         await loadWishlist();
       } finally {
@@ -212,7 +197,7 @@ export default function StorefrontNavigation() {
       window.removeEventListener("sjs-auth-updated", hydrateWishlist);
     };
   }, []);
-  
+
   if (isAdmin) return null;
   return (
     <>
