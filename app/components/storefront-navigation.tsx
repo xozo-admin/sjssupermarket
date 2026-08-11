@@ -243,60 +243,11 @@ export default function StorefrontNavigation() {
                     aria-haspopup="menu"
                   >
                     <Icon name="user" />
-                    <span>{user.name}</span>
+                    <span>{user.name?.split(" ")[0]}</span>
                     <ChevronDown />
                   </button>
 
                   {profileOpen && (
-                    // <section className="global-profile-card" role="menu">
-                    //   <header>
-                    //     <span>{user.name.slice(0, 1).toUpperCase()}</span>
-                    //     <div>
-                    //       <strong>{user.name}</strong>
-                    //       <small>{user.email}</small>
-                    //     </div>
-                    //   </header>
-
-                    //   <dl>
-                    //     <div>
-                    //       <dt>Role</dt>
-                    //       <dd>{user.role}</dd>
-                    //     </div>
-
-                    //     {user.mobile && (
-                    //       <div>
-                    //         <dt>Mobile</dt>
-                    //         <dd>{user.mobile}</dd>
-                    //       </div>
-                    //     )}
-
-                    //     {user.designation && (
-                    //       <div>
-                    //         <dt>Designation</dt>
-                    //         <dd>{user.designation}</dd>
-                    //       </div>
-                    //     )}
-                    //   </dl>
-
-                    // {user.role === "admin" && (
-                    //   <Link
-                    //     href="/admin/dashboard"
-                    //     onClick={() => setProfileOpen(false)}
-                    //   >
-                    //     Open admin dashboard
-                    //   </Link>
-                    //   )}
-
-                    //   <button
-                    //     onClick={() => {
-                    //       logout();
-                    //       setProfileOpen(false);
-                    //       window.location.href = "/";
-                    //     }}
-                    //   >
-                    //     Logout
-                    //   </button>
-                    // </section>
 
                     <section className="global-profile-card" role="menu">
                       <div className="profile-top">

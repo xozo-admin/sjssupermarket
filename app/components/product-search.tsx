@@ -53,6 +53,7 @@ export default function ProductSearch({
 
   const submit = (term = value) => {
     if (term.trim()) {
+      onChange("");
       window.location.href = `/products?search=${encodeURIComponent(term.trim())}`;
     }
   };
