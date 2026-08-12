@@ -166,37 +166,45 @@ export default function StorefrontNavigation() {
 
 
   useEffect(() => {
-    const syncWishlist = () => {
-      if (!getAuthSession()) {
-        setWishlistCount(0);
-        return;
-      }
+  const syncWishlist = () => {
+    const session = getAuthSession();
+
+    if (!session) {
+      setWishlistCount(0);
+      return;
+    }
+
+    setWishlistCount(readWishlistIds().size);
+  };
+
+  const hydrateWishlist = async () => {
+    const session = getAuthSession();
+
+    if (!session) {
+      setWishlistCount(0);
+      return;
+    }
+
+    try {
+      await loadWishlist();
       setWishlistCount(readWishlistIds().size);
-    };
+    } catch (error) {
+      console.error("Failed to load wishlist:", error);
+      setWishlistCount(0);
+    }
+  };
 
-    const hydrateWishlist = async () => {
-      if (!getAuthSession()) {
-        setWishlistCount(0);
-        return;
-      }
-      try {
-        await loadWishlist();
-      } finally {
-        syncWishlist();
-      }
-    };
+  syncWishlist();
+  void hydrateWishlist();
 
-    syncWishlist();
-    void hydrateWishlist();
+  window.addEventListener("sjs-wishlist-updated", syncWishlist);
+  window.addEventListener("sjs-auth-updated", hydrateWishlist);
 
-    window.addEventListener("sjs-wishlist-updated", syncWishlist);
-    window.addEventListener("sjs-auth-updated", hydrateWishlist);
-
-    return () => {
-      window.removeEventListener("sjs-wishlist-updated", syncWishlist);
-      window.removeEventListener("sjs-auth-updated", hydrateWishlist);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("sjs-wishlist-updated", syncWishlist);
+    window.removeEventListener("sjs-auth-updated", hydrateWishlist);
+  };
+}, []);
 
   if (isAdmin) return null;
   return (

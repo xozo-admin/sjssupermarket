@@ -3,15 +3,16 @@ import type { CategoryListResponse } from "./features/categories/types";
 import type { StorefrontHomepage } from "./features/homepage/homepage-api";
 import { API_BASE_URL } from "./services/api-service";
 
-const STOREFRONT_CACHE_SECONDS = 300;
+// const STOREFRONT_CACHE_SECONDS = 300;
 
 async function getStorefrontData() {
   const request = (path: string) =>
     fetch(`${API_BASE_URL}${path}`, {
-      next: {
-        revalidate: STOREFRONT_CACHE_SECONDS,
-        tags: ["storefront"],
-      },
+      // next: {
+      //   revalidate: STOREFRONT_CACHE_SECONDS,
+      //   tags: ["storefront"],
+      // },
+      cache: "no-store",
     });
 
   const [categoriesResult, homepageResult] = await Promise.allSettled([
@@ -23,6 +24,7 @@ async function getStorefrontData() {
     categoriesResult.status === "fulfilled" && categoriesResult.value.ok
       ? ((await categoriesResult.value.json()) as CategoryListResponse).items
       : [];
+      
   const homepage =
     homepageResult.status === "fulfilled" && homepageResult.value.ok
       ? ((await homepageResult.value.json()) as StorefrontHomepage)
