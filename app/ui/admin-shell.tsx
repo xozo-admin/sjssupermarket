@@ -636,6 +636,18 @@ export default function AdminShell() {
           </button>
         </div>
 
+        <a
+          href="https://sjssupermarket.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="view-storefront"
+        >
+          <span className="menu-icon">
+            <MenuIcon name="store" />
+          </span>
+          <span className="menu-label">View Storefront</span>
+        </a>
+
         <nav className="sidebar-nav" aria-label="Admin navigation">
           {visibleMenuGroups.map((group, groupIndex) => (
             <div className="menu-group" key={group.title ?? groupIndex}>
