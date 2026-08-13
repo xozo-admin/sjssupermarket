@@ -1641,6 +1641,32 @@ button {
   border: 1px solid #e54227;
 }
 
+.danger-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.export-dropdown .danger-button {
+    min-width: 120px;
+}
+
+.export-loading-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 7px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: export-spin 0.7s linear infinite;
+}
+
+@keyframes export-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .export-dropdown {
   position: relative;
   display: inline-block;
@@ -2446,4 +2472,25 @@ button {
   flex: 1;
   font-size: 14px;
   font-weight: 500;
+}
+
+.product-actions .export-dropdown {
+  width: 115px;
+  min-width: 115px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.product-actions .export-dropdown > .danger-button {
+  width: 115px;
+  min-width: 115px;
+  height: 42px;
+  margin: 0;
+  padding: 0 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }

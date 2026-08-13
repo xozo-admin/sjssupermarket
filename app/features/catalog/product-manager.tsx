@@ -39,17 +39,46 @@ export default function ProductManager() {
     const remove = async (product: Product) => { if (await confirmToast(`Delete ${product.name}?`)) { await catalogApi.deleteProduct(product.id); await load() } };
     const headers: (keyof Product)[] = ["id", "platform_product_id", "canonical_slug", "name", "short_description", "description_long", "category_l1", "category_l2", "brand", "currency", "tax_percent", "selling_price", "mrp", "rating", "inventory_qty", "stock_status", "is_active", "unit", "unit_value", "barcode", "featured_score", "color_hex", "supplier_user_id", "image_url", "created_at", "updated_at"];
     const loadExportProducts = () => catalogApi.products(search, brand, active, 1, 0, category, "", { minimumRating: rating ? Number(rating) : undefined, minimumPrice: minPrice, maximumPrice: maxPrice, sort, stockStatus: stock, hasImage: imageStatus }).then(result => result.items);
+    // const runExport = async (format: "excel" | "csv" | "pdf") => {
+    //     setExporting(true);
+    //     setError("");
+    //     try {
+    //         const allProducts = await loadExportProducts();
+    //         if (format === "excel") exportExcel(allProducts);
+    //         else if (format === "csv") exportCsv(allProducts);
+    //         else exportPdf(allProducts);
+    //         setExportOpen(false);
+    //     } catch (e) {
+    //         setError(e instanceof Error ? e.message : "Could not export products");
+    //     } finally {
+    //         setExporting(false);
+    //     }
+    // };
     const runExport = async (format: "excel" | "csv" | "pdf") => {
+        if (exporting) return;
+
         setExporting(true);
         setError("");
+        setExportOpen(false);
+
+        await new Promise(resolve => setTimeout(resolve, 50));
+
         try {
             const allProducts = await loadExportProducts();
-            if (format === "excel") exportExcel(allProducts);
-            else if (format === "csv") exportCsv(allProducts);
-            else exportPdf(allProducts);
-            setExportOpen(false);
+
+            if (format === "excel") {
+                exportExcel(allProducts);
+            } else if (format === "csv") {
+                exportCsv(allProducts);
+            } else {
+                exportPdf(allProducts);
+            }
         } catch (e) {
-            setError(e instanceof Error ? e.message : "Could not export products");
+            setError(
+                e instanceof Error
+                    ? e.message
+                    : "Could not export products"
+            );
         } finally {
             setExporting(false);
         }
@@ -112,23 +141,29 @@ export default function ProductManager() {
             <button
                 className="danger-button"
                 disabled={exporting}
-                onClick={() => setExportOpen(!exportOpen)}
+                onClick={() => setExportOpen(value => !value)}
             >
-                ↓ Export
+                {exporting ? (
+                    <>
+                        <span className="export-loading-spinner" />
+                        Exporting...
+                    </>
+                ) : (
+                    "↓ Export"
+                )}
             </button>
-
-            {exportOpen && (
+            {exportOpen && !exporting && (
                 <div className="export-menu">
 
-                    <button disabled={exporting} onClick={() => void runExport("excel")}>
+                    <button onClick={() => void runExport("excel")}>
                         📊 Excel (.xlsx)
                     </button>
 
-                    <button disabled={exporting} onClick={() => void runExport("csv")}>
+                    <button onClick={() => void runExport("csv")}>
                         📄 CSV (.csv)
                     </button>
 
-                    <button disabled={exporting} onClick={() => void runExport("pdf")}>
+                    <button onClick={() => void runExport("pdf")}>
                         📑 PDF (.pdf)
                     </button>
 
