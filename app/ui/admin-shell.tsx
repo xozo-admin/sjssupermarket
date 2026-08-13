@@ -638,8 +638,6 @@ export default function AdminShell() {
 
         <a
           href="https://sjssupermarket.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
           className="view-storefront"
         >
           <span className="menu-icon">

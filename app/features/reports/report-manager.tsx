@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, FileText, Search } from "lucide-react";
+import { ChevronDown, Download, FileText, Search } from "lucide-react";
 import { jsPDF } from "jspdf";
 import * as XLSX from "xlsx";
 import { useEffect, useMemo, useState } from "react";
@@ -36,6 +36,7 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
     [products, setProducts] = useState<Record<string, Product>>({}),
     [loading, setLoading] = useState(true),
     [error, setError] = useState("");
+  const [exportOpen, setExportOpen] = useState(false);
   const load = async () => {
     try {
       const data = await listAllOrders();
@@ -156,7 +157,7 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
         .forEach((order) =>
           order.items.forEach((item) => {
             const category =
-                products[item.product_id]?.category_l1 || "Uncategorized",
+              products[item.product_id]?.category_l1 || "Uncategorized",
               current = map.get(category) || { quantity: 0, revenue: 0 };
             current.quantity += item.quantity;
             current.revenue += Number(item.line_total);
@@ -226,15 +227,15 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
     ? Object.keys(sorted[0])
     : mode === "orders"
       ? [
-          "S/L",
-          "Order ID",
-          "Placed On",
-          "Customer",
-          "Items",
-          "Payment Status",
-          "Delivery Status",
-          "Amount",
-        ]
+        "S/L",
+        "Order ID",
+        "Placed On",
+        "Customer",
+        "Items",
+        "Payment Status",
+        "Delivery Status",
+        "Amount",
+      ]
       : mode === "product"
         ? ["S/L", "Product Name", "Total Sales", "Revenue"]
         : mode === "category"
@@ -318,7 +319,7 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
               </select>
             </>
           )}
-          {(mode === "product" || mode === "category") && (
+          {/* {(mode === "product" || mode === "category") && (
             <label>
               <Search />
               <input
@@ -327,7 +328,7 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
                 placeholder="Search"
               />
             </label>
-          )}
+          )} */}
           {mode !== "delivery" && (
             <select
               value={sort}
@@ -337,20 +338,86 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
               <option value="asc">Low → High</option>
             </select>
           )}
-          <button className="report-search">
-            <Search />
-            Search
-          </button>
-          <div className="report-export">
-            <button type="button" onClick={exportExcel}>
-              <Download />
-              Excel
-            </button>
-            <button type="button" onClick={exportPdf}>
-              <FileText />
-              PDF
-            </button>
+          {(mode === "orders" || mode === "product" || mode === "category") && (
+            <label className="report-search">
+              <Search />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search"
+              />
+              {query && (
+                <button
+                  type="button"
+                  className="report-search-clear"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </label>
+          )}
+          <div className="report-export-wrapper">
+            <span className="report-export-icon">
+              <Download size={18} />
+            </span>
+
+            <select
+              className="report-export-select"
+              defaultValue=""
+              onChange={(e) => {
+                const value = e.target.value;
+
+                if (value === "excel") {
+                  exportExcel();
+                }
+
+                if (value === "pdf") {
+                  exportPdf();
+                }
+
+                e.target.value = "";
+              }}
+            >
+              <option value="" disabled>
+                Export
+              </option>
+
+              <option value="excel">
+                Excel
+              </option>
+
+              <option value="pdf">
+                PDF
+              </option>
+            </select>
           </div>
+          {/* <div className="report-export">
+            <button
+              type="button"
+              className="report-export-trigger"
+              onClick={() => setExportOpen((prev) => !prev)}
+            >
+              <Download size={17} />
+              Export
+              <ChevronDown size={15} />
+            </button>
+
+            {exportOpen && (
+              <div className="report-export-menu">
+                <button type="button" onClick={exportExcel}>
+                  <Download size={15} />
+                  Excel
+                </button>
+
+                <button type="button" onClick={exportPdf}>
+                  <FileText size={15} />
+                  PDF
+                </button>
+              </div>
+            )}
+          </div> */}
           <aside>
             <span>{mode === "delivery" ? "Total Orders" : "Total Amount"}</span>
             <b>{mode === "delivery" ? filtered.length : money(totalAmount)}</b>
@@ -382,8 +449,8 @@ export default function ReportManager({ mode }: { mode: ReportMode }) {
                             "Total Sales",
                             "Order Amount",
                           ].includes(column) &&
-                          typeof row[column] === "number" &&
-                          column !== "Total Sales"
+                            typeof row[column] === "number" &&
+                            column !== "Total Sales"
                             ? money(Number(row[column]))
                             : String(row[column])}
                         </td>

@@ -1,1 +1,1112 @@
-.reports-module{display:grid;gap:18px}.reports-module>header{min-height:78px;padding:20px 24px;border:1px solid var(--line);border-radius:10px;background:var(--surface);display:flex;align-items:center}.reports-module h1{margin:0;font-size:21px}.reports-module>section{overflow:hidden;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.reports-module form{min-height:108px;padding:24px;display:flex;align-items:center;gap:18px;background:var(--surface-soft)}.report-date{height:54px;padding:0 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);display:flex;align-items:center;gap:7px}.report-date input{width:125px;border:0;background:transparent;color:var(--ink);outline:0}.reports-module form>select{height:54px;min-width:178px;padding:0 16px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink)}.reports-module form>label{height:54px;min-width:280px;flex:1;padding:0 13px;border:1px solid var(--line);border-radius:7px;background:var(--surface);display:flex;align-items:center;gap:9px}.reports-module form>label svg{width:19px}.reports-module form>label input{width:100%;border:0;outline:0;background:transparent;color:var(--ink)}.report-search{height:54px;padding:0 20px;border:1px solid var(--line);border-radius:7px;background:var(--surface-soft);color:var(--ink);display:flex;align-items:center;gap:8px}.report-search svg{width:19px}.report-export{display:flex;gap:6px}.report-export button{height:38px;padding:0 11px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);display:flex;align-items:center;gap:5px;cursor:pointer;font-size:11px}.report-export svg{width:14px}.reports-module form aside{margin-left:auto;display:grid;gap:5px;text-align:right;white-space:nowrap}.reports-module form aside span{font-size:12px}.reports-module form aside b{color:#ff6800;font-size:16px}.report-table-scroll{overflow-x:auto}.reports-module table{width:100%;min-width:760px;border-collapse:collapse}.reports-module th,.reports-module td{height:52px;padding:10px 28px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}.reports-module th{font-size:13px}.reports-module th:first-child,.reports-module td:first-child{width:80px;text-align:center}.reports-module th:last-child,.reports-module td:last-child{text-align:right}.reports-module tbody tr:hover{background:var(--surface-soft)}.reports-module tbody td[colspan]{height:80px;text-align:center!important;font-weight:600}.report-table-scroll footer{height:74px;padding:0 28px;display:flex;align-items:center;color:var(--muted)}.report-state{min-height:250px;display:grid;place-items:center;color:var(--muted)}.report-state.error{color:#b42318}@media(max-width:1200px){.reports-module form{flex-wrap:wrap}.reports-module form aside{margin-left:0}.report-export{margin-left:auto}}@media(max-width:700px){.reports-module>header{min-height:64px}.reports-module form{padding:14px;gap:10px}.report-date{width:100%}.report-date input{min-width:0;flex:1}.reports-module form>select,.reports-module form>label{min-width:calc(50% - 5px);flex:1}.report-export{margin-left:0}.reports-module form aside{width:100%;text-align:left}.reports-module th,.reports-module td{padding-inline:14px}}
+/* .reports-module {
+    display: grid;
+    gap: 18px
+}
+
+.reports-module>header {
+    min-height: 78px;
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    display: flex;
+    align-items: center
+}
+
+.reports-module h1 {
+    margin: 0;
+    font-size: 21px
+}
+
+.reports-module>section {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface)
+}
+
+.reports-module form {
+    min-height: 108px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--surface-soft)
+}
+
+.report-date {
+    height: 54px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+.report-date input {
+    width: 125px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    outline: 0
+}
+
+.reports-module form>select {
+    height: 54px;
+    min-width: 178px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--ink)
+}
+
+.reports-module form>label {
+    height: 54px;
+    min-width: 280px;
+    flex: 1;
+    padding: 0 13px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 9px
+}
+
+.reports-module form>label svg {
+    width: 19px
+}
+
+.reports-module form>label input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--ink)
+}
+
+.report-search {
+    height: 54px;
+    padding: 0 20px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface-soft);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.report-search svg {
+    width: 19px
+}
+
+.report-export {
+    display: flex;
+    gap: 6px
+}
+
+.report-export button {
+    height: 38px;
+    padding: 0 11px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 11px
+}
+
+.report-export svg {
+    width: 14px
+}
+
+.reports-module form aside {
+    margin-left: auto;
+    display: grid;
+    gap: 5px;
+    text-align: right;
+    white-space: nowrap
+}
+
+.reports-module form aside span {
+    font-size: 12px
+}
+
+.reports-module form aside b {
+    color: #ff6800;
+    font-size: 16px
+}
+
+.report-table-scroll {
+    overflow-x: auto
+}
+
+.reports-module table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse
+}
+
+.reports-module th,
+.reports-module td {
+    height: 52px;
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    font-size: 13px
+}
+
+.reports-module th {
+    font-size: 13px
+}
+
+.reports-module th:first-child,
+.reports-module td:first-child {
+    width: 80px;
+    text-align: center
+}
+
+.reports-module th:last-child,
+.reports-module td:last-child {
+    text-align: right
+}
+
+.reports-module tbody tr:hover {
+    background: var(--surface-soft)
+}
+
+.reports-module tbody td[colspan] {
+    height: 80px;
+    text-align: center !important;
+    font-weight: 600
+}
+
+.report-table-scroll footer {
+    height: 74px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    color: var(--muted)
+}
+
+.report-state {
+    min-height: 250px;
+    display: grid;
+    place-items: center;
+    color: var(--muted)
+}
+
+.report-state.error {
+    color: #b42318
+}
+
+@media(max-width:1200px) {
+    .reports-module form {
+        flex-wrap: wrap
+    }
+
+    .reports-module form aside {
+        margin-left: 0
+    }
+
+    .report-export {
+        margin-left: auto
+    }
+}
+
+@media(max-width:700px) {
+    .reports-module>header {
+        min-height: 64px
+    }
+
+    .reports-module form {
+        padding: 14px;
+        gap: 10px
+    }
+
+    .report-date {
+        width: 100%
+    }
+
+    .report-date input {
+        min-width: 0;
+        flex: 1
+    }
+
+    .reports-module form>select,
+    .reports-module form>label {
+        min-width: calc(50% - 5px);
+        flex: 1
+    }
+
+    .report-export {
+        margin-left: 0
+    }
+
+    .reports-module form aside {
+        width: 100%;
+        text-align: left
+    }
+
+    .reports-module th,
+    .reports-module td {
+        padding-inline: 14px
+    }
+} */
+
+/* =========================================================
+   REPORTS MODULE - COMPLETE CORRECTED CSS
+   ========================================================= */
+
+.reports-module {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    gap: 18px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   REPORT PAGE HEADER
+   ========================================================= */
+
+.reports-module > header {
+    width: 100%;
+    min-width: 0;
+    min-height: 78px;
+
+    padding: 20px 28px;
+
+    border: 1px solid var(--line);
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+.reports-module > header h1 {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+
+    color: var(--ink);
+}
+
+
+/* =========================================================
+   MAIN REPORT CARD
+   ========================================================= */
+
+.reports-module > section {
+    width: 100%;
+    min-width: 0;
+
+    border: 1px solid var(--line);
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   REPORT TOOLBAR
+   ========================================================= */
+
+.reports-module form {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 96px;
+
+    padding: 18px 24px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    background: var(--surface-soft);
+
+    box-sizing: border-box;
+
+    /*
+     * Keep everything in one horizontal row.
+     * User can scroll horizontally when screen is smaller.
+     */
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    scrollbar-width: thin;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/*
+ * Every toolbar element keeps its own width.
+ * This prevents elements from shrinking and
+ * hiding text/icons.
+ */
+.reports-module form > * {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   DATE RANGE
+   ========================================================= */
+
+.reports-module .report-date {
+    width: 360px;
+    min-width: 360px;
+    height: 54px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--line);
+    border-radius: 7px;
+
+    background: var(--surface);
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    box-sizing: border-box;
+
+    flex: 0 0 360px;
+}
+
+.reports-module .report-date input {
+    width: 125px;
+    min-width: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+    color: var(--ink);
+
+    font-family: inherit;
+    font-size: 15px;
+
+    box-sizing: border-box;
+}
+
+.reports-module .report-date span {
+    white-space: nowrap;
+}
+
+.reports-module .report-date svg {
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   PAYMENT / DELIVERY / SORT DROPDOWNS
+   ========================================================= */
+
+.reports-module form > select {
+    width: 180px;
+    min-width: 180px;
+    height: 54px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--line);
+    border-radius: 7px;
+
+    background: var(--surface);
+    color: var(--ink);
+
+    font-family: inherit;
+    font-size: 15px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    outline: none;
+
+    flex: 0 0 180px;
+}
+
+.reports-module form > select:focus {
+    outline: none;
+    border-color: #94a3b8;
+}
+
+
+/* =========================================================
+   SEARCH BUTTON
+   ========================================================= */
+
+.reports-module .report-search {
+    width: 150px;
+    min-width: 150px;
+    height: 54px;
+
+    padding: 0 18px;
+
+    border: 1px solid var(--line);
+    border-radius: 7px;
+
+    background: var(--surface);
+    color: var(--ink);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    flex: 0 0 150px;
+}
+
+.reports-module .report-search svg {
+    width: 20px;
+    height: 20px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   EXPORT DROPDOWN
+   ========================================================= */
+
+/*
+ * Wrapper is used only for positioning the download icon.
+ */
+.reports-module .report-export-wrapper {
+    position: relative;
+
+    width: 160px;
+    min-width: 160px;
+    height: 54px;
+
+    flex: 0 0 160px;
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+
+/* Download icon */
+.reports-module .report-export-icon {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 2;
+
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ink);
+
+    pointer-events: none;
+}
+
+.reports-module .report-export-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+/*
+ * Native select.
+ *
+ * This makes Export behave like:
+ * Payment Status
+ * Delivery Status
+ * High -> Low
+ */
+.reports-module .report-export-select {
+    width: 100%;
+    min-width: 0;
+    height: 54px;
+
+    padding: 0 34px 0 44px;
+
+    border: 1px solid var(--line);
+    border-radius: 7px;
+
+    background: var(--surface);
+    color: var(--ink);
+
+    font-family: inherit;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    outline: none;
+
+    /*
+     * Keep browser's native dropdown behavior.
+     */
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.reports-module .report-export-select:hover {
+    border-color: #cbd5e1;
+}
+
+.reports-module .report-export-select:focus {
+    outline: none;
+    border-color: #94a3b8;
+}
+
+
+/* =========================================================
+   TOTAL AMOUNT
+   ========================================================= */
+
+.reports-module form > aside {
+    width: 130px;
+    min-width: 130px;
+
+    margin-left: auto;
+
+    flex: 0 0 130px;
+
+    display: grid;
+
+    gap: 5px;
+
+    text-align: right;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+.reports-module form > aside span {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.reports-module form > aside b {
+    color: #ff6800;
+
+    font-size: 19px;
+    font-weight: 500;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+   ========================================================= */
+
+.reports-module .report-table-scroll {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    box-sizing: border-box;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================================================
+   REPORT TABLE
+   ========================================================= */
+
+.reports-module table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: collapse;
+
+    table-layout: auto;
+}
+
+.reports-module th,
+.reports-module td {
+    height: 52px;
+
+    padding: 10px 28px;
+
+    border-bottom: 1px solid var(--line);
+
+    text-align: left;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+.reports-module th {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--ink);
+}
+
+.reports-module th:first-child,
+.reports-module td:first-child {
+    width: 70px;
+
+    text-align: center;
+}
+
+.reports-module th:last-child,
+.reports-module td:last-child {
+    text-align: right;
+}
+
+
+/* Table hover */
+
+.reports-module tbody tr:hover {
+    background: var(--surface-soft);
+}
+
+
+/* =========================================================
+   NO RESULTS
+   ========================================================= */
+
+.reports-module tbody td[colspan] {
+    height: 100px;
+
+    padding: 20px;
+
+    text-align: center !important;
+
+    font-weight: 500;
+
+    color: var(--muted);
+
+    white-space: normal;
+}
+
+
+/* =========================================================
+   REPORT FOOTER
+   ========================================================= */
+
+.reports-module .report-table-scroll footer {
+    width: 100%;
+    min-width: 0;
+
+    height: 74px;
+
+    padding: 0 28px;
+
+    display: flex;
+    align-items: center;
+
+    color: var(--muted);
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+.reports-module .report-table-scroll footer > * {
+    max-width: 100%;
+}
+
+
+/*
+ * "Showing -- 0 of 0 results"
+ */
+.reports-module .report-table-scroll footer span {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   LOADING / ERROR STATE
+   ========================================================= */
+
+.reports-module .report-state {
+    min-height: 250px;
+
+    display: grid;
+    place-items: center;
+
+    color: var(--muted);
+}
+
+.reports-module .report-state.error {
+    color: #b42318;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1201px) {
+
+    .reports-module form {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+}
+
+
+/* =========================================================
+   MEDIUM DESKTOP / LAPTOP
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .reports-module form {
+        padding: 18px 20px;
+
+        gap: 12px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .reports-module .report-date {
+        width: 340px;
+        min-width: 340px;
+        flex-basis: 340px;
+    }
+
+    .reports-module form > select {
+        width: 165px;
+        min-width: 165px;
+        flex-basis: 165px;
+    }
+
+    .reports-module .report-search {
+        width: 140px;
+        min-width: 140px;
+        flex-basis: 140px;
+    }
+
+    .reports-module .report-export-wrapper {
+        width: 150px;
+        min-width: 150px;
+        flex-basis: 150px;
+    }
+
+    .reports-module form > aside {
+        width: 125px;
+        min-width: 125px;
+        flex-basis: 125px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .reports-module > header {
+        min-height: 70px;
+
+        padding: 18px 20px;
+    }
+
+    .reports-module > header h1 {
+        font-size: 22px;
+    }
+
+    /*
+     * Still one horizontal row.
+     * User scrolls instead of elements wrapping.
+     */
+    .reports-module form {
+        min-height: 90px;
+
+        padding: 16px;
+
+        gap: 10px;
+
+        display: flex;
+        flex-wrap: nowrap;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .reports-module .report-date {
+        width: 320px;
+        min-width: 320px;
+        flex-basis: 320px;
+    }
+
+    .reports-module form > select {
+        width: 160px;
+        min-width: 160px;
+        flex-basis: 160px;
+    }
+
+    .reports-module .report-search {
+        width: 135px;
+        min-width: 135px;
+        flex-basis: 135px;
+    }
+
+    .reports-module .report-export-wrapper {
+        width: 145px;
+        min-width: 145px;
+        flex-basis: 145px;
+    }
+
+    .reports-module form > aside {
+        width: 120px;
+        min-width: 120px;
+        flex-basis: 120px;
+    }
+
+    .reports-module th,
+    .reports-module td {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .reports-module .report-table-scroll footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .reports-module {
+        gap: 12px;
+    }
+
+    .reports-module > header {
+        min-height: 64px;
+
+        padding: 16px;
+
+        border-radius: 9px;
+    }
+
+    .reports-module > header h1 {
+        font-size: 21px;
+    }
+
+    /*
+     * IMPORTANT:
+     * Do NOT use display:grid here.
+     * Keep the report toolbar horizontally scrollable.
+     */
+    .reports-module form {
+        min-height: 82px;
+
+        padding: 14px;
+
+        display: flex;
+        flex-wrap: nowrap;
+
+        gap: 10px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .reports-module .report-date {
+        width: 300px;
+        min-width: 300px;
+        flex-basis: 300px;
+
+        height: 52px;
+    }
+
+    .reports-module .report-date input {
+        width: 110px;
+
+        font-size: 14px;
+    }
+
+    .reports-module form > select {
+        width: 155px;
+        min-width: 155px;
+        flex-basis: 155px;
+
+        height: 52px;
+
+        font-size: 14px;
+    }
+
+    .reports-module .report-search {
+        width: 130px;
+        min-width: 130px;
+        flex-basis: 130px;
+
+        height: 52px;
+    }
+
+    .reports-module .report-export-wrapper {
+        width: 140px;
+        min-width: 140px;
+        flex-basis: 140px;
+
+        height: 52px;
+    }
+
+    .reports-module .report-export-select {
+        height: 52px;
+
+        font-size: 14px;
+    }
+
+    .reports-module form > aside {
+        width: 120px;
+        min-width: 120px;
+        flex-basis: 120px;
+
+        margin-left: auto;
+
+        text-align: right;
+    }
+
+    .reports-module form > aside span {
+        font-size: 12px;
+    }
+
+    .reports-module form > aside b {
+        font-size: 17px;
+    }
+
+    .reports-module th,
+    .reports-module td {
+        padding: 10px 14px;
+
+        font-size: 12px;
+    }
+
+    .reports-module th {
+        font-size: 13px;
+    }
+
+    .reports-module .report-table-scroll footer {
+        height: 64px;
+
+        padding: 0 14px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .reports-module > header {
+        padding: 14px;
+    }
+
+    .reports-module > header h1 {
+        font-size: 20px;
+    }
+
+    .reports-module form {
+        padding: 12px;
+
+        gap: 8px;
+    }
+
+    .reports-module .report-date {
+        width: 290px;
+        min-width: 290px;
+        flex-basis: 290px;
+    }
+
+    .reports-module form > select {
+        width: 150px;
+        min-width: 150px;
+        flex-basis: 150px;
+    }
+
+    .reports-module .report-search {
+        width: 125px;
+        min-width: 125px;
+        flex-basis: 125px;
+    }
+
+    .reports-module .report-export-wrapper {
+        width: 135px;
+        min-width: 135px;
+        flex-basis: 135px;
+    }
+
+    .reports-module form > aside {
+        width: 115px;
+        min-width: 115px;
+        flex-basis: 115px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .reports-module * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+    }
+}
