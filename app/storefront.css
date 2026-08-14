@@ -769,7 +769,12 @@
     }
 
     .shop-category-strip {
-        display: none
+        display: flex !important;
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        position: relative;
+        z-index: 100;
     }
 
     .shop-hero {
@@ -1293,8 +1298,7 @@
 @media (max-width: 1024px) {
     .shop-category-strip {
         justify-content: flex-start;
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: visible;
         white-space: nowrap;
         padding: 0 16px;
         gap: 16px;
@@ -1906,12 +1910,15 @@
     }
 
     .shop-category-strip {
-        justify-content: flex-start;
-        overflow-x: auto;
-        overflow-y: hidden;
+         justify-content: flex-start;
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
         gap: 16px;
         padding: 0 12px;
         scrollbar-width: none;
+        position: relative;
+        z-index: 100;
     }
 
     .shop-category-strip::-webkit-scrollbar {

@@ -53,7 +53,7 @@
   padding: 0;
 }
 
-.category-mega-nav .category-mega-grid > a {
+.category-mega-nav .category-mega-grid>a {
   display: block;
   min-height: auto;
   padding: 9px 7px;
@@ -65,7 +65,7 @@
   white-space: nowrap;
 }
 
-.category-mega-nav .category-mega-grid > a:hover {
+.category-mega-nav .category-mega-grid>a:hover {
   background: #f3f4f6;
   color: #079653;
 }
@@ -75,4 +75,102 @@
   left: auto;
 }
 
-.category-mega-nav .category-overflow{position:relative;height:100%;display:flex;align-items:center}.category-mega-nav .category-overflow-trigger{width:34px;height:28px;border:1px solid #dfe5e2;border-radius:6px;background:#fff;color:#079653;font-size:20px;line-height:1;cursor:pointer}.category-mega-nav .category-overflow-menu{position:absolute;z-index:90;top:100%;right:0;width:230px;padding:5px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;box-shadow:0 8px 20px rgba(15,23,42,.14);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .15s,transform .15s,visibility .15s}.category-mega-nav .category-overflow:hover .category-overflow-menu,.category-mega-nav .category-overflow-menu:hover{opacity:1;visibility:visible;transform:translateY(0)}.category-mega-nav .category-overflow-item{position:relative}.category-mega-nav .category-overflow-item>a,.category-mega-nav .category-overflow-all{min-height:36px;padding:8px 10px;border-radius:5px;display:flex;align-items:center;justify-content:space-between;color:#374151;font-size:12px;font-weight:550}.category-mega-nav .category-overflow-item>a:hover,.category-mega-nav .category-overflow-all:hover{background:#f3f8f5;color:#079653}.category-mega-nav .category-overflow-children{position:absolute;top:-5px;right:100%;width:230px;max-height:420px;padding:5px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;box-shadow:0 8px 20px rgba(15,23,42,.14);display:none;overflow-y:auto}.category-mega-nav .category-overflow-item:hover .category-overflow-children{display:block}.category-mega-nav .category-overflow-children>a{padding:9px 8px;border-radius:5px;display:block;color:#374151;font-size:12px;white-space:normal}.category-mega-nav .category-overflow-children>a:hover{background:#f3f8f5;color:#079653}
+.category-mega-nav .category-overflow {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center
+}
+
+.category-mega-nav .category-overflow-trigger {
+  width: 34px;
+  height: 28px;
+  border: 1px solid #dfe5e2;
+  border-radius: 6px;
+  background: #fff;
+  color: #079653;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer
+}
+
+.category-mega-nav .category-overflow-menu {
+  position: absolute;
+  z-index: 90;
+  top: 100%;
+  right: 0;
+  width: 230px;
+  padding: 5px;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity .15s, transform .15s, visibility .15s
+}
+
+.category-mega-nav .category-overflow:hover .category-overflow-menu,
+.category-mega-nav .category-overflow-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0)
+}
+
+.category-mega-nav .category-overflow-item {
+  position: relative
+}
+
+.category-mega-nav .category-overflow-item>a,
+.category-mega-nav .category-overflow-all {
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 550
+}
+
+.category-mega-nav .category-overflow-item>a:hover,
+.category-mega-nav .category-overflow-all:hover {
+  background: #f3f8f5;
+  color: #079653
+}
+
+.category-mega-nav .category-overflow-children {
+  position: absolute;
+  top: -5px;
+  right: 100%;
+  width: 230px;
+  max-height: 420px;
+  padding: 5px;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .14);
+  display: none;
+  overflow-y: auto
+}
+
+.category-mega-nav .category-overflow-item:hover .category-overflow-children {
+  display: block
+}
+
+.category-mega-nav .category-overflow-children>a {
+  padding: 9px 8px;
+  border-radius: 5px;
+  display: block;
+  color: #374151;
+  font-size: 12px;
+  white-space: normal
+}
+
+.category-mega-nav .category-overflow-children>a:hover {
+  background: #f3f8f5;
+  color: #079653
+}
+

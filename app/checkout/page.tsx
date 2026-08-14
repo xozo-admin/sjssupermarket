@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Banknote, Check, ChevronLeft, CreditCard, LocateFixed, MapPin, ShieldCheck, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import AddressMapModal, { type MapSelection } from "../components/address-map-modal";
 import { getAuthSession } from "../features/auth-client";
 import { productImageUrl } from "../features/catalog/types";
@@ -32,6 +32,7 @@ export default function CheckoutPage() {
   const [coordinates, setCoordinates] = useState<{ latitude: number; longitude: number } | null>(null);
   const [availability, setAvailability] = useState<DeliveryAvailability | null>(null);
   const [deletingAddress, setDeletingAddress] = useState(false);
+  const availabilityRequestRef = useRef(0);
   const setAddressField = (field: keyof typeof emptyAddress, value: string) => setAddress((current) => ({ ...current, [field]: value }));
 
   useEffect(() => {
@@ -46,30 +47,58 @@ export default function CheckoutPage() {
   }, []);
 
   function selectAddress(saved: CustomerAddress) {
+    availabilityRequestRef.current++;
     setAddressId(saved.id);
-    setAddress({ name: saved.full_name, mobile: saved.mobile, street: saved.street, locality: saved.locality ?? "", city: saved.city, state: saved.state, pincode: saved.pincode, landmark: saved.landmark ?? "" });
-    const point = saved.latitude != null && saved.longitude != null ? { latitude: saved.latitude, longitude: saved.longitude } : null;
+    setAddress({
+      name: saved.full_name,
+      mobile: saved.mobile,
+      street: saved.street,
+      locality: saved.locality ?? "",
+      city: saved.city,
+      state: saved.state,
+      pincode: saved.pincode,
+      landmark: saved.landmark ?? "",
+    });
+    const point =
+      saved.latitude != null && saved.longitude != null
+        ? {
+          latitude: saved.latitude,
+          longitude: saved.longitude,
+        }
+        : null;
     setCoordinates(point);
+    setAddressError("");
     if (point) {
-      setAddressError("");
+      setAddressSaved(true);
       void checkAvailability(point.latitude, point.longitude);
-    }
-    else {
+    } else {
+      setAddressSaved(true);
       setAvailability(null);
-      setAddressError("Select this delivery location on the map to check availability.");
+      setAddressError(
+        "Please select your delivery location on the map before placing the order."
+      );
     }
-    setAddressSaved(true);
   }
 
   async function checkAvailability(latitude: number, longitude: number) {
+    const requestId = ++availabilityRequestRef.current;
     setAvailability(null);
     try {
       const result = await shippingZoneApi.availability(latitude, longitude);
+      if (requestId !== availabilityRequestRef.current) {
+        return null;
+      }
       setAvailability(result);
       setAddressError(result.available ? "" : result.message);
       return result;
     } catch (reason) {
-      const message = reason instanceof Error ? reason.message : "Could not check delivery availability.";
+      if (requestId !== availabilityRequestRef.current) {
+        return null;
+      }
+      const message =
+        reason instanceof Error
+          ? reason.message
+          : "Could not check delivery availability.";
       setAvailability(null);
       setAddressError(message);
       return null;
@@ -114,25 +143,70 @@ export default function CheckoutPage() {
     void checkAvailability(selection.latitude, selection.longitude);
   };
 
-  const saveAddress = async (event: FormEvent) => {
+  const saveAddress = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!coordinates || availability?.available !== true) {
-      setAddressError(availability?.message || "Select your location on the map and confirm delivery availability.");
+    if (savingAddress) return;
+    if (!address.name.trim() ||
+      !address.mobile.trim() ||
+      !address.street.trim() ||
+      !address.city.trim() ||
+      !address.state.trim() ||
+      !address.pincode.trim()) {
+      setAddressError("Please fill all required address fields.");
       return;
     }
-    setSavingAddress(true); setAddressError("");
+    setSavingAddress(true);
+    setAddressError("");
     try {
-      const payload = { full_name: address.name.trim(), mobile: address.mobile.trim(), street: address.street.trim(), locality: address.locality.trim() || null, city: address.city.trim(), state: address.state.trim(), pincode: address.pincode.trim(), landmark: address.landmark.trim() || null, latitude: coordinates?.latitude ?? null, longitude: coordinates?.longitude ?? null, is_default: true };
-      const saved = addressId ? await customerAddressApi.update(addressId, payload) : await customerAddressApi.create(payload);
-      setAddresses((current) => [saved, ...current.filter((item) => item.id !== saved.id)].map((item) => ({ ...item, is_default: item.id === saved.id })));
+      const payload = {
+        full_name: address.name.trim(),
+        mobile: address.mobile.trim(),
+        street: address.street.trim(),
+        locality: address.locality.trim() || null,
+        city: address.city.trim(),
+        state: address.state.trim(),
+        pincode: address.pincode.trim(),
+        landmark: address.landmark.trim() || null,
+        latitude: coordinates?.latitude ?? null,
+        longitude: coordinates?.longitude ?? null,
+        is_default: true,
+      };
+      const saved = addressId
+        ? await customerAddressApi.update(addressId, payload)
+        : await customerAddressApi.create(payload);
+      setAddresses((current) =>
+        [
+          saved,
+          ...current.filter((item) => item.id !== saved.id),
+        ].map((item) => ({
+          ...item,
+          is_default: item.id === saved.id,
+        }))
+      );
       selectAddress(saved);
-    } catch (reason) { setAddressError(reason instanceof Error ? reason.message : "Could not save the delivery address."); }
-    finally { setSavingAddress(false); }
+    } catch (reason) {
+      setAddressError(
+        reason instanceof Error
+          ? reason.message
+          : "Could not save the delivery address."
+      );
+    } finally {
+      setSavingAddress(false);
+    }
   };
 
   const submitOrder = async () => {
-    if (!addressId || !addressSaved || !items.length || placingOrder) return;
-    setPlacingOrder(true); setOrderError("");
+    if (
+      !addressId ||
+      !addressSaved ||
+      availability?.available !== true ||
+      !items.length ||
+      placingOrder
+    ) {
+      return;
+    }
+    setPlacingOrder(true);
+    setOrderError("");
     try {
       const orderItems = items.map((item) => ({ product_id: item.product.id, quantity: item.quantity }));
       let order: OrderSummary;
@@ -174,11 +248,33 @@ export default function CheckoutPage() {
               <label className="wide">Area / locality<input value={address.locality} onChange={(e) => setAddressField("locality", e.target.value)} placeholder="Area or locality" /></label>
               <label>City *<input required value={address.city} onChange={(e) => setAddressField("city", e.target.value)} placeholder="City" /></label><label>State *<input required value={address.state} onChange={(e) => setAddressField("state", e.target.value)} placeholder="State" /></label>
               <label>Pincode *<input required value={address.pincode} onChange={(e) => setAddressField("pincode", e.target.value)} placeholder="Pincode" /></label><label>Landmark<input value={address.landmark} onChange={(e) => setAddressField("landmark", e.target.value)} placeholder="Optional landmark" /></label>
-              {coordinates && availability?.available && <div className="selected-map-location"><Check />{availability.message}</div>}{addressError && <div className="checkout-address-error">{addressError}</div>}<button disabled={savingAddress || availability?.available !== true}>{savingAddress ? "Saving address..." : "Save delivery address"}</button>
+              {coordinates && availability?.available && <div className="selected-map-location"><Check />{availability.message}</div>}
+              <button
+                type="submit"
+                disabled={savingAddress}
+              >
+                {savingAddress ? "Saving address..." : "Save delivery address"}
+              </button>
             </form>}
         </section>
         <section className="checkout-card payment-card"><header><b>3</b><CreditCard className="checkout-section-icon" /><h2>Payment</h2></header>{paymentMethods.map(({ value, title, help, icon: Icon }) => <label className={payment === value ? "selected" : ""} key={value}><input type="radio" name="payment" value={value} checked={payment === value} onChange={() => setPayment(value)} /><span className="payment-method-icon"><Icon /></span><span><strong>{title}</strong><small>{help}</small></span><i>{payment === value && <Check />}</i></label>)}</section>
-      </div><aside className="order-card"><header><b>2</b><h2>Order summary</h2></header>{placedOrder ? <div className="order-success"><Check /><h3>Order placed successfully</h3><p>Order #{placedOrder.id.slice(0, 8).toUpperCase()}</p><strong>INR {Number(placedOrder.total).toFixed(0)}</strong><Link href="/">Continue shopping</Link></div> : <><div className="order-products">{items.map((item) => { const image = productImageUrl(item.product, "s"); return <article key={item.product.id}>{image && <img src={image} alt="" />}<div><strong>{item.product.name}</strong><small>Qty: {item.quantity}</small></div><b>INR {(Number(item.product.selling_price) * item.quantity).toFixed(0)}</b></article>; })}</div><dl><div><dt>Subtotal</dt><dd>INR {subtotal.toFixed(0)}</dd></div><div><dt>Savings</dt><dd className="saving">− INR {savings.toFixed(0)}</dd></div><div><dt>Delivery</dt><dd>{delivery ? `INR ${delivery}` : "FREE"}</dd></div><div className="price-total"><dt>Total</dt><dd>INR {(subtotal + delivery).toFixed(0)}</dd></div></dl>{orderError && <div className="checkout-address-error">{orderError}</div>}{addressSaved && availability?.available === false && <div className="checkout-address-error">{availability.message}</div>}<button type="button" className="checkout-button" disabled={!addressSaved || availability?.available !== true || !items.length || placingOrder} onClick={submitOrder}><ShieldCheck />{placingOrder ? (payment === "razorpay" ? "Opening secure payment..." : "Placing order...") : (payment === "razorpay" ? "Pay securely with Razorpay" : "Place order")}</button><p>{addressSaved ? (availability?.available ? "Review your order and payment method before placing it." : "Delivery is unavailable for the selected address.") : "Complete your delivery information before placing the order."}</p></>}</aside></div>
+      </div><aside className="order-card"><header><b>2</b><h2>Order summary</h2></header>{placedOrder ? <div className="order-success"><Check /><h3>Order placed successfully</h3><p>Order #{placedOrder.id.slice(0, 8).toUpperCase()}</p><strong>INR {Number(placedOrder.total).toFixed(0)}</strong><Link href="/">Continue shopping</Link></div> : <><div className="order-products">{items.map((item) => { const image = productImageUrl(item.product, "s"); return <article key={item.product.id}>{image && <img src={image} alt="" />}<div><strong>{item.product.name}</strong><small>Qty: {item.quantity}</small></div><b>INR {(Number(item.product.selling_price) * item.quantity).toFixed(0)}</b></article>; })}</div><dl><div><dt>Subtotal</dt><dd>INR {subtotal.toFixed(0)}</dd></div><div><dt>Savings</dt><dd className="saving">− INR {savings.toFixed(0)}</dd></div><div><dt>Delivery</dt><dd>{delivery ? `INR ${delivery}` : "FREE"}</dd></div><div className="price-total"><dt>Total</dt><dd>INR {(subtotal + delivery).toFixed(0)}</dd></div></dl>{orderError && <div className="checkout-address-error">{orderError}</div>}{addressSaved && availability?.available === false && <div className="checkout-address-error">{availability.message}</div>}
+        <button
+          type="button"
+          className="checkout-button"
+          disabled={
+            !addressSaved ||
+            availability?.available !== true ||
+            !items.length ||
+            placingOrder
+          }
+          onClick={submitOrder}
+        >
+          <ShieldCheck />{placingOrder ? (payment === "razorpay" ? "Opening secure payment..." : "Placing order...") : (payment === "razorpay" ? "Pay securely with Razorpay" : "Place order")}</button><p>
+          {addressSaved
+            ? "Review your order and payment method before placing it."
+            : "Complete your delivery information before placing the order."}
+        </p></>}</aside></div>
     </div>{mapOpen && <AddressMapModal initial={coordinates} onClose={() => setMapOpen(false)} onConfirm={selectLocation} />}
   </main>;
 }

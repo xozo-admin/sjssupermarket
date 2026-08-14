@@ -585,11 +585,16 @@ export default function StorefrontClient({
 
           <div className="shop-hero-visual">
             {hero.image_url && (
-              <img
-                key={hero.id}
-                src={`${hero.image_url}?v=${encodeURIComponent(hero.updated_at)}`}
-                alt={hero.title || "Fresh grocery delivery"}
-              />
+              <a
+                href={hero.button_url || "/products"}
+                aria-label={`Shop ${hero.title || "featured products"}`}
+              >
+                <img
+                  key={hero.id}
+                  src={`${hero.image_url}?v=${encodeURIComponent(hero.updated_at)}`}
+                  alt={hero.title || "Fresh grocery delivery"}
+                />
+              </a>
             )}
           </div>
 
@@ -927,8 +932,12 @@ export default function StorefrontClient({
           <div>
             <h3>Contact Info</h3>
             <span>SJS Fresh Market, India</span>
-            <span>+91 98765 43210</span>
-            <span>support@sjsfresh.com</span>
+            <a href="tel:+919876543210">
+              +91 98765 43210
+            </a>
+            <a href="mailto:support@sjsfresh.com">
+              support@sjsfresh.com
+            </a>
           </div>
         </section>
         <div className="shop-footer-bottom">
