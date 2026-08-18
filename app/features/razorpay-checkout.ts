@@ -189,28 +189,32 @@ export async function openRazorpayCheckout(
             result,
           );
 
-          if (
-            result.payment_status === "paid"
-          ) {
+          if (result.payment_status === "paid") {
             completed = true;
             stopPolling();
 
-            console.log(
-              "Payment confirmed by backend",
-            );
+            console.log("Payment confirmed by backend");
 
             gateway?.close();
 
             resolve({
-              razorpay_order_id:
-                checkout.razorpay_order_id,
-
-              razorpay_payment_id:
-                "backend-confirmed",
-
-              razorpay_signature:
-                "backend-confirmed",
+              razorpay_order_id: checkout.razorpay_order_id,
+              razorpay_payment_id: "backend-confirmed",
+              razorpay_signature: "backend-confirmed",
             });
+
+            return;
+          }
+
+          if (result.payment_status === "failed") {
+            completed = true;
+            stopPolling();
+
+            gateway?.close();
+
+            reject(
+              new Error("Payment failed. Please try again.")
+            );
 
             return;
           }
@@ -282,6 +286,8 @@ export async function openRazorpayCheckout(
 
           completed = true;
           stopPolling();
+
+          gateway?.close();
 
           reject(
             new Error(
