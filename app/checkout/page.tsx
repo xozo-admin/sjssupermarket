@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Banknote, Check, ChevronLeft, CreditCard, LocateFixed, MapPin, ShieldCheck, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import AddressMapModal, { type MapSelection } from "../components/address-map-modal";
 import { getAuthSession } from "../features/auth-client";
@@ -17,6 +18,7 @@ import { shippingZoneApi, type DeliveryAvailability } from "../features/shipping
 const emptyAddress = { name: "", mobile: "", street: "", locality: "", city: "", state: "", pincode: "", landmark: "" };
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const [items, setItems] = useState<CartItem[]>([]);
   const [payment, setPayment] = useState("cod");
   const [address, setAddress] = useState(emptyAddress);
@@ -196,39 +198,113 @@ const delivery = 0;
     }
   };
 
-  const submitOrder = async () => {
-    if (
-      !addressId ||
-      !addressSaved ||
-      availability?.available !== true ||
-      !items.length ||
-      placingOrder
-    ) {
-      return;
+  // const submitOrder = async () => {
+  //   if (
+  //     !addressId ||
+  //     !addressSaved ||
+  //     availability?.available !== true ||
+  //     !items.length ||
+  //     placingOrder
+  //   ) {
+  //     return;
+  //   }
+  //   setPlacingOrder(true);
+  //   setOrderError("");
+  //   try {
+  //     const orderItems = items.map((item) => ({ product_id: item.product.id, quantity: item.quantity }));
+  //     let order: OrderSummary;
+  //     if (payment === "razorpay") {
+  //       const checkout = await createRazorpayOrder({ address_id: addressId, items: orderItems });
+  //       const session = getAuthSession();
+  //       const response = await openRazorpayCheckout(checkout, {
+  //         name: session?.user.name ?? address.name,
+  //         email: session?.user.email ?? "",
+  //         mobile: session?.user.mobile ?? address.mobile,
+  //       });
+  //       order = await verifyRazorpayPayment(checkout.checkout_id, response);
+  //       notify.success("Payment successful and order placed");
+  //       router.push("/orders");
+  //     } else {
+  //       order = await placeOrder({ address_id: addressId, payment_method: "cod", items: orderItems });
+  //       notify.success("Order placed successfully");
+  //     }
+  //     writeCart([]); setItems([]); setPlacedOrder(order);
+  //   } catch (reason) { setOrderError(reason instanceof Error ? reason.message : "Could not place your order."); }
+  //   finally { setPlacingOrder(false); }
+  // };
+
+const submitOrder = async () => {
+  if (
+    !addressId ||
+    !addressSaved ||
+    availability?.available !== true ||
+    !items.length ||
+    placingOrder
+  ) {
+    return;
+  }
+
+  setPlacingOrder(true);
+  setOrderError("");
+
+  try {
+    const orderItems = items.map((item) => ({
+      product_id: item.product.id,
+      quantity: item.quantity,
+    }));
+
+    let order: OrderSummary;
+
+    if (payment === "razorpay") {
+      const checkout = await createRazorpayOrder({
+        address_id: addressId,
+        items: orderItems,
+      });
+
+      const session = getAuthSession();
+
+      const response = await openRazorpayCheckout(checkout, {
+        name: session?.user.name ?? address.name,
+        email: session?.user.email ?? "",
+        mobile: session?.user.mobile ?? address.mobile,
+      });
+
+      order = await verifyRazorpayPayment(
+        checkout.checkout_id,
+        response
+      );
+
+      notify.success("Payment successful and order placed");
+
+      writeCart([]);
+      setItems([]);
+
+      router.push("/orders");
+
+    } else {
+      order = await placeOrder({
+        address_id: addressId,
+        payment_method: "cod",
+        items: orderItems,
+      });
+
+      notify.success("Order placed successfully");
+
+      writeCart([]);
+      setItems([]);
+      setPlacedOrder(order);
     }
-    setPlacingOrder(true);
-    setOrderError("");
-    try {
-      const orderItems = items.map((item) => ({ product_id: item.product.id, quantity: item.quantity }));
-      let order: OrderSummary;
-      if (payment === "razorpay") {
-        const checkout = await createRazorpayOrder({ address_id: addressId, items: orderItems });
-        const session = getAuthSession();
-        const response = await openRazorpayCheckout(checkout, {
-          name: session?.user.name ?? address.name,
-          email: session?.user.email ?? "",
-          mobile: session?.user.mobile ?? address.mobile,
-        });
-        order = await verifyRazorpayPayment(checkout.checkout_id, response);
-        notify.success("Payment successful and order placed");
-      } else {
-        order = await placeOrder({ address_id: addressId, payment_method: "cod", items: orderItems });
-        notify.success("Order placed successfully");
-      }
-      writeCart([]); setItems([]); setPlacedOrder(order);
-    } catch (reason) { setOrderError(reason instanceof Error ? reason.message : "Could not place your order."); }
-    finally { setPlacingOrder(false); }
-  };
+
+  } catch (reason) {
+    setOrderError(
+      reason instanceof Error
+        ? reason.message
+        : "Could not place your order."
+    );
+  } finally {
+    setPlacingOrder(false);
+  }
+};
 
   const paymentMethods = [
     { value: "cod", title: "Cash on delivery", help: "Pay when your order arrives", icon: Banknote },
