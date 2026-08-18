@@ -10,7 +10,7 @@ import { getAuthSession } from "../features/auth-client";
 import { productImageUrl } from "../features/catalog/types";
 import { readCart, writeCart, type CartItem } from "../features/cart-store";
 import { customerAddressApi, type CustomerAddress } from "../features/customer-address-api";
-import { createRazorpayOrder, placeOrder, verifyRazorpayPayment, type OrderSummary } from "../features/order-api";
+import { createRazorpayOrder, placeOrder, verifyRazorpayPayment, checkRazorpayPayment, type OrderSummary } from "../features/order-api";
 import { openRazorpayCheckout } from "../features/razorpay-checkout";
 import { notify } from "../features/notifications";
 import { shippingZoneApi, type DeliveryAvailability } from "../features/shipping-zone-api";
@@ -255,33 +255,85 @@ const submitOrder = async () => {
 
     let order: OrderSummary;
 
+    // if (payment === "razorpay") {
+    //   const checkout = await createRazorpayOrder({
+    //     address_id: addressId,
+    //     items: orderItems,
+    //   });
+
+    //   const session = getAuthSession();
+
+    //   const response = await openRazorpayCheckout(checkout, {
+    //     name: session?.user.name ?? address.name,
+    //     email: session?.user.email ?? "",
+    //     mobile: session?.user.mobile ?? address.mobile,
+    //   });
+
+    //   order = await verifyRazorpayPayment(
+    //     checkout.checkout_id,
+    //     response
+    //   );
+
+    //   notify.success("Payment successful and order placed");
+
+    //   writeCart([]);
+    //   setItems([]);
+
+    //   router.push("/orders");
+
+    // } 
+
     if (payment === "razorpay") {
-      const checkout = await createRazorpayOrder({
-        address_id: addressId,
-        items: orderItems,
-      });
+  const checkout = await createRazorpayOrder({
+    address_id: addressId,
+    items: orderItems,
+  });
 
-      const session = getAuthSession();
+  const session = getAuthSession();
 
-      const response = await openRazorpayCheckout(checkout, {
-        name: session?.user.name ?? address.name,
-        email: session?.user.email ?? "",
-        mobile: session?.user.mobile ?? address.mobile,
-      });
+  const response = await openRazorpayCheckout(checkout, {
+    name: session?.user.name ?? address.name,
+    email: session?.user.email ?? "",
+    mobile: session?.user.mobile ?? address.mobile,
+  });
 
-      order = await verifyRazorpayPayment(
-        checkout.checkout_id,
-        response
+  // Normal Razorpay callback
+  if (response.razorpay_payment_id !== "backend-confirmed") {
+    order = await verifyRazorpayPayment(
+      checkout.checkout_id,
+      response
+    );
+  } else {
+    // QR/PhonePe payment was detected and finalized
+    // by our backend.
+    const result = await checkRazorpayPayment(
+      checkout.checkout_id
+    );
+
+    if (
+      result.payment_status !== "paid" ||
+      !result.order
+    ) {
+      throw new Error(
+        "Payment was not confirmed by the server."
       );
+    }
 
-      notify.success("Payment successful and order placed");
+    order = result.order;
+  }
 
-      writeCart([]);
-      setItems([]);
+  notify.success(
+    "Payment successful and order placed"
+  );
 
-      router.push("/orders");
+  writeCart([]);
+  setItems([]);
 
-    } else {
+  router.push("/orders");
+
+  return;
+}   
+    else {
       order = await placeOrder({
         address_id: addressId,
         payment_method: "cod",

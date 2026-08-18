@@ -65,3 +65,26 @@ export async function verifyRazorpayPayment(checkoutId: string, payment: Razorpa
   if (!response.ok) throw new Error(body?.detail ?? "Could not verify Razorpay payment");
   return body.order as OrderSummary;
 }
+
+export async function checkRazorpayPayment(checkoutId: string) {
+  const response = await fetch(
+    `${API}/payments/razorpay/check/${checkoutId}`,
+    {
+      method: "GET",
+      headers: authHeaders(),
+    }
+  );
+
+  const body = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      body?.detail ?? "Could not check Razorpay payment"
+    );
+  }
+
+  return body as {
+    payment_status: string;
+    order: OrderSummary | null;
+  };
+}
