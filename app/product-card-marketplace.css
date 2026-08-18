@@ -431,9 +431,9 @@
 }
 
 .products-filters {
-  position: sticky;
-  top: 108px;
-  overflow: hidden;
+  position: static;
+  top: auto;
+  overflow: visible;
   border: 0;
   border-radius: 6px;
   background: #fff;

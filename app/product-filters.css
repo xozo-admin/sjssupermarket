@@ -127,51 +127,67 @@
 
 .price-filter {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: end;
-    gap: 10px
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 18px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .price-filter label {
-    display: grid;
-    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+    width: 100%;
     min-width: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.price-filter label span {
+.price-filter label > span {
+    display: block;
+    margin: 0;
     color: #66736b;
     font-size: 12px;
     font-weight: 500;
+    line-height: 1.2;
 }
 
 .price-input-wrapper {
     position: relative;
+    display: block;
     width: 100%;
+    margin: 0;
 }
 
 .price-input-wrapper .currency-symbol {
     position: absolute;
-    left: 11px;
+    left: 4px;
     top: 50%;
     transform: translateY(-50%);
     color: #68746d;
     font-size: 13px;
     font-weight: 500;
     pointer-events: none;
+    z-index: 2;
 }
 
 .price-filter input {
+    display: block;
     width: 100%;
-    height: 40px;
-    padding: 0 8px 0 27px;
+    height: 42px;
+    margin: 0;
+    padding: 0 8px 0 28px;
     box-sizing: border-box;
     border: 1px solid #dce5e0;
-    border-radius: 8px;
-    outline: 0;
-    font-size: 12px;
+    border-radius: 7px;
     background: #fff;
     color: #26332c;
-    transition: border-color .15s ease, box-shadow .15s ease;
+    font-size: 13px;
+    line-height: 42px;
+    outline: none;
 }
 
 .price-filter input::placeholder {
@@ -184,10 +200,12 @@
 }
 
 .price-filter i {
-    padding-bottom: 12px;
+    align-self: flex-end;
+    margin-bottom: 11px;
     color: #9aa39e;
-    font-size: 13px;
-    font-style: normal
+    font-size: 14px;
+    font-style: normal;
+    text-align: center;
 }
 
 .price-filter input::-webkit-outer-spin-button,
@@ -222,11 +240,12 @@
 
 .price-slider {
     position: relative;
+    width: 100%;
     height: 32px;
-    margin: 8px 2px 14px;
+    margin: 8px 0 18px;
+    box-sizing: border-box;
 }
 
-/* Shared track behind both handles */
 .price-slider::before {
     content: "";
     position: absolute;
@@ -238,7 +257,6 @@
     background: #dce8e1;
 }
 
-/* Both range inputs */
 .price-slider input[type="range"] {
     position: absolute;
     left: 0;

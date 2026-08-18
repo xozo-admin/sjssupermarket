@@ -293,22 +293,22 @@ export default function ProductsClient({
   );
 
   const priceBounds = useMemo(() => {
-  const prices = initialProducts
-    .map((product) => Number(product.selling_price))
-    .filter((price) => Number.isFinite(price) && price >= 0);
+    const prices = initialProducts
+      .map((product) => Number(product.selling_price))
+      .filter((price) => Number.isFinite(price) && price >= 0);
 
-  if (!prices.length) {
+    if (!prices.length) {
+      return {
+        min: 0,
+        max: 0,
+      };
+    }
+
     return {
-      min: 0,
-      max: 0,
+      min: Math.min(...prices),
+      max: Math.max(...prices),
     };
-  }
-
-  return {
-    min: Math.min(...prices),
-    max: Math.max(...prices),
-  };
-}, [initialProducts]);
+  }, [initialProducts]);
 
   // const calculatedPriceBounds = useMemo(() => {
   //   const prices = products
@@ -457,104 +457,242 @@ export default function ProductsClient({
               ))}
             </div>
           </section>
+
           <section>
-  <h3>Price Range</h3>
+            <h3>Price Range</h3>
 
-  <div className="price-range-values">
-    <strong>
-      ₹{minimumPrice || priceBounds.min.toFixed(0)}
-    </strong>
+            <div className="price-range-values">
+              <strong>
+                {/* ₹{minimumPrice || priceBounds.min.toFixed(0)} */}
+                ₹{minimumPrice === "" ? priceBounds.min.toFixed(0) : minimumPrice}
+              </strong>
 
-    <span>—</span>
+              <span>—</span>
 
-    <strong>
-      ₹{maximumPrice || priceBounds.max.toFixed(0)}
-    </strong>
-  </div>
+              <strong>
+                {/* ₹{maximumPrice || priceBounds.max.toFixed(0)} */}
+                ₹{maximumPrice === "" ? priceBounds.max.toFixed(0) : maximumPrice}
+              </strong>
+            </div>
 
-  <div className="price-slider">
-  {/* Minimum price slider */}
-  <input
-  className="price-slider-min"
-  type="range"
-  min={priceBounds.min}
-  max={priceBounds.max}
-  value={Number(minimumPrice) || priceBounds.min}
-  onChange={(event) => {
-    const value = Number(event.target.value);
+            <div className="price-slider">
+              <input
+                className="price-slider-min"
+                type="range"
+                min={priceBounds.min}
+                max={priceBounds.max}
+                // value={Number(minimumPrice) || priceBounds.min}
+                value={
+                  minimumPrice === ""
+                    ? priceBounds.min
+                    : Number(minimumPrice)
+                }
+                onChange={(event) => {
+                  const value = Number(event.target.value);
 
-    if (maximumPrice && value > Number(maximumPrice)) {
-      return;
-    }
+                  // if (maximumPrice && value > Number(maximumPrice)) {
+                  //   return;
+                  // }
 
-    setMinimumPrice(String(value));
-    filterChanged();
-  }}
-  aria-label="Minimum price"
-/>
+                  if (
+                    maximumPrice !== "" &&
+                    value > Number(maximumPrice)
+                  ) {
+                    return;
+                  }
 
-  {/* Maximum price slider */}
- <input
-  className="price-slider-max"
-  type="range"
-  min={priceBounds.min}
-  max={priceBounds.max}
-  value={Number(maximumPrice) || priceBounds.max}
-  onChange={(event) => {
-    const value = Number(event.target.value);
+                  setMinimumPrice(String(value));
+                  filterChanged();
+                }}
+                aria-label="Minimum price"
+              />
 
-    if (minimumPrice && value < Number(minimumPrice)) {
-      return;
-    }
+              <input
+                className="price-slider-max"
+                type="range"
+                min={priceBounds.min}
+                max={priceBounds.max}
+                // value={Number(maximumPrice) || priceBounds.max}
+                value={
+                  maximumPrice === ""
+                    ? priceBounds.max
+                    : Number(maximumPrice)
+                }
+                onChange={(event) => {
+                  const value = Number(event.target.value);
 
-    setMaximumPrice(String(value));
-    filterChanged();
-  }}
-  aria-label="Maximum price"
-/>
-</div>
+                  // if (minimumPrice && value < Number(minimumPrice)) {
+                  //   return;
+                  // }
 
-  <div className="price-filter">
-    <label>
-      <span>Min price</span>
+                  if (
+                    minimumPrice !== "" &&
+                    value < Number(minimumPrice)
+                  ) {
+                    return;
+                  }
 
-      <div className="price-input-wrapper">
-        <span className="currency-symbol">₹</span>
-        <input
-          type="number"
-          min={priceBounds.min}
-          max={priceBounds.max}
-          value={minimumPrice}
-          placeholder={priceBounds.min.toFixed(0)}
-          onChange={(event) => {
-            const value = event.target.value;
-            setMinimumPrice(value);
-            filterChanged();
-          }}
-        />
-      </div>
-    </label>
-    {/* <i>—</i> */}
-    <label>
-      <span>Max price</span>
-      <div className="price-input-wrapper">
-        <span className="currency-symbol">₹</span>
-        <input
-          type="number"
-          min={priceBounds.min}
-          max={priceBounds.max}
-          value={maximumPrice}
-          placeholder={priceBounds.max.toFixed(0)}
-          onChange={(event) => {
-            const value = event.target.value;
-            setMaximumPrice(value);
-            filterChanged();
-          }}
-        />
-      </div>
-    </label>
-  </div>
-</section>
+                  setMaximumPrice(String(value));
+                  filterChanged();
+                }}
+                aria-label="Maximum price"
+              />
+            </div>
+            <div className="price-filter">
+
+              {/* Minimum input */}
+              <label>
+                <span>Min price</span>
+
+                <div className="price-input-wrapper">
+                  <span className="currency-symbol">₹</span>
+
+                  {/* <input
+                    type="number"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    value={
+                      minimumPrice === ""
+                        ? priceBounds.min
+                        : minimumPrice
+                    }
+                    onChange={(event) => {
+                      const value = event.target.value;
+
+                      if (value === "") {
+                        setMinimumPrice("");
+                        filterChanged();
+                        return;
+                      }
+
+                      const numberValue = Number(value);
+
+                      if (
+                        numberValue >= priceBounds.min &&
+                        numberValue <= priceBounds.max &&
+                        (
+                          maximumPrice === "" ||
+                          numberValue <= Number(maximumPrice)
+                        )
+                      ) {
+                        setMinimumPrice(value);
+                        filterChanged();
+                      }
+                    }}
+                    aria-label="Minimum price"
+                  /> */}
+                  <input
+                    type="number"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    value={minimumPrice}
+                    placeholder={priceBounds.min.toFixed(0)}
+                    onChange={(event) => {
+                      const value = event.target.value;
+
+                      setMinimumPrice(value);
+                      filterChanged();
+                    }}
+                    onBlur={() => {
+                      if (minimumPrice === "") return;
+
+                      const value = Number(minimumPrice);
+
+                      if (value < priceBounds.min) {
+                        setMinimumPrice(String(priceBounds.min));
+                      } else if (value > priceBounds.max) {
+                        setMinimumPrice(String(priceBounds.max));
+                      } else if (
+                        maximumPrice !== "" &&
+                        value > Number(maximumPrice)
+                      ) {
+                        setMinimumPrice(maximumPrice);
+                      }
+                    }}
+                    aria-label="Minimum price"
+                  />
+                </div>
+              </label>
+
+              {/* <i>—</i> */}
+
+              {/* Maximum input */}
+              <label>
+                <span>Max price</span>
+
+                <div className="price-input-wrapper">
+                  <span className="currency-symbol">₹</span>
+
+                  {/* <input
+                    type="number"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    value={
+                      maximumPrice === ""
+                        ? priceBounds.max
+                        : maximumPrice
+                    }
+                    onChange={(event) => {
+                      const value = event.target.value;
+
+                      if (value === "") {
+                        setMaximumPrice("");
+                        filterChanged();
+                        return;
+                      }
+
+                      const numberValue = Number(value);
+
+                      if (
+                        numberValue >= priceBounds.min &&
+                        numberValue <= priceBounds.max &&
+                        (
+                          minimumPrice === "" ||
+                          numberValue >= Number(minimumPrice)
+                        )
+                      ) {
+                        setMaximumPrice(value);
+                        filterChanged();
+                      }
+                    }}
+                    aria-label="Maximum price"
+                  /> */}
+                  <input
+                    type="number"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    value={maximumPrice}
+                    placeholder={priceBounds.max.toFixed(0)}
+                    onChange={(event) => {
+                      const value = event.target.value;
+
+                      setMaximumPrice(value);
+                      filterChanged();
+                    }}
+                    onBlur={() => {
+                      if (maximumPrice === "") return;
+
+                      const value = Number(maximumPrice);
+
+                      if (value < priceBounds.min) {
+                        setMaximumPrice(String(priceBounds.min));
+                      } else if (value > priceBounds.max) {
+                        setMaximumPrice(String(priceBounds.max));
+                      } else if (
+                        minimumPrice !== "" &&
+                        value < Number(minimumPrice)
+                      ) {
+                        setMaximumPrice(minimumPrice);
+                      }
+                    }}
+                    aria-label="Maximum price"
+                  />
+                </div>
+              </label>
+
+            </div>
+          </section>
+
         </aside>
         {mobileFilters && (
           <button

@@ -17,13 +17,12 @@
 .products-filters {
   border: 1px solid #e2e8e5;
   background: #fff;
-  position: sticky;
-  top: 90px;
+  position: static;
   align-self: start;
   height: fit-content;
   max-height: none;
-  overflow-y: visible;
-  z-index: 20
+  overflow: visible;
+  z-index: 20;
 }
 
 .products-filters>h2 {
