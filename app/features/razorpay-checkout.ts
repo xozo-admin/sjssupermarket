@@ -40,15 +40,67 @@ function loadRazorpay() {
   return loader;
 }
 
+// export async function openRazorpayCheckout(
+//   checkout: RazorpayCheckout,
+//   customer: { name: string; email: string; mobile: string },
+// ) {
+//   await loadRazorpay();
+//   return new Promise<RazorpayPaymentResponse>((resolve, reject) => {
+//     const Razorpay = window.Razorpay;
+//     if (!Razorpay) return reject(new Error("Razorpay checkout is unavailable"));
+//     let completed = false;
+//     const gateway = new Razorpay({
+//       key: checkout.razorpay_key_id,
+//       amount: checkout.amount,
+//       currency: checkout.currency,
+//       name: "SJS Super Market",
+//       description: "Grocery order payment",
+//       image: "/app_logo.jpeg",
+//       order_id: checkout.razorpay_order_id,
+//       handler: (response) => {
+//         completed = true;
+//         resolve(response);
+//       },
+//       prefill: { name: customer.name, email: customer.email, contact: customer.mobile },
+//       theme: { color: "#257a42" },
+//       modal: {
+//         ondismiss: () => {
+//           if (!completed) reject(new Error("Payment cancelled"));
+//         },
+//       },
+//     });
+//     gateway.on("payment.failed", (response) => {
+//       completed = true;
+//       reject(new Error(response.error?.description || "Payment failed"));
+//     });
+//     gateway.open();
+//   });
+// }
+
 export async function openRazorpayCheckout(
   checkout: RazorpayCheckout,
   customer: { name: string; email: string; mobile: string },
 ) {
   await loadRazorpay();
+
   return new Promise<RazorpayPaymentResponse>((resolve, reject) => {
     const Razorpay = window.Razorpay;
-    if (!Razorpay) return reject(new Error("Razorpay checkout is unavailable"));
+
+    if (!Razorpay) {
+      reject(new Error("Razorpay checkout is unavailable"));
+      return;
+    }
+
     let completed = false;
+
+    const finishSuccess = (response: RazorpayPaymentResponse) => {
+      console.log("RAZORPAY SUCCESS CALLBACK:", response);
+      if (completed) return;
+
+      completed = true;
+      resolve(response);
+    };
+
     const gateway = new Razorpay({
       key: checkout.razorpay_key_id,
       amount: checkout.amount,
@@ -57,22 +109,43 @@ export async function openRazorpayCheckout(
       description: "Grocery order payment",
       image: "/app_logo.jpeg",
       order_id: checkout.razorpay_order_id,
+
       handler: (response) => {
-        completed = true;
-        resolve(response);
+        finishSuccess(response);
       },
-      prefill: { name: customer.name, email: customer.email, contact: customer.mobile },
-      theme: { color: "#257a42" },
+
+      prefill: {
+        name: customer.name,
+        email: customer.email,
+        contact: customer.mobile,
+      },
+
+      theme: {
+        color: "#257a42",
+      },
+
       modal: {
         ondismiss: () => {
-          if (!completed) reject(new Error("Payment cancelled"));
+          if (!completed) {
+            reject(new Error("Payment cancelled"));
+          }
         },
       },
     });
+
     gateway.on("payment.failed", (response) => {
+      console.log("RAZORPAY PAYMENT FAILED:", response);
+      if (completed) return;
+
       completed = true;
-      reject(new Error(response.error?.description || "Payment failed"));
+
+      reject(
+        new Error(
+          response.error?.description || "Payment failed"
+        )
+      );
     });
+    console.log("OPENING RAZORPAY CHECKOUT:", checkout);
     gateway.open();
   });
 }
