@@ -20,7 +20,7 @@ import StorefrontAuthModal from "./storefront-auth-modal";
 function Icon({
   name,
 }: {
-  name: "home" | "heart" | "bag" | "orders" | "bell" | "user" | "dashboard";
+  name: "home" | "sprout" | "heart" | "bag" | "orders" | "bell" | "user" | "dashboard";
 }) {
   const paths = {
     home: (
@@ -42,6 +42,13 @@ function Icon({
         />
       </>
     ),
+     sprout: (
+  <>
+    <path d="M12 21V11" />
+    <path d="M12 11C8 11 5 8.5 5 4c4.5 0 7 2.5 7 7Z" />
+    <path d="M12 14c0-4 2.5-6.5 7-6.5 0 4.5-3 7-7 7" />
+  </>
+),
     heart: (
       <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z" />
     ),
@@ -222,13 +229,23 @@ export default function StorefrontNavigation() {
               </div>
             </Link>
 
-            <Link
-              href="/"
-              className={`global-home-link ${pathname === "/" ? "active" : ""}`}
-            >
-              <Icon name="home" />
-              <span>Home</span>
-            </Link>
+            <div className="global-main-links">
+              <Link
+                href="/"
+                className={`global-home-link ${pathname === "/" ? "active" : ""}`}
+              >
+                <Icon name="home" />
+                <span>Home</span>
+              </Link>
+
+              <Link
+                href="#products"
+                className="global-fresh-picks-link"
+              >
+                <Icon name="sprout" />
+                <span>Fresh Picks</span>
+              </Link>
+            </div>
             <ProductSearch value={search} onChange={setSearch} shortcut />
 
             <div className="shop-tools">
