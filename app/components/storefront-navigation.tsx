@@ -239,7 +239,7 @@ export default function StorefrontNavigation() {
               </Link>
 
               <Link
-                href="#products"
+                href="/#products"
                 className="global-fresh-picks-link"
               >
                 <Icon name="sprout" />

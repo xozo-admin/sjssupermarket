@@ -422,6 +422,16 @@ export default function StorefrontClient({
     setShowMore(false);
   }, [feedbackIndex]);
 
+  useEffect(() => {
+  if (window.location.hash === "#products") {
+    setTimeout(() => {
+      document.getElementById("products")?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 100);
+  }
+}, []);
+
   const mainCategories = useMemo(
     () => categories.filter((item) => !item.parent_id),
     [categories],
