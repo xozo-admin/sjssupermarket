@@ -274,7 +274,7 @@ export default function StorefrontNavigation() {
                     <b>{cartCount > 99 ? "99+" : cartCount}</b>
                   )}
                 </span>
-                <span>Cart</span>
+                {/* <span>Cart</span> */}
               </Link>
 
               <Link

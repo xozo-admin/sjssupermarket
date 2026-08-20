@@ -128,7 +128,7 @@
     justify-content: center;
   }
 
-  .global-storefront-navigation .global-cart-link>span:last-child,
+  /* .global-storefront-navigation .global-cart-link>span:last-child, */
   .global-storefront-navigation .global-orders-link>span,
   .global-storefront-navigation .global-login-button>span,
   .global-storefront-navigation .global-user-button>span,
