@@ -118,6 +118,12 @@
   transform: translateY(0)
 }
 
+.category-mega-nav .category-overflow.open .category-overflow-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 .category-mega-nav .category-overflow-item {
   position: relative
 }
@@ -156,8 +162,10 @@
   overflow-y: auto
 }
 
-.category-mega-nav .category-overflow-item:hover .category-overflow-children {
-  display: block
+@media (min-width: 1025px) {
+  .category-mega-nav .category-overflow-item:hover .category-overflow-children {
+    display: block
+  }
 }
 
 .category-mega-nav .category-overflow-children>a {
@@ -173,4 +181,3 @@
   background: #f3f8f5;
   color: #079653
 }
-

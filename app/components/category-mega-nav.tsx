@@ -22,8 +22,20 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
   const [overflowOpen, setOverflowOpen] = useState(false);
   const pathname = usePathname();
   const mainCategories = categories.filter((item) => !item.parent_id);
+  const [openOverflowChildId, setOpenOverflowChildId] = useState<string | null>(null);
 
   const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    if (!overflowOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest(".category-overflow")) {
+        setOverflowOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [overflowOpen]);
 
   useEffect(() => {
     const update = () => {
@@ -94,20 +106,65 @@ export default function CategoryMegaNav({ categories }: { categories: Category[]
           </div>
         );
       })}
-      
-      {overflowCategories.length > 0 && <div className={`category-overflow ${overflowOpen ? "open" : ""}`}>
-        <button className="category-overflow-trigger" style={{ border: 0, background: "transparent", color: "#4d5766" }} type="button" aria-label="More categories">»</button>
-        <div className="category-overflow-menu">
-          {overflowCategories.map((parent) => {
-            const children = categories.filter((item) => item.parent_id === parent.id);
-            return <div className="category-overflow-item" key={parent.id}>
-              <a href={`/products?category=${encodeURIComponent(parent.name)}`}>{parent.name}{children.length > 0 && <span>›</span>}</a>
-              {children.length > 0 && <div className="category-overflow-children">{children.map((child) => <a key={child.id} href={`/products?category=${encodeURIComponent(child.name)}`}>{child.name}</a>)}</div>}
-            </div>;
-          })}
-          <Link className="category-overflow-all" href="/products">All Products</Link>
-        </div>
-      </div>}
+
+      {overflowCategories.length > 0 &&
+        <div className={`category-overflow ${overflowOpen ? "open" : ""}`}>
+          <button
+            className="category-overflow-trigger"
+            style={{ border: 0, background: "transparent", color: "#4d5766" }}
+            type="button"
+            aria-label="More categories"
+            onClick={() => {
+              setOverflowOpen((current) => !current);
+              setOpenCategoryId(null);
+            }}
+          >
+            »
+          </button>
+          <div className="category-overflow-menu">
+            {/* {overflowCategories.map((parent) => {
+              const children = categories.filter((item) => item.parent_id === parent.id);
+              return <div className="category-overflow-item" key={parent.id}>
+                <a href={`/products?category=${encodeURIComponent(parent.name)}`}>{parent.name}{children.length > 0 && <span>›</span>}</a>
+                {children.length > 0 && <div className="category-overflow-children">{children.map((child) => <a key={child.id} href={`/products?category=${encodeURIComponent(child.name)}`}>{child.name}</a>)}</div>}
+              </div>;
+            })} */}
+            {overflowCategories.map((parent) => {
+              const children = categories.filter((item) => item.parent_id === parent.id);
+              return (
+                <div className="category-overflow-item" key={parent.id}>
+
+                  <a href={`/products?category=${encodeURIComponent(parent.name)}`}
+                    onClick={(event) => {
+                      if (children.length > 0 && window.matchMedia("(max-width: 1024px)").matches) {
+                        event.preventDefault();
+                        setOpenOverflowChildId((current) => (current === parent.id ? null : parent.id));
+                      }
+                    }}
+                  >
+                    {parent.name}
+                    {children.length > 0 && <span>›</span>}
+                  </a>
+                  {children.length > 0 && (
+                    <div className={`category-overflow-children ${openOverflowChildId === parent.id ? "open" : ""}`}>
+                      {children.map((child) => (
+                        <a key={child.id} href={`/products?category=${encodeURIComponent(child.name)}`}>
+                          {child.name}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            <Link className="category-overflow-all"
+              href="/products"
+              onClick={() => {
+                setOverflowOpen(false);
+                setOpenOverflowChildId(null);
+              }}>All Products</Link>
+          </div>
+        </div>}
       {!overflowCategories.length && <Link className="category-all-link" href="/products" aria-label="View all products"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></Link>}
     </div>
   );

@@ -160,7 +160,7 @@
         align-items: center;
         justify-content: center;
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: visible;
         white-space: nowrap;
         gap: 16px;
         padding: 0 16px;
