@@ -42,13 +42,13 @@ function Icon({
         />
       </>
     ),
-     sprout: (
-  <>
-    <path d="M12 21V11" />
-    <path d="M12 11C8 11 5 8.5 5 4c4.5 0 7 2.5 7 7Z" />
-    <path d="M12 14c0-4 2.5-6.5 7-6.5 0 4.5-3 7-7 7" />
-  </>
-),
+    sprout: (
+      <>
+        <path d="M12 21V11" />
+        <path d="M12 11C8 11 5 8.5 5 4c4.5 0 7 2.5 7 7Z" />
+        <path d="M12 14c0-4 2.5-6.5 7-6.5 0 4.5-3 7-7 7" />
+      </>
+    ),
     heart: (
       <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z" />
     ),
@@ -109,6 +109,7 @@ export default function StorefrontNavigation() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const isAdmin = pathname.startsWith("/admin");
@@ -125,6 +126,17 @@ export default function StorefrontNavigation() {
       setProfileOpen(false);
     }, 250); // adjust 200–300 ms as desired
   };
+
+  useEffect(() => {
+    if (!profileOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (!profileRef.current?.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [profileOpen]);
 
   useEffect(() => {
     if (!isAdmin)
@@ -173,45 +185,45 @@ export default function StorefrontNavigation() {
 
 
   useEffect(() => {
-  const syncWishlist = () => {
-    const session = getAuthSession();
+    const syncWishlist = () => {
+      const session = getAuthSession();
 
-    if (!session) {
-      setWishlistCount(0);
-      return;
-    }
+      if (!session) {
+        setWishlistCount(0);
+        return;
+      }
 
-    setWishlistCount(readWishlistIds().size);
-  };
-
-  const hydrateWishlist = async () => {
-    const session = getAuthSession();
-
-    if (!session) {
-      setWishlistCount(0);
-      return;
-    }
-
-    try {
-      await loadWishlist();
       setWishlistCount(readWishlistIds().size);
-    } catch (error) {
-      console.error("Failed to load wishlist:", error);
-      setWishlistCount(0);
-    }
-  };
+    };
 
-  syncWishlist();
-  void hydrateWishlist();
+    const hydrateWishlist = async () => {
+      const session = getAuthSession();
 
-  window.addEventListener("sjs-wishlist-updated", syncWishlist);
-  window.addEventListener("sjs-auth-updated", hydrateWishlist);
+      if (!session) {
+        setWishlistCount(0);
+        return;
+      }
 
-  return () => {
-    window.removeEventListener("sjs-wishlist-updated", syncWishlist);
-    window.removeEventListener("sjs-auth-updated", hydrateWishlist);
-  };
-}, []);
+      try {
+        await loadWishlist();
+        setWishlistCount(readWishlistIds().size);
+      } catch (error) {
+        console.error("Failed to load wishlist:", error);
+        setWishlistCount(0);
+      }
+    };
+
+    syncWishlist();
+    void hydrateWishlist();
+
+    window.addEventListener("sjs-wishlist-updated", syncWishlist);
+    window.addEventListener("sjs-auth-updated", hydrateWishlist);
+
+    return () => {
+      window.removeEventListener("sjs-wishlist-updated", syncWishlist);
+      window.removeEventListener("sjs-auth-updated", hydrateWishlist);
+    };
+  }, []);
 
   if (isAdmin) return null;
   return (
@@ -292,6 +304,7 @@ export default function StorefrontNavigation() {
 
               {user ? (
                 <div
+                  ref={profileRef}
                   className="profile-menu"
                   onMouseEnter={openProfile}
                   onMouseLeave={closeProfile}
@@ -300,6 +313,10 @@ export default function StorefrontNavigation() {
                     className="global-user-button"
                     aria-expanded={profileOpen}
                     aria-haspopup="menu"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProfileOpen((current) => !current);
+                    }}
                   >
                     <Icon name="user" />
                     <span>{user.name?.split(" ")[0]}</span>
@@ -315,12 +332,12 @@ export default function StorefrontNavigation() {
                       </div>
 
                       <div className="profile-menu-items">
-                        <Link href="/orders">
+                        <Link href="/orders" onClick={() => setProfileOpen(false)}>
                           <Icon name="orders" />
                           <span>Orders</span>
                         </Link>
 
-                        <Link href="/wishlist">
+                        <Link href="/wishlist" onClick={() => setProfileOpen(false)}>
                           <Icon name="heart" />
                           <span>Wishlist</span>
                         </Link>
