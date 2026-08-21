@@ -935,8 +935,8 @@ export default function StorefrontClient({
           <div>
             <h3>Customer Pages</h3>
             <a href="#">Your Account</a>
-            <a href="#">Your Orders</a>
-            <a href="#">Your Wishlist</a>
+            <a href="/orders">Your Orders</a>
+            <a href="/wishlist">Your Wishlist</a>
             <a href="#">Contact Us</a>
           </div>
           <div>
