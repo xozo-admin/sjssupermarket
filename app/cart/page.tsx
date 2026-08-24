@@ -13,8 +13,8 @@ export default function CartPage() {
   const update = (next: CartItem[]) => { setItems(next); writeCart(next); };
   const subtotal = useMemo(() => items.reduce((sum, item) => sum + Number(item.product.selling_price) * item.quantity, 0), [items]);
   const savings = useMemo(() => items.reduce((sum, item) => sum + Math.max(0, Number(item.product.mrp) - Number(item.product.selling_price)) * item.quantity, 0), [items]);
-  // const delivery = items.length && subtotal < 500 ? 40 : 0;
-  const delivery = 0;
+  const delivery = items.length && subtotal < 500 ? 40 : 0;
+  // const delivery = 0;
 
 
 return (
