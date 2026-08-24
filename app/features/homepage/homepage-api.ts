@@ -8,6 +8,7 @@ const API = API_BASE_URL;
 export type StorefrontHomepage = {
   hero_slides: HeroSlide[];
   top_category_ids: string[];
+  sjs_product_ids: string[];
   fresh_pick_ids: string[];
   trending_product_ids: string[];
   banner_one: HomepageBanner | null;
@@ -42,6 +43,12 @@ export const homepageApi = {
   },
   topCategories: () => request<string[]>("/top-categories"),
   updateTopCategories: (categoryIds: string[]) => request<string[]>("/top-categories", { method: "PUT", body: JSON.stringify({ category_ids: categoryIds }) }),
+  sjsProducts: () => request<string[]>("/sjs-products"),
+  updateSjsProducts: (productIds: string[]) =>
+    request<string[]>("/sjs-products", {
+      method: "PUT",
+      body: JSON.stringify({ product_ids: productIds }),
+    }),
   freshPicks: () => request<string[]>("/fresh-picks"),
   updateFreshPicks: (productIds: string[]) => request<string[]>("/fresh-picks", { method: "PUT", body: JSON.stringify({ product_ids: productIds }) }),
   trendingProducts: () => request<string[]>("/trending-products"),

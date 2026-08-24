@@ -210,25 +210,6 @@ function ProductCard({
           window.location.href = `/products/${product.id}`;
       }}
     >
-      {/* <div className="market-image">
-        {image ? (
-          <img src={image} alt={product.name} />
-        ) : (
-          <div className="product-no-image">No image</div>
-        )}
-        <button
-          className={`market-heart ${wishlisted ? "active" : ""}`}
-          aria-label={`Wishlist ${product.name}`}
-          onClick={(event) => {
-            event.stopPropagation();
-            void toggleWishlist(product.id, `/products/${product.id}`).then(
-              (active) => onWishlist(product.id, active),
-            );
-          }}
-        >
-          <Heart />
-        </button>
-      </div> */}
       <div className="market-image">
         {image ? (
           <img src={image} alt={product.name} />
@@ -320,6 +301,9 @@ export default function StorefrontClient({
   const [topCategoryIds, setTopCategoryIds] = useState<string[]>(
     initialHomepage?.top_category_ids ?? [],
   );
+  const [sjsProductIds, setSjsProductIds] = useState<string[]>(
+    initialHomepage?.sjs_product_ids ?? [],
+  );
   const [freshPickIds, setFreshPickIds] = useState<string[]>(
     initialHomepage?.fresh_pick_ids ?? [],
   );
@@ -360,6 +344,7 @@ export default function StorefrontClient({
         .then((config) => {
           setHeroSlides(config.hero_slides);
           setTopCategoryIds(config.top_category_ids);
+          setSjsProductIds(config.sjs_product_ids);
           setFreshPickIds(config.fresh_pick_ids);
           setTrendingProductIds(config.trending_product_ids);
           setBannerOne(config.banner_one);
@@ -423,14 +408,14 @@ export default function StorefrontClient({
   }, [feedbackIndex]);
 
   useEffect(() => {
-  if (window.location.hash === "#products") {
-    setTimeout(() => {
-      document.getElementById("products")?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 100);
-  }
-}, []);
+    if (window.location.hash === "#products") {
+      setTimeout(() => {
+        document.getElementById("products")?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100);
+    }
+  }, []);
 
   const mainCategories = useMemo(
     () => categories.filter((item) => !item.parent_id),
@@ -442,6 +427,14 @@ export default function StorefrontClient({
         .map((id) => categories.find((category) => category.id === id))
         .filter(Boolean) as Category[],
     [categories, topCategoryIds],
+  );
+  const sjsProducts = useMemo(
+    () =>
+      sjsProductIds
+        .map((id) => products.find((product) => product.id === id))
+        .filter(Boolean)
+        .slice(0, 10) as Product[],
+    [sjsProductIds, products],
   );
   const freshPicks = useMemo(
     () =>
@@ -635,6 +628,32 @@ export default function StorefrontClient({
                 key={category.id}
                 category={category}
                 index={index}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {sjsProducts.length > 0 && (
+        <section className="shop-section shop-products" id="sjs-products">
+          <div className="shop-section-head">
+            <div>
+              <h2>SJS Products</h2>
+            </div>
+
+            <Link className="section-show-all" href="/products">
+              Show All <Icon name="arrow" />
+            </Link>
+          </div>
+
+          <div className="shop-product-grid products-market-grid">
+            {sjsProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                inCart={cartProductIds.has(product.id)}
+                wishlisted={wishlistIds.has(product.id)}
+                onWishlist={updateWishlist}
               />
             ))}
           </div>

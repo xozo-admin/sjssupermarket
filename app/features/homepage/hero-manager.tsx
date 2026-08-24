@@ -26,8 +26,7 @@ function TopCategoriesPanel({
   hasChanges: boolean;
   onToggle: (id: string) => void;
   onSave: () => void;
-})
-{
+}) {
   const selectedCategories = selected.map((id) => categories.find((category) => category.id === id)).filter(Boolean) as Category[];
   return <section className="top-categories-admin"><div className="top-category-selected"><h2>Select Top Categories</h2><div>{selectedCategories.length ? selectedCategories.map((category) => <button key={category.id} onClick={() => onToggle(category.id)}>{category.name}<span>×</span></button>) : <span className="top-category-placeholder">Select the categories to display on the storefront</span>}</div></div><div className="top-category-options">{categories.map((category) => <label key={category.id} className={selected.includes(category.id) ? "selected" : ""}><input type="checkbox" checked={selected.includes(category.id)} onChange={() => onToggle(category.id)} /><span>{category.thumbnail_url ? <img src={category.thumbnail_url} alt="" /> : category.name[0]}</span><strong>{category.name}</strong><small>{category.parent_name ? `L2 · ${category.parent_name}` : "L1 Main Category"}</small></label>)}</div><button className="primary-button top-category-save" disabled={saving || !hasChanges} onClick={onSave}>{saving ? "Saving..." : "Save Categories"}</button></section>;
 }
@@ -119,11 +118,14 @@ export default function HeroManager() {
   const [savingCategories, setSavingCategories] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [savingProducts, setSavingProducts] = useState(false);
+  const [selectedSjsProducts, setSelectedSjsProducts] = useState<string[]>([]);
+  const [savingSjsProducts, setSavingSjsProducts] = useState(false);
   const [selectedTrending, setSelectedTrending] = useState<string[]>([]);
   const [savingTrending, setSavingTrending] = useState(false);
   const [selectedWeeklyDeals, setSelectedWeeklyDeals] = useState<string[]>([]);
   const [originalCategories, setOriginalCategories] = useState<string[]>([]);
   const [originalProducts, setOriginalProducts] = useState<string[]>([]);
+  const [originalSjsProducts, setOriginalSjsProducts] = useState<string[]>([]);
   const [originalTrending, setOriginalTrending] = useState<string[]>([]);
   const [originalWeeklyDeals, setOriginalWeeklyDeals] = useState<string[]>([]);
   const [savingWeeklyDeals, setSavingWeeklyDeals] = useState(false);
@@ -145,6 +147,17 @@ export default function HeroManager() {
       setOriginalProducts(items);
     })
       .catch((reason) => setError(reason instanceof Error ? reason.message : "Could not load fresh picks"));
+    void homepageApi.sjsProducts().then((items) => {
+      setSelectedSjsProducts(items);
+      setOriginalSjsProducts(items);
+    })
+      .catch((reason) =>
+        setError(
+          reason instanceof Error
+            ? reason.message
+            : "Could not load SJS products"
+        )
+      );
     void homepageApi.trendingProducts().then((items) => {
       setSelectedTrending(items);
       setOriginalTrending(items);
@@ -182,6 +195,12 @@ export default function HeroManager() {
     }
   };
   const toggleProduct = (id: string) => setSelectedProducts((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  const toggleSjsProduct = (id: string) =>
+    setSelectedSjsProducts((current) =>
+      current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id]
+    );
   const saveProducts = async () => {
     setSavingProducts(true);
     setError("");
@@ -193,6 +212,26 @@ export default function HeroManager() {
       setError(reason instanceof Error ? reason.message : "Could not save fresh picks");
     } finally {
       setSavingProducts(false);
+    }
+  };
+  const saveSjsProducts = async () => {
+    setSavingSjsProducts(true);
+    setError("");
+
+    try {
+      const result =
+        await homepageApi.updateSjsProducts(selectedSjsProducts);
+
+      setSelectedSjsProducts(result);
+      setOriginalSjsProducts(result);
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Could not save SJS products"
+      );
+    } finally {
+      setSavingSjsProducts(false);
     }
   };
   const toggleTrending = (id: string) => setSelectedTrending((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
@@ -214,21 +253,24 @@ export default function HeroManager() {
   };
 
   const isSameArray = (a: string[], b: string[]) =>
-  a.length === b.length &&
-  a.every((id) => b.includes(id));
+    a.length === b.length &&
+    a.every((id) => b.includes(id));
 
-const topCategoriesChanged =
-  !isSameArray(selectedCategories, originalCategories);
+  const topCategoriesChanged =
+    !isSameArray(selectedCategories, originalCategories);
 
-const freshPicksChanged =
-  !isSameArray(selectedProducts, originalProducts);
+  const sjsProductsChanged =
+    !isSameArray(selectedSjsProducts, originalSjsProducts);
 
-const trendingChanged =
-  !isSameArray(selectedTrending, originalTrending);
+  const freshPicksChanged =
+    !isSameArray(selectedProducts, originalProducts);
 
-const weeklyDealsChanged =
-  !isSameArray(selectedWeeklyDeals, originalWeeklyDeals);
-  
+  const trendingChanged =
+    !isSameArray(selectedTrending, originalTrending);
+
+  const weeklyDealsChanged =
+    !isSameArray(selectedWeeklyDeals, originalWeeklyDeals);
+
   return <div className="homepage-admin">
     {error && <div className="api-notice">{error}<button onClick={() => setError("")}>×</button></div>}
     <section className="homepage-title"><div><small>Appearance / Grocery</small><h1>{section === "Hero Section" ? "Hero Section Configuration" : section === "Top Categories" ? "Top Categories Configuration" : section}</h1></div>{section === "Hero Section" && <button className="primary-button" onClick={add}>＋ Add Hero Slide</button>}</section>
@@ -237,6 +279,7 @@ const weeklyDealsChanged =
         {[
           "Hero Section",
           "Top Categories",
+          "SJS Products",
           "Today’s Fresh Picks",
           "Top Trending Products",
           "Banner Section One",
@@ -259,7 +302,18 @@ const weeklyDealsChanged =
         <section className="homepage-table-card"><table className="homepage-table"><thead><tr><th>S/L</th><th>Image</th><th>Subtitle</th><th>Title</th><th>Status</th><th>Action</th></tr></thead><tbody>
           {loading ? <tr><td colSpan={6}>Loading hero slides...</td></tr> : slides.length === 0 ? <tr><td colSpan={6}><div className="homepage-empty"><strong>No hero slides yet</strong><span>Add the first slide to update the storefront hero.</span><button onClick={add}>Add Hero Slide</button></div></td></tr> : slides.map((slide, index) => <tr key={slide.id}><td>{index + 1}</td><td>{slide.image_url ? <img src={`${slide.image_url}?v=${encodeURIComponent(slide.updated_at)}`} alt="" /> : <span className="hero-image-empty">No image</span>}</td><td>{slide.subtitle || "—"}</td><td><strong>{slide.title || "—"}</strong></td><td><button className={`switch ${slide.active ? "on" : ""}`} onClick={async () => { await homepageApi.toggle(slide.id); await load(); }}><i /></button></td><td><div className="row-actions"><button className="row-action edit" onClick={() => edit(slide)}>Edit</button><button className="row-action delete" onClick={() => void remove(slide)}>Delete</button></div></td></tr>)}
         </tbody></table></section>
-      </> : section === "Top Categories" ? <TopCategoriesPanel categories={categories} selected={selectedCategories} saving={savingCategories} hasChanges={topCategoriesChanged} onToggle={toggleCategory} onSave={() => void saveCategories()} /> : section === "Today’s Fresh Picks" ? <ProductSelectionPanel title="Select Today’s Fresh Picks" description="Choose the products shown in Today’s Fresh Picks." selected={selectedProducts} saving={savingProducts} hasChanges={freshPicksChanged} onToggle={toggleProduct} onSave={() => void saveProducts()} /> : section === "Top Trending Products" ? <ProductSelectionPanel title="Select Top Trending Products" description="Choose the products shown in Top Trending Products." selected={selectedTrending} saving={savingTrending} hasChanges={trendingChanged} onToggle={toggleTrending} onSave={() => void saveTrending()} /> : section === "Weekly Best Deals" ? <ProductSelectionPanel title="Select Weekly Best Deals" description="Choose the discounted products shown in Weekly Best Deals." selected={selectedWeeklyDeals} saving={savingWeeklyDeals} hasChanges={weeklyDealsChanged} onToggle={toggleWeeklyDeal} onSave={() => void saveWeeklyDeals()} /> : section === "Client Feedback" ? <ClientFeedbackPanel onError={setError} /> : <BannerPanel sectionKey={section === "Banner Section Two" ? "section-two" : "section-one"} title={section === "Banner Section Two" ? "Banner Section Two" : "Banner Section One"} onError={setError} />}
+      </> : section === "Top Categories" ? <TopCategoriesPanel categories={categories} selected={selectedCategories} saving={savingCategories} hasChanges={topCategoriesChanged} onToggle={toggleCategory} onSave={() => void saveCategories()} /> : section === "SJS Products"
+        ? (
+          <ProductSelectionPanel
+            title="Select SJS Products"
+            description="Choose the products shown in SJS Products."
+            selected={selectedSjsProducts}
+            saving={savingSjsProducts}
+            hasChanges={sjsProductsChanged}
+            onToggle={toggleSjsProduct}
+            onSave={() => void saveSjsProducts()}
+          />
+        ) : section === "Today’s Fresh Picks" ? <ProductSelectionPanel title="Select Today’s Fresh Picks" description="Choose the products shown in Today’s Fresh Picks." selected={selectedProducts} saving={savingProducts} hasChanges={freshPicksChanged} onToggle={toggleProduct} onSave={() => void saveProducts()} /> : section === "Top Trending Products" ? <ProductSelectionPanel title="Select Top Trending Products" description="Choose the products shown in Top Trending Products." selected={selectedTrending} saving={savingTrending} hasChanges={trendingChanged} onToggle={toggleTrending} onSave={() => void saveTrending()} /> : section === "Weekly Best Deals" ? <ProductSelectionPanel title="Select Weekly Best Deals" description="Choose the discounted products shown in Weekly Best Deals." selected={selectedWeeklyDeals} saving={savingWeeklyDeals} hasChanges={weeklyDealsChanged} onToggle={toggleWeeklyDeal} onSave={() => void saveWeeklyDeals()} /> : section === "Client Feedback" ? <ClientFeedbackPanel onError={setError} /> : <BannerPanel sectionKey={section === "Banner Section Two" ? "section-two" : "section-one"} title={section === "Banner Section Two" ? "Banner Section Two" : "Banner Section One"} onError={setError} />}
     </div>
     {open && <div className="variant-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}><section className="variant-modal hero-modal"><header><h2>{editing ? "Edit Hero Slide" : "Add Hero Slide"}</h2><button onClick={close}>×</button></header><form onSubmit={submit}><div className="hero-form-body">
       <div className="brand-form-field"><label>Subtitle</label><input value={form.subtitle ?? ""} onChange={(event) => field("subtitle", event.target.value || null)} /></div>
