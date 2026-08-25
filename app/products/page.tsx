@@ -35,6 +35,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const query = await searchParams;
   const selected = first(query.category);
   const search = first(query.search);
+  const brand = first(query.brand);  
   const requestedSort = first(query.sort);
   const sort: Sort = VALID_SORTS.includes(requestedSort as Sort)
     ? (requestedSort as Sort)
@@ -62,6 +63,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   if (search) productQuery.set("search", search);
   if (mainCategory) productQuery.set("category_l1", mainCategory);
   if (subCategory) productQuery.set("category_l2", subCategory);
+  if (brand) productQuery.set("brands", brand);   
 
   const productResult = await getJson<ProductsResponse>(
     `/catalog/products/list?${productQuery}`,
@@ -77,6 +79,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       initialSort={sort}
       initialCategoryMode={categoryMode}
       initialCatalogTotal={productResult?.total ?? 0}
+      initialBrand={brand}                          
     />
   );
 }

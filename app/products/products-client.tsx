@@ -116,6 +116,7 @@ type ProductsClientProps = {
   initialSort: Sort;
   initialCategoryMode: boolean;
   initialCatalogTotal: number;
+  initialBrand?: string;
 };
 
 export default function ProductsClient({
@@ -127,13 +128,17 @@ export default function ProductsClient({
   initialSort,
   initialCategoryMode,
   initialCatalogTotal,
+  initialBrand,
 }: ProductsClientProps) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [categories] = useState<Category[]>(initialCategories);
   const [search, setSearch] = useState(initialSearch);
   const [mainCategory, setMainCategory] = useState(initialMainCategory);
   const [subCategory, setSubCategory] = useState(initialSubCategory);
-  const [brands, setBrands] = useState<string[]>([]);
+  // const [brands, setBrands] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>(
+    initialBrand ? [initialBrand] : [],
+  );
   const [brandOptions, setBrandOptions] = useState<string[]>([]);
   const [minimumRating, setMinimumRating] = useState(0);
   const [minimumPrice, setMinimumPrice] = useState("");
@@ -706,7 +711,12 @@ export default function ProductsClient({
             <div className="products-breadcrumb">
               <Link href="/">Home</Link>
               <span>›</span>
-              <b>{subCategory || mainCategory || "All Products"}</b>
+              {/* <b>{subCategory || mainCategory || "All Products"}</b> */}
+              <b>
+                {subCategory ||
+                  mainCategory ||
+                  (brands.length === 1 ? `${brands[0]} Products` : "All Products")}
+              </b>
             </div>
             <header>
               <nav>

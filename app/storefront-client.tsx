@@ -637,11 +637,8 @@ export default function StorefrontClient({
       {sjsProducts.length > 0 && (
         <section className="shop-section shop-products" id="sjs-products">
           <div className="shop-section-head">
-            <div>
-              <h2>SJS Products</h2>
-            </div>
-
-            <Link className="section-show-all" href="/products">
+            <div><h2>SJS Products</h2></div>
+            <Link className="section-show-all" href="/products?brand=SJS">
               Show All <Icon name="arrow" />
             </Link>
           </div>
