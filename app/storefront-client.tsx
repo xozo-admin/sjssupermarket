@@ -596,6 +596,8 @@ export default function StorefrontClient({
                   key={hero.id}
                   src={`${hero.image_url}?v=${encodeURIComponent(hero.updated_at)}`}
                   alt={hero.title || "Fresh grocery delivery"}
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </a>
             )}
@@ -715,6 +717,8 @@ export default function StorefrontClient({
               <img
                 src={`${bannerOne.image_url}?v=${encodeURIComponent(bannerOne.updated_at)}`}
                 alt={bannerOne.title || "Grocery promotion"}
+                loading="lazy"
+                decoding="async"
               />
             )}
             {(bannerOne.eyebrow ||
@@ -770,6 +774,8 @@ export default function StorefrontClient({
               <img
                 src={`${bannerTwo.image_url}?v=${encodeURIComponent(bannerTwo.updated_at)}`}
                 alt={bannerTwo.title || "Grocery promotion"}
+                loading="lazy"
+                decoding="async"
               />
             )}
             {(bannerTwo.eyebrow ||
