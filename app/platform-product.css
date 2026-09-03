@@ -2348,3 +2348,25 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+.product-table {
+  min-width: 1320px;
+}
+
+.product-table th {
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.product-table td {
+  font-size: 14.5px;
+}
+
+.product-table td>strong {
+  font-size: 15px;
+}
+
+.product-table .status-pill,
+.product-table .stock-status-pill,
+.product-table .discount-pill {
+  font-size: 12.5px;
+}
