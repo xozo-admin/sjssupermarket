@@ -52,7 +52,10 @@ export function addCartItem(
   const items = readCart();
 
   const existing = items.find(
-    (item) => item.product.id === product.id
+    (item) =>
+      item.product.id === product.id &&
+      item.product.unit === product.unit &&
+      String(item.product.unit_value) === String(product.unit_value)
   );
 
   if (existing) {

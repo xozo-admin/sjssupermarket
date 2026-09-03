@@ -43,7 +43,7 @@ return (
             const image = productImageUrl(item.product, "l");
 
             return (
-              <article key={item.product.id}>
+              <article key={`${item.product.id}-${item.product.unit}-${item.product.unit_value}`}>
 
                 {image ? (
                   <img

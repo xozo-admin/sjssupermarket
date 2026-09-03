@@ -76,6 +76,7 @@ export default function ProductDetailPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [quantity, setQuantity] = useState(1);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [tab, setTab] = useState<"reviews" | "description">("reviews");
   const [loading, setLoading] = useState(true);
   const [inCart, setInCart] = useState(false);
@@ -103,8 +104,20 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (!product) return;
+    const options = [
+      { unit: product.unit, unit_value: product.unit_value },
+      ...(product.unit_variants ?? []),
+    ];
+    const selected = options[selectedQuantity] ?? options[0];
     const syncCart = () =>
-      setInCart(readCart().some((item) => item.product.id === product.id));
+      setInCart(
+        readCart().some(
+          (item) =>
+            item.product.id === product.id &&
+            item.product.unit === selected.unit &&
+            String(item.product.unit_value) === String(selected.unit_value),
+        ),
+      );
     syncCart();
     window.addEventListener("sjs-cart-updated", syncCart);
     window.addEventListener("storage", syncCart);
@@ -112,7 +125,7 @@ export default function ProductDetailPage() {
       window.removeEventListener("sjs-cart-updated", syncCart);
       window.removeEventListener("storage", syncCart);
     };
-  }, [product]);
+  }, [product, selectedQuantity]);
 
   const related = useMemo(
     () =>
@@ -138,14 +151,35 @@ export default function ProductDetailPage() {
       </main>
     );
 
+  const quantityOptions = [
+    {
+      unit: product.unit,
+      unit_value: product.unit_value,
+      selling_price: product.selling_price,
+      mrp: product.mrp,
+      inventory_qty: product.inventory_qty,
+      barcode: product.barcode,
+    },
+    ...(product.unit_variants ?? []),
+  ];
+  const selectedOption = quantityOptions[selectedQuantity] ?? quantityOptions[0];
+  const selectedProduct: Product = {
+    ...product,
+    unit: selectedOption.unit,
+    unit_value: String(selectedOption.unit_value),
+    selling_price: String(selectedOption.selling_price),
+    mrp: String(selectedOption.mrp),
+    inventory_qty: selectedOption.inventory_qty,
+    barcode: selectedOption.barcode,
+  };
   const image = productImageUrl(product, "l");
-  const oldPrice = Number(product.mrp);
-  const price = Number(product.selling_price);
+  const oldPrice = Number(selectedOption.mrp);
+  const price = Number(selectedOption.selling_price);
   const discount =
     oldPrice > price ? Math.round((1 - price / oldPrice) * 100) : 0;
   const inStock =
-    product.stock_status === "in_stock" && product.inventory_qty > 0;
-  const maxQuantity = Math.max(1, Math.min(product.inventory_qty, 10));
+    product.stock_status === "in_stock" && selectedOption.inventory_qty > 0;
+  const maxQuantity = Math.max(1, Math.min(selectedOption.inventory_qty, 10));
 
   return (
     <main className="storefront product-detail-page">
@@ -190,8 +224,29 @@ export default function ProductDetailPage() {
               <h1>{product.name}</h1>
             </div>
             <p className="product-unit-line">
-              {product.unit_value} {product.unit}
+              {selectedOption.unit_value} {selectedOption.unit}
             </p>
+            {quantityOptions.length > 1 && (
+              <div className="product-quantity-options">
+                <b>Available quantities</b>
+                <div>
+                  {quantityOptions.map((option, index) => (
+                    <button
+                      type="button"
+                      className={selectedQuantity === index ? "active" : ""}
+                      key={`${option.unit}-${option.unit_value}`}
+                      onClick={() => {
+                        setSelectedQuantity(index);
+                        setQuantity(1);
+                      }}
+                    >
+                      <strong>{option.unit_value} {option.unit}</strong>
+                      <small>₹{Number(option.selling_price).toLocaleString("en-IN")}</small>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="product-rating-line">
               <span>
                 {Math.max(Number(product.rating), 3.7).toFixed(1)} <Star />
@@ -209,7 +264,7 @@ export default function ProductDetailPage() {
             <p className="tax-copy">Inclusive of all taxes</p>
             <div className={`product-stock ${inStock ? "" : "out"}`}>
               {inStock
-                ? `In stock · ${product.inventory_qty} available`
+                ? `In stock · ${selectedOption.inventory_qty} available`
                 : "Currently out of stock"}
             </div>
             <div className="product-buy-row">
@@ -241,7 +296,7 @@ export default function ProductDetailPage() {
                     return;
                   }
                   if (!requireAuth(`/products/${product.id}`)) return;
-                  addCartItem(product, quantity);
+                  addCartItem(selectedProduct, quantity);
                 }}
               >
                 {inCart ? <Check /> : <ShoppingBag />}
@@ -284,10 +339,10 @@ export default function ProductDetailPage() {
                   <dt>Brand</dt>
                   <dd>{product.brand || "SJS Fresh"}</dd>
                 </div>
-                {product.barcode && (
+                {selectedOption.barcode && (
                   <div>
                     <dt>Barcode</dt>
-                    <dd>{product.barcode}</dd>
+                    <dd>{selectedOption.barcode}</dd>
                   </div>
                 )}
               </dl>
