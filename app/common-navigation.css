@@ -282,7 +282,12 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
 }
 
 .storefront .shop-logo>div {
-  display: none;
+  display: grid;
+  min-width: 0;
+}
+
+.storefront .shop-logo b {
+  white-space: nowrap;
 }
 
 @media (min-width: 801px) {
@@ -297,12 +302,12 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
   }
 
   .storefront .shop-logo {
-    min-width: 78px;
+    min-width: 238px;
     margin-left: 10px;
   }
 
   .storefront .shop-logo>div {
-    display: none;
+    display: grid;
   }
 
   .storefront .shop-logo b {
