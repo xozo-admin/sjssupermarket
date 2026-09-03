@@ -236,7 +236,7 @@ export default function StorefrontNavigation() {
                 <img src="/app_logo.jpeg" alt="SJS Super Market" />
               </span>
               <div>
-                <b>Sri JayanthiNath</b>
+                <b>Sri JayantiNath</b>
                 <small>SuperMarket</small>
               </div>
             </Link>

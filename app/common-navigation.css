@@ -291,19 +291,24 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
 }
 
 @media (min-width: 801px) {
+  .global-storefront-navigation .shop-nav {
+    height: 72px;
+  }
+
   .storefront .shop-logo>span {
-    width: 76px;
-    height: 76px;
-    flex-basis: 76px;
-    position: relative;
-    z-index: 3;
-    transform: translateY(18px);
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+    position: static;
+    transform: none;
     box-shadow: 0 3px 12px rgb(16 24 39 / 12%);
   }
 
   .storefront .shop-logo {
-    min-width: 238px;
+    flex: 0 0 270px;
+    min-width: 270px;
     margin-left: 10px;
+    gap: 12px;
   }
 
   .storefront .shop-logo>div {
@@ -311,8 +316,8 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
   }
 
   .storefront .shop-logo b {
-    font-size: 22px;
-    line-height: 22px;
+    font-size: 21px;
+    line-height: 23px;
   }
 
   .storefront .shop-logo small {
@@ -323,6 +328,10 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
 
   .storefront .shop-category-strip {
     padding-left: 110px;
+  }
+
+  .global-storefront-navigation .shop-nav>nav {
+    margin-left: 8px;
   }
 }
 
