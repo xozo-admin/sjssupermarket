@@ -1,0 +1,89 @@
+.shop-app-download {
+  max-width: 1368px;
+  min-height: 350px;
+  margin: 70px auto 64px;
+  padding: 44px clamp(32px, 6vw, 88px);
+  border-radius: 26px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  overflow: hidden;
+  background: linear-gradient(125deg, #052f1c 0%, #087540 58%, #10a65d 100%);
+  color: #fff;
+  box-shadow: 0 24px 60px rgb(4 77 42 / 18%);
+}
+
+.shop-app-download::before,
+.shop-app-download::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgb(255 190 0 / 15%);
+}
+
+.shop-app-download::before { width: 300px; height: 300px; top: -190px; left: 36%; }
+.shop-app-download::after { width: 220px; height: 220px; right: -95px; bottom: -115px; }
+.shop-app-copy { max-width: 650px; position: relative; z-index: 1; }
+.shop-app-kicker { display: flex; align-items: center; gap: 8px; color: #ffc21a; font-size: 11px; font-weight: 800; letter-spacing: .13em; }
+.shop-app-kicker svg { width: 18px; height: 18px; }
+.shop-app-copy h2 { max-width: 620px; margin: 14px 0 13px; font-size: clamp(30px, 4vw, 52px); line-height: 1.05; letter-spacing: -.035em; }
+.shop-app-copy>p { max-width: 530px; margin: 0; color: rgb(255 255 255 / 78%); font-size: 14px; line-height: 1.65; }
+.shop-app-copy>small { display: block; margin-top: 10px; color: #b8e9cf; font-size: 11px; }
+.shop-app-copy>a { width: max-content; min-width: 178px; margin-top: 25px; padding: 11px 19px; border-radius: 11px; display: flex; align-items: center; gap: 12px; background: #fff; color: #063b22; box-shadow: 0 8px 20px rgb(0 0 0 / 15%); }
+.shop-app-copy>a:hover { transform: translateY(-2px); }
+.shop-app-copy>a>svg { width: 24px; height: 24px; color: #e60019; }
+.shop-app-copy>a span { display: grid; }
+.shop-app-copy>a small { font-size: 8px; letter-spacing: .12em; }
+.shop-app-copy>a strong { margin-top: 1px; font-size: 16px; }
+.shop-app-qr { width: 230px; flex: 0 0 230px; padding: 20px 20px 18px; border-radius: 20px; position: relative; z-index: 1; display: grid; place-items: center; text-align: center; background: #fff; color: #153325 !important; box-shadow: 0 18px 38px rgb(0 0 0 / 20%); }
+.shop-app-qr>div { padding: 8px; border: 1px solid #e2eee7; border-radius: 12px; display: grid; background: #fff; }
+.shop-app-qr svg { width: 168px; height: 168px; }
+.shop-app-qr strong { margin-top: 12px; font-size: 14px; }
+.shop-app-qr>span { margin-top: 4px; color: #718078; font-size: 9px; line-height: 1.4; }
+
+.app-upload-admin { max-width: 1180px; margin: 0 auto; }
+.app-upload-admin .page-heading span { display: block; margin-top: 7px; color: #78847e; font-size: 12px; }
+.app-upload-success { margin: 0 0 18px; padding: 13px 16px; border: 1px solid #bce8cf; border-radius: 9px; background: #edfbf3; color: #087840; font-size: 13px; }
+.app-upload-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 20px; align-items: start; }
+.app-upload-card, .app-current-release { padding: 28px; border: 1px solid #e1e8e4; border-radius: 14px; background: #fff; box-shadow: 0 8px 25px rgb(18 38 28 / 5%); }
+.app-upload-card { display: grid; grid-template-columns: 52px 1fr; gap: 6px 15px; }
+.app-upload-card-icon, .app-current-icon { width: 52px; height: 52px; border-radius: 13px; display: grid; place-items: center; background: #e9f8f0; color: #079653; }
+.app-upload-card-icon svg, .app-current-icon svg { width: 25px; }
+.app-upload-card small, .app-current-release>small { color: #079653; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.app-upload-card h2, .app-current-release h2 { margin: 4px 0 6px; font-size: 21px; }
+.app-upload-card p, .app-current-release p { margin: 0; color: #748078; font-size: 12px; line-height: 1.55; }
+.app-apk-picker { grid-column: 1/-1; min-height: 150px; margin-top: 20px; border: 1.5px dashed #b9cec2; border-radius: 12px; display: grid; place-items: center; align-content: center; gap: 7px; cursor: pointer; background: #f9fcfa; text-align: center; }
+.app-apk-picker:hover, .app-apk-picker.has-file { border-color: #08a85d; background: #f0fbf5; }
+.app-apk-picker input { display: none; }
+.app-apk-picker svg { width: 30px; height: 30px; color: #08a85d; }
+.app-apk-picker strong { font-size: 14px; }
+.app-apk-picker span { color: #7b8780; font-size: 10px; }
+.app-version-field { grid-column: 1/-1; margin-top: 14px; display: grid; gap: 7px; }
+.app-version-field span { color: #344139; font-size: 11px; font-weight: 700; }
+.app-version-field input { height: 43px; padding: 0 13px; border: 1px solid #dbe4df; border-radius: 8px; outline: none; }
+.app-version-field input:focus { border-color: #08a85d; box-shadow: 0 0 0 3px rgb(8 168 93 / 10%); }
+.app-upload-submit { grid-column: 1/-1; width: 100%; height: 44px; margin-top: 10px; }
+.app-upload-submit:disabled { cursor: not-allowed; opacity: .55; }
+.app-current-release { min-height: 400px; }
+.app-current-icon { margin-top: 22px; }
+.app-current-release dl { margin: 23px 0; display: grid; gap: 12px; }
+.app-current-release dl div { display: grid; gap: 3px; }
+.app-current-release dt { color: #8a958f; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.app-current-release dd { margin: 0; overflow-wrap: anywhere; color: #2e3a33; font-size: 11px; }
+.app-current-release>a { min-height: 42px; padding: 0 15px; border: 1px solid #cce7d8; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #07864b; font-size: 11px; font-weight: 750; text-decoration: none; }
+.app-current-release>a svg { width: 16px; }
+.app-release-empty { min-height: 330px; display: grid; place-items: center; align-content: center; text-align: center; }
+.app-release-empty>svg { width: 42px; height: 42px; color: #9eaaa3; }
+.app-release-empty h2 { margin-top: 15px; }
+
+@media (max-width: 1400px) { .shop-app-download { margin-right: 20px; margin-left: 20px; } }
+@media (max-width: 760px) {
+  .shop-app-download { margin: 46px 14px 44px; padding: 34px 22px; flex-direction: column; align-items: stretch; text-align: center; }
+  .shop-app-kicker { justify-content: center; }
+  .shop-app-copy h2 { font-size: 31px; }
+  .shop-app-copy>a { margin-right: auto; margin-left: auto; }
+  .shop-app-qr { width: min(230px, 100%); flex-basis: auto; margin: 0 auto; }
+  .app-upload-grid { grid-template-columns: 1fr; }
+}

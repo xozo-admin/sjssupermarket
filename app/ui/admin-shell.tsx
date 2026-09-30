@@ -23,6 +23,7 @@ const dynamicAdminPage = <Props extends object>(
 const DashboardManager = dynamicAdminPage(() => import("../features/dashboard/dashboard-manager"));
 const CategoryManager = dynamicAdminPage(() => import("../features/categories/category-manager"));
 const HeroManager = dynamicAdminPage(() => import("../features/homepage/hero-manager"));
+const AppUploadManager = dynamicAdminPage(() => import("../features/homepage/app-upload-manager"));
 const EntityManager = dynamicAdminPage(() => import("../features/catalog/entity-manager"));
 const ProductManager = dynamicAdminPage(() => import("../features/catalog/product-manager"));
 const AddProductPage = dynamicAdminPage(() => import("../features/catalog/add-product-page"));
@@ -154,6 +155,7 @@ const menuGroups: MenuGroup[] = [
     title: "Appearance",
     items: [
       { label: "Grocery", icon: "store", permission: "settings.manage", children: ["Home page"] },
+      { label: "App Upload", icon: "media", permission: "settings.manage" },
       /* Temporarily hidden sidebar option.
       {
         label: "Common Outlook",
@@ -236,6 +238,7 @@ const routes: Record<string, string> = {
   "Delivery status report": "/admin/reports/delivery-status",
   Queries: "/admin/queries",
   "Home page": "/admin/appearance/home",
+  "App Upload": "/admin/appearance/app-upload",
   "Product page": "/admin/appearance/product-page",
   "Product details": "/admin/appearance/product-details",
   "About us": "/admin/appearance/about",
@@ -855,6 +858,8 @@ export default function AdminShell() {
                 <ReportManager mode="delivery" />
               ) : activeItem === "Home page" ? (
                 <HeroManager />
+              ) : activeItem === "App Upload" ? (
+                <AppUploadManager />
               ) : (
                 <>
                   <section className="page-heading">

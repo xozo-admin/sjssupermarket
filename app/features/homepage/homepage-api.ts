@@ -1,4 +1,4 @@
-import type { ClientFeedback, ClientFeedbackInput, HeroSlide, HeroSlideInput, HomepageBanner, HomepageBannerInput } from "./types";
+import type { AppRelease, ClientFeedback, ClientFeedbackInput, HeroSlide, HeroSlideInput, HomepageBanner, HomepageBannerInput } from "./types";
 import { authHeaders } from "../auth-client";
 import { API_BASE_URL } from "../../services/api-service";
 import type { Product } from "../catalog/types";
@@ -15,6 +15,7 @@ export type StorefrontHomepage = {
   weekly_deal_ids: string[];
   banner_two: HomepageBanner | null;
   client_feedback: ClientFeedback[];
+  app_release: AppRelease | null;
   products?: Product[];
 };
 
@@ -29,6 +30,22 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const homepageApi = {
   storefront: () => request<StorefrontHomepage>("/storefront"),
+  appRelease: () => request<AppRelease | null>("/app-release", { cache: "no-store" }),
+  uploadApp: async (file: File, version: string) => {
+    const data = new FormData();
+    data.append("apk", file);
+    if (version.trim()) data.append("version", version.trim());
+    const response = await fetch(`${API}/homepage/app-release/apk`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: data,
+    });
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw new Error(body?.detail ?? "App upload failed");
+    }
+    return response.json() as Promise<AppRelease>;
+  },
   list: (activeOnly = false) => request<HeroSlide[]>(`/hero-slides?active_only=${activeOnly}`),
   create: (body: HeroSlideInput) => request<HeroSlide>("/hero-slides", { method: "POST", body: JSON.stringify(body) }),
   update: (id: string, body: HeroSlideInput) => request<HeroSlide>(`/hero-slides/${id}`, { method: "PUT", body: JSON.stringify(body) }),

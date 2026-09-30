@@ -46,3 +46,15 @@ export type ClientFeedback = {
 };
 
 export type ClientFeedbackInput = Omit<ClientFeedback, "id" | "created_at" | "updated_at">;
+
+export type AppRelease = {
+  id: string;
+  app_name: string;
+  version: string | null;
+  download_url: string;
+  file_name: string;
+  file_size: number;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+};

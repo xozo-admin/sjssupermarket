@@ -3,7 +3,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, Heart, ShoppingCart, Smartphone, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import { categoryApi } from "./features/categories/category-api";
 import type { Category } from "./features/categories/types";
 import { catalogApi } from "./features/catalog/catalog-api";
@@ -11,6 +12,7 @@ import { productImageUrl, type Product } from "./features/catalog/types";
 import { homepageApi } from "./features/homepage/homepage-api";
 import type {
   ClientFeedback,
+  AppRelease,
   HeroSlide,
   HomepageBanner,
 } from "./features/homepage/types";
@@ -326,6 +328,9 @@ export default function StorefrontClient({
   const [clientFeedback, setClientFeedback] = useState<ClientFeedback[]>(
     initialHomepage?.client_feedback ?? [],
   );
+  const [appRelease, setAppRelease] = useState<AppRelease | null>(
+    initialHomepage?.app_release ?? null,
+  );
   const [feedbackIndex, setFeedbackIndex] = useState(0);
   const [showMore, setShowMore] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -355,6 +360,7 @@ export default function StorefrontClient({
           setWeeklyDealIds(config.weekly_deal_ids);
           setBannerTwo(config.banner_two);
           setClientFeedback(config.client_feedback);
+          setAppRelease(config.app_release);
           setProducts(config.products ?? []);
         })
         .catch(() => {
@@ -362,6 +368,7 @@ export default function StorefrontClient({
         })
         .finally(() => setHeroReady(true));
     }
+    void homepageApi.appRelease().then(setAppRelease).catch(() => undefined);
   }, [initialCategories.length, initialHomepage]);
   useEffect(() => {
     setWishlistIds(readWishlistIds());
@@ -800,6 +807,34 @@ export default function StorefrontClient({
               )}
           </section>
         )}
+
+      {appRelease?.active && (
+        <section className="shop-app-download" id="download-app">
+          <div className="shop-app-copy">
+            <span className="shop-app-kicker"><Smartphone /> SJS SUPERMARKET APP</span>
+            <h2>Fresh groceries are now just a tap away.</h2>
+            <p>Scan the QR code with your phone or use the download button to install our Android app.</p>
+            {appRelease.version && <small>Latest version {appRelease.version}</small>}
+            <a href={appRelease.download_url}>
+              <Download />
+              <span><small>DOWNLOAD FOR</small><strong>Android</strong></span>
+            </a>
+          </div>
+          <a className="shop-app-qr" href={appRelease.download_url} aria-label="Download the SJS Supermarket Android app">
+            <div>
+              <QRCodeSVG
+                value={appRelease.download_url}
+                size={168}
+                level="M"
+                marginSize={1}
+                title="Scan to download the SJS Supermarket app"
+              />
+            </div>
+            <strong>Scan to download</strong>
+            <span>Point your phone camera at the QR code</span>
+          </a>
+        </section>
+      )}
 
       {currentFeedback && (
         <section className="shop-client-feedback" id="client-feedback">
