@@ -101,7 +101,7 @@ function StoreLogo() {
       </span>
       <div>
         <b>Sri JayantiNath</b>
-        <small>SuperMarket</small>
+        <small>Supermarket</small>
       </div>
     </Link>
   );

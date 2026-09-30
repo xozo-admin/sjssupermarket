@@ -237,7 +237,7 @@ export default function StorefrontNavigation() {
               </span>
               <div>
                 <b>Sri JayantiNath</b>
-                <small>SuperMarket</small>
+                <small>Supermarket</small>
               </div>
             </Link>
 

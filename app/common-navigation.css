@@ -283,11 +283,18 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
 
 .storefront .shop-logo>div {
   display: grid;
+  justify-items: center;
   min-width: 0;
+  text-align: center;
 }
 
 .storefront .shop-logo b {
+  color: #ed0016;
   white-space: nowrap;
+}
+
+.storefront .shop-logo small {
+  color: #006b35;
 }
 
 @media (min-width: 801px) {
