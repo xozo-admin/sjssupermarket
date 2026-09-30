@@ -100,7 +100,11 @@ function StoreLogo() {
         <img src="/app_logo.jpeg" alt="SJS Super Market" />
       </span>
       <div>
-        <b>Sri JayantiNath</b>
+        <b>
+          <span className="brand-gold">Sri</span>{" "}
+          <span className="brand-red">Jayanti</span>
+          <span className="brand-gold">Nath</span>
+        </b>
         <small>Supermarket</small>
       </div>
     </Link>

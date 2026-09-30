@@ -289,12 +289,19 @@ body:has(.global-storefront-navigation) main.storefront>.shop-header {
 }
 
 .storefront .shop-logo b {
-  color: #ed0016;
   white-space: nowrap;
 }
 
+.storefront .shop-logo .brand-gold {
+  color: #f5ad00;
+}
+
+.storefront .shop-logo .brand-red {
+  color: #e60019;
+}
+
 .storefront .shop-logo small {
-  color: #006b35;
+  color: #006b37;
 }
 
 @media (min-width: 801px) {
